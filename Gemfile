@@ -21,10 +21,12 @@ gem 'coffee-rails', '~> 4.2'
 # Authentication
 gem 'devise'
 gem 'omniauth'
-# github authentication 
+# github authentication
 gem 'omniauth-github'
 # facebook authentication
 gem 'omniauth-facebook'
+# google authentication 
+gem 'omniauth-google-oauth2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
