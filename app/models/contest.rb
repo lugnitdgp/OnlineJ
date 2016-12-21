@@ -11,5 +11,5 @@ class Contest
 
   has_many :problems, dependent: :destroy
   belongs_to :setter, counter_cache: true
-
+  has_and_belongs_to_many :users
 end
