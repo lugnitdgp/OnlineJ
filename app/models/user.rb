@@ -46,12 +46,13 @@ class User
   # field :locked_at,       type: Time
 
   has_many :identities
+  has_and_belongs_to_many :contests
 
   def self.find_for_oauth(auth, signed_user = nil)
     identity = Identity.find_for_oauth(auth)
     user = identity.user
     if user.nil?
-      is_email = auth.info.email #&& ( auth.info.verified || auth.info.verified_email)
+      is_email = auth.info.email # && ( auth.info.verified || auth.info.verified_email)
       email = auth.info.email if is_email
       if signed_user.nil?
         user = User.where(email: email).first if email
@@ -61,7 +62,7 @@ class User
       if user.nil?
         user = User.new
         user.fetch_details(auth)
-        user.password = Devise.friendly_token[0,20]
+        user.password = Devise.friendly_token[0, 20]
         user.skip_confirmation!
         user.save!
       end
@@ -77,5 +78,5 @@ class User
     self.email = auth.info.email
     ## TODO add image for the user
     # self.photo = URI.parse(auth.info.image)
-  end 
+  end
 end

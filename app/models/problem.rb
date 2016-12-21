@@ -12,4 +12,6 @@ class Problem
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
+  belongs_to :contest, counter_cache: true
+  has_and_belongs_to_many :users
 end
