@@ -16,5 +16,5 @@ class Problem
   has_and_belongs_to_many :users
   belongs_to :setter, counter_cache: true
   has_many :submissions, dependent: :destroy
-
+  has_and_belongs_to_many :languages
 end

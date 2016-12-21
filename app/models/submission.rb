@@ -11,4 +11,6 @@ class Submission
 
   belongs_to :user, counter_cache: true
   belongs_to :problem, counter_cache: true
+  belongs_to :language
+
 end
