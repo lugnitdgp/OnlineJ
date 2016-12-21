@@ -10,4 +10,6 @@ class Contest
   field :details,                type: String, default: ''
 
   has_many :problems, dependent: :destroy
+  belongs_to :setter, counter_cache: true
+
 end
