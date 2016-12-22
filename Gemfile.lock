@@ -130,6 +130,7 @@ GEM
     mongoid (6.0.0)
       activemodel (~> 5.0)
       mongo (~> 2.3)
+    moped (1.5.3)
     multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -282,6 +283,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson
   byebug
   capybara
   coffee-rails (~> 4.2)
@@ -294,6 +296,7 @@ DEPENDENCIES
   launchy
   listen (~> 3.0.5)
   mongoid
+  moped
   omniauth
   omniauth-facebook
   omniauth-github

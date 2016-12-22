@@ -5,6 +5,9 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Adapter for mongodb
 gem 'mongoid'
+# gem 'Moped' and 'BSON'
+gem "moped"
+gem "bson"
 # 'rubocop' for refactoring
 gem 'rubocop', require: false
 # Use Puma as the app server
@@ -25,7 +28,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 # facebook authentication
 gem 'omniauth-facebook'
-# google authentication 
+# google authentication
 gem 'omniauth-google-oauth2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
