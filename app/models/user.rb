@@ -47,7 +47,7 @@ class User
 
   has_many :identities
   has_and_belongs_to_many :contests
-  belongs_to :setter
+  belongs_to :setter, optional: true
   has_many :submissions
 
   def self.find_for_oauth(auth, signed_user = nil)
