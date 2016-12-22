@@ -58,6 +58,7 @@ group :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'rails-controller-testing'
 end
 
 group :development do
