@@ -1,24 +1,3 @@
-# README
+# Online Judge [![Build Status](https://travis-ci.com/kumarneetesh24/OnlineJudge.svg?token=tRzFryz1XzLcpwXSmfXN&branch=master)](https://travis-ci.com/kumarneetesh24/OnlineJudge)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+> Online Judge inspired from revi-oj
