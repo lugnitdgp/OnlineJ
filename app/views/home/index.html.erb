@@ -1,3 +1,5 @@
-<% @Contests.each do |contest| %>
-  <%= contest[:data] %>
+<% @Contests.each do |contests| %>
+  <% contests[:data].each do |contest| %>
+    <%= contest[:name] %>
+  <% end %>
 <% end %>
