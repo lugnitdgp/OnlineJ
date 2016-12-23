@@ -10,6 +10,8 @@ gem "moped"
 gem "bson"
 # 'rubocop' for refactoring
 gem 'rubocop', require: false
+# gem 'rails-admin' for admin
+gem 'rails_admin'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
