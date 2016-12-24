@@ -2,7 +2,7 @@ class Contest
   include Mongoid::Document
 
   include Mongoid::Timestamps::Created::Short
-  field :name,                   type: String, default: ''
+  field :cname, type: String, default: ''
   field :ccode,                  type: String, default: ''
   field :state,                  type: Boolean, default: false
   field :start_time,             type: DateTime, default: DateTime.now
@@ -14,6 +14,6 @@ class Contest
   has_and_belongs_to_many :users
 
   def all_problems
-    self.problems.where({ state: true }).order_by({ submissions_count: -1 })
+    problems.where(state: true).order_by(submissions_count: -1)
   end
 end
