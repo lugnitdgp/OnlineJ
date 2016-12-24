@@ -12,4 +12,8 @@ class Contest
   has_many :problems, dependent: :destroy
   belongs_to :setter, counter_cache: true
   has_and_belongs_to_many :users
+
+  def all_problems
+    self.problems.where({ state: true }).order_by({ submissions_count: -1 })
+  end
 end

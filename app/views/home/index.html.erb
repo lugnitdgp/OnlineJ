@@ -1,5 +1,5 @@
 <% @Contests.each do |contests| %>
   <% contests[:data].each do |contest| %>
-    <%= contest[:name] %>
+    <%= link_to contest[:name], contest_path(contest[:ccode]) %>
   <% end %>
 <% end %>
