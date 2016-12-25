@@ -11,15 +11,14 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_self
+ *= require_tree .
  *= require codemirror
- *= require_tree codemirror/addons/dialog
- *= require_tree codemirror/addons/hint
- *= require_tree codemirror/addons/edit
+ *= require codemirror/addons/dialog/dialog
+ *= require codemirror/addons/hint/show-hint
  *= require codemirror/themes/base16-light
  *= require codemirror/themes/base16-light
  *= require codemirror/themes/monokai
  *= require codemirror/themes/solarized
  *= require codemirror/themes/mdn-like
  *= require codemirror/themes/material
- *= require_tree .
  */
