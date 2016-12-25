@@ -14,6 +14,8 @@ gem 'rubocop', require: false
 gem 'rails_admin'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+# gem 'codemirror' for code editor
+gem 'codemirror-rails'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

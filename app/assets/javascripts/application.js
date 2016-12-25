@@ -13,4 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require codemirror
+//= require codemirror/modes/clike
+//= require codemirror/modes/python
+//= require codemirror/modes/ruby
+//= require codemirror/modes/javascript
+//= require_tree codemirror/addons/dialog
+//= require_tree codemirror/addons/hint
+//= require_tree codemirror/addons/edit
+//= require codemirror/keymaps/vim
+//= require codemirror/keymaps/emacs
+//= require codemirror/keymaps/sublime
 //= require_tree .
