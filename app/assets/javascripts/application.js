@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-sprockets
+//= require bootstrap-material-design
 //= require codemirror
 //= require codemirror/addons/edit/matchbrackets
 //= require codemirror/addons/hint/javascript-hint
