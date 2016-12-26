@@ -28,3 +28,8 @@
 //= require codemirror/keymaps/emacs
 //= require_tree .
 //= require codemirror/keymaps/vim
+
+
+$($(document).ready(function() {
+  $.material.init();
+}))
