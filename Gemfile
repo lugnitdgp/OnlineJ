@@ -19,7 +19,6 @@ gem 'codemirror-rails'
 # 'bootstrap and material for rails'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
-gem 'bootstrap-material-design'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

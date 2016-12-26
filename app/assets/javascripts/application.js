@@ -14,7 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require bootstrap-material-design
+//= require usebootstrap
+//= require rippler
 //= require codemirror
 //= require codemirror/addons/edit/matchbrackets
 //= require codemirror/addons/hint/javascript-hint
@@ -29,7 +30,11 @@
 //= require_tree .
 //= require codemirror/keymaps/vim
 
-
-$($(document).ready(function() {
-  $.material.init();
-}))
+$(document).ready(function() {
+  $(".rippler").rippler({
+    effectClass      :  'rippler-effect'
+    ,effectSize      :  16      // Default size (width & height)
+    ,addElement      :  'div'   // e.g. 'svg'(feature)
+    ,duration        :  400
+  });
+});

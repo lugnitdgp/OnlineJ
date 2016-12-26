@@ -12,7 +12,9 @@
  *
  *= require_self
  *= require_tree .
- *= require bootstrap-material-design
+ *= require bootstrap
+ *= require usebootstrap
+ *= require rippler
  *= require codemirror
  *= require codemirror/addons/dialog/dialog
  *= require codemirror/addons/hint/show-hint
