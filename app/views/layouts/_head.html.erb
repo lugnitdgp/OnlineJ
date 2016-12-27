@@ -1,0 +1,23 @@
+
+    <title>
+      <% unless @title.nil? %>
+        <%= @title + ' | ' %>
+      <% end %>
+      <%= 'Judge' %>
+    </title>
+    <% if @problem_page || @submissions_page %>
+    <% end %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Online Judge" />
+    <meta name="author" content="Neetesh Kumar" />
+
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
+    <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" %>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script> <![endif]-->
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if @problem_page %>
+      <%= stylesheet_link_tag    'codemirror-load', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% end %>

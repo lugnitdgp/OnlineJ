@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OnlineJudge</title>
+    <%= render partial: 'layouts/head' %>
+    <%= yield :styles %>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
-    <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
-  </body>
+    <div class="page-container">
+      <div class="main-content">
+        <%= yield %>
+      </div>
+      <%= yield :scripts %>
+    </div>
+    <%= render 'layouts/scripts' %>
+    </body>
 </html>
