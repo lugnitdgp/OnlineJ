@@ -11,17 +11,8 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require bootstrap-md
  *= require bootstrap
  *= require usebootstrap
  *= require rippler
- *= require codemirror
- *= require codemirror/addons/dialog/dialog
- *= require codemirror/addons/hint/show-hint
- *= require codemirror/themes/base16-light
- *= require codemirror/themes/base16-light
- *= require codemirror/themes/monokai
- *= require codemirror/themes/solarized
- *= require codemirror/themes/mdn-like
- *= require codemirror/themes/material
  */

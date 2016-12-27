@@ -1,0 +1,13 @@
+//= require codemirror
+//= require codemirror/addons/edit/matchbrackets
+//= require codemirror/addons/hint/javascript-hint
+//= require codemirror/addons/hint/show-hint
+//= require codemirror/modes/clike
+//= require codemirror/modes/python
+//= require codemirror/modes/ruby
+//= require codemirror/modes/javascript
+//= require codemirror/addons/dialog/dialog
+//= require codemirror/keymaps/sublime
+//= require codemirror/keymaps/emacs
+//= require codemirror/keymaps/vim
+//= require problem
