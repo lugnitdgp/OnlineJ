@@ -1,5 +1,5 @@
-<%= @Problem[:pname] %>
-<%= @Problem[:statement] %>
+<%= @title %>
+<%= @statement %>
 <div class="container">
   <div class="navbar navbar-default" >
     <div class="container-fluid">
@@ -8,10 +8,9 @@
         <ul class="nav navbar-nav">
           <li ><a href="javascript:void(0)">
             <select class="form-control" id="mode">
-                <option value="text/x-c++src">C++</option>
-                <option value="text/x-csrc">C</option>
-                <option value="text/x-java">Java</option>
-                <option value="python">Python</option>
+              <% @language_hash.each do | language| %>
+                <option value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
+              <% end %>
             </select>
           </a>
         </li>

@@ -1,3 +1,6 @@
-<% @Problems.each do |problem|%>
+<% @problem_hash[:problems].each_with_index do | problem, index |%>
   <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
+  <% @problem_hash[:lang_data][index].each do |language| %>
+    <%= language %>
+  <% end %>
 <% end %>
