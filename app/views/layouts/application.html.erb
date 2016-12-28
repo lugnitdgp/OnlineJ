@@ -7,6 +7,14 @@
   </head>
 
   <body>
+    <% unless flash.empty? %>
+   <script type="text/javascript">
+       <% flash.each do |f| %>
+       <% type = f[0].gsub('notice', 'info').gsub('alert','warning') %>
+        toastr['<%= type %>']('<%= f[1] %>');
+       <% end %>
+   </script>
+   <% end %>
     <div class="page-container">
       <div class="main-content">
         <%= yield %>
