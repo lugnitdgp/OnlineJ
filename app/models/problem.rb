@@ -7,8 +7,8 @@ class Problem
   field :statement,         type: String, default: ''
   field :state,             type: Boolean, default: true
   field :time_limit,        type: Float, default: '1.0'
-  field :memory_limit,      type: Integer, default: 268_435_456
-  field :source_limit,      type: Integer, default: 51_200
+  field :memory_limit,      type: Integer, default: 268435456
+  field :source_limit,      type: Integer, default: 51200
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
@@ -18,4 +18,6 @@ class Problem
   has_many :submissions, dependent: :destroy
   has_and_belongs_to_many :languages
   has_and_belongs_to_many :languages
+
+  scope :by_code, -> (pcode){ where(pcode: pcode, state: true) }
 end
