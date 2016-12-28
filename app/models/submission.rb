@@ -13,4 +13,5 @@ class Submission
   belongs_to :problem, counter_cache: true
   belongs_to :language
 
+  scope :by_created_at, -> { where(created_at: -1) }
 end
