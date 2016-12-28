@@ -6,5 +6,7 @@ class Language
   field :lang_code,                   type: String, default: ''
 
   has_and_belongs_to_many :problems
-  has_many :submissions 
+  has_many :submissions
+
+  scope :by_name, -> (name){ where(name: name) }
 end
