@@ -68,12 +68,15 @@ class User
         user.skip_confirmation!
         user.save!
       end
-      identity.user != user
-      identity.user = user
-      identity.save!
+      if identity.user != user
+        identity.user = user
+        identity.save!
+      end
     end
     user
   end
+
+  private
 
   def fetch_details(auth)
     self.name = auth.info.name
