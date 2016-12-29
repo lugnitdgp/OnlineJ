@@ -50,6 +50,8 @@ class User
   belongs_to :setter, optional: true
   has_many :submissions
 
+  scope :by_id, -> (id){ where(_id: id) }
+
   def self.find_for_oauth(auth, signed_user = nil)
     identity = Identity.find_for_oauth(auth)
     user = identity.user

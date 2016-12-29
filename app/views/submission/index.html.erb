@@ -1,0 +1,6 @@
+<% @Submissions.each_with_index do |submission, index|%>
+  <%=  submission[:status_code]%>
+  <%= @Users[index][:name]%>
+  <%= @Problems[index][:name] %>
+  <%= @Contests[index] %>
+<% end %>

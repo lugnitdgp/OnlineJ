@@ -14,4 +14,5 @@ class Submission
   belongs_to :language
 
   scope :by_created_at, -> { where(created_at: -1) }
+  scope :by_query, -> (query){ where(query) }
 end
