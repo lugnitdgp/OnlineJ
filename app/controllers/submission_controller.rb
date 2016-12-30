@@ -2,14 +2,14 @@ class SubmissionController < ApplicationController
   def index
     @title = 'Submission'
     query = get_query_from_params(params)
-    @Submissions = Submission.by_query(query).sort({ created_at: -1})
+    @Submissions = Submission.by_query(query).sort(created_at: -1)
     @Users = []
     @Contests = []
     @Problems = []
     @Submissions.each do |submission|
       user = submission.user
       problem = submission.problem
-      @Users << {name: user[:name], user_id: user[:_id], email: user[:email], college: user[:college]}
+      @Users << { name: user[:name], user_id: user[:_id], email: user[:email], college: user[:college] }
       @Problems << { name: problem[:pname], code: problem[:pcode] }
       @Contests << submission.problem.contest[:ccode]
     end
@@ -25,11 +25,11 @@ class SubmissionController < ApplicationController
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     contest = Contest.by_code(ccode).first
-    if contest.nil?
+    if contest.nil? || contest[:start_time] > DateTime.now || contest[:end_time] < DateTime.now
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     problem = Problem.by_code(pcode).first
-    if problem.nil?
+    if problem.nil? || !(problem.languages.include? language)
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     source_limit = problem[:source_limit]
@@ -37,10 +37,14 @@ class SubmissionController < ApplicationController
       flash[:error] = 'source limit exceeded'
       redirect_to(problem_path(ccode, pcode)) && return
     end
-    latest_submission = current_user.submissions.by_created_at.first
+    if current_user.nil?
+      flash[:alert] = 'Please sign in  Or sign up first'
+      redirect_to(new_user_session_path) && return
+    end
+    latest_submission = current_user.submissions.latest.pluck(:created_at).first
     unless latest_submission.nil?
-      if DateTime.now - latest_submission < 30
-        flash[:error] = 'wait for 30s after the last submission'
+      if DateTime.now.to_time - latest_submission.to_time < 30
+        flash[:alert] = 'wait for 30s after the last submission'
         redirect_to(problem_path(ccode, pcode)) && return
       end
     end
@@ -49,6 +53,8 @@ class SubmissionController < ApplicationController
     language.submissions << submission
     problem.submissions << submission
     submission.save!
+    flash[:success] = "sucessfully submitted"
+    redirect_to(submission_contest_path(ccode)) && return
   end
 
   private
