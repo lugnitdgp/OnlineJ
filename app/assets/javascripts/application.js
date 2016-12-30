@@ -14,7 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require usebootstrap
+//= require flat-ui
+//= require local
 //= require rippler
 
 
