@@ -14,6 +14,8 @@ gem 'rubocop', require: false
 gem 'rails_admin'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+# gem 'snappconfig' for global config
+gem 'snappconfig'
 # gem 'codemirror' for code editor
 gem 'codemirror-rails'
 # 'bootstrap and material for rails'
