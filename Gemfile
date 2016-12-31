@@ -12,6 +12,15 @@ gem "bson"
 gem 'rubocop', require: false
 # gem 'rails-admin' for admin
 gem 'rails_admin'
+# use gem 'sidekiq' for workers to judge process
+gem 'sidekiq'
+# various options for gem sidekiq
+gem 'sinatra', require: false
+gem 'slim'
+gem 'sidetiq'
+gem 'sidekiq-status'
+gem 'sidekiq-failures'
+gem 'sidekiq-unique-jobs'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # gem 'snappconfig' for global config
