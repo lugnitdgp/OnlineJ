@@ -21,8 +21,12 @@ gem 'sidetiq'
 gem 'sidekiq-status'
 gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
+# gem "mongoid-paperclip" for using paperclip with mongodb
+gem "mongoid-paperclip"
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+# gem celluloid for 10 sec actors error
+gem "celluloid", git: "https://github.com/celluloid/celluloid", submodules: true
 # gem 'snappconfig' for global config
 gem 'snappconfig'
 # gem 'codemirror' for code editor

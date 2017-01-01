@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/celluloid/celluloid
+  revision: f8e48978f4a299148df65ec2402aaabcdceb7607
+  submodules: true
+  specs:
+    celluloid (0.18.0.pre)
+      celluloid-pool (~> 0.20)
+      celluloid-supervision (~> 0.20)
+      timers (~> 4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -58,23 +68,14 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    celluloid (0.17.3)
-      celluloid-essentials
-      celluloid-extras
-      celluloid-fsm
-      celluloid-pool
-      celluloid-supervision
-      timers (>= 4.1.1)
-    celluloid-essentials (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-extras (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-fsm (0.20.5)
-      timers (>= 4.1.1)
     celluloid-pool (0.20.5)
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     codemirror-rails (5.16.0)
       railties (>= 3.0, < 6.0)
     coderay (1.1.1)
@@ -159,6 +160,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     mongo (2.3.0)
@@ -166,6 +168,9 @@ GEM
     mongoid (6.0.0)
       activemodel (~> 5.0)
       mongo (~> 2.3)
+    mongoid-paperclip (0.0.11)
+      mongoid
+      paperclip (>= 2.3.6, != 4.3.0)
     moped (1.5.3)
     multi_json (1.12.1)
     multi_xml (0.5.5)
@@ -201,6 +206,12 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    paperclip (5.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      cocaine (~> 0.5.5)
+      mime-types
+      mimemagic (~> 0.3.0)
     parser (2.3.1.4)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -374,6 +385,7 @@ DEPENDENCIES
   bson
   byebug
   capybara
+  celluloid!
   codemirror-rails
   coffee-rails (~> 4.2)
   devise
@@ -385,6 +397,7 @@ DEPENDENCIES
   launchy
   listen (~> 3.0.5)
   mongoid
+  mongoid-paperclip
   moped
   omniauth
   omniauth-facebook
