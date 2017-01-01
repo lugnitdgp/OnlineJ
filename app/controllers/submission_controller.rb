@@ -1,4 +1,6 @@
 class SubmissionController < ApplicationController
+
+  #TODO add handle_unverified_request
   def index
     @title = 'Submission'
     query = get_query_from_params(params)
@@ -52,6 +54,9 @@ class SubmissionController < ApplicationController
     current_user.submissions << submission
     language.submissions << submission
     problem.submissions << submission
+    if contest.users.by_id(current_user[:_id]).count == 0
+      contest.users << current_user
+    end
     submission.save!
     flash[:success] = "sucessfully submitted"
     redirect_to(submission_contest_path(ccode)) && return

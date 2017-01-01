@@ -16,7 +16,7 @@ class Problem
   has_and_belongs_to_many :users
   belongs_to :setter, counter_cache: true
   has_many :submissions, dependent: :destroy
-  has_and_belongs_to_many :languages
+  has_many :test_cases, dependent: :destroy
   has_and_belongs_to_many :languages
 
   scope :by_code, -> (pcode){ where(pcode: pcode, state: true) }
@@ -30,7 +30,12 @@ class Problem
   end
 
   def delete_problem_data
-    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self.contest[:ccode]}/#{self[:pcode]}"
+    contest = self.contest
+    users = contest.users
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{self[:pcode]}"
+    users.each do |user|
+      system 'rm', '-rf', "#{CONFIG[:base_path]}/#{user[:email]}/#{contest[:ccode]}/#{self[:pcode]}"
+    end
     true
   end
 end

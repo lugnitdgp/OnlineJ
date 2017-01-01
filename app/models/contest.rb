@@ -31,7 +31,11 @@ class Contest
   end
 
   def delete_contest_data
+    users = self.users
     system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self[:ccode]}"
+    users.each do |user|
+      system 'rm', '-rf', "#{CONFIG[:base_path]}/#{user[:email]}/#{ccode}"
+    end
     true
   end
 end
