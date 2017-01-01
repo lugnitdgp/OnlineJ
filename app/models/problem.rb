@@ -20,4 +20,17 @@ class Problem
   has_and_belongs_to_many :languages
 
   scope :by_code, -> (pcode){ where(pcode: pcode, state: true) }
+
+  before_create :create_problem_data
+  after_destroy :delete_problem_data
+
+  def create_problem_data
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self.contest[:ccode]}/#{self[:pcode]}"
+    true
+  end
+
+  def delete_problem_data
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self.contest[:ccode]}/#{self[:pcode]}"
+    true
+  end
 end

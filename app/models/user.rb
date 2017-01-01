@@ -50,7 +50,10 @@ class User
   belongs_to :setter, optional: true
   has_many :submissions
 
-  scope :by_id, -> (id){ where(_id: id) }
+  scope :by_id, ->(id) { where(_id: id) }
+
+  before_create :create_user_data
+  after_destroy :delete_user_data
 
   def self.find_for_oauth(auth, signed_user = nil)
     identity = Identity.find_for_oauth(auth)
@@ -85,5 +88,15 @@ class User
     self.email = auth.info.email
     ## TODO add image for the user
     # self.photo = URI.parse(auth.info.image)
+  end
+
+  def create_user_data
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:email]}"
+    true
+  end
+
+  def delete_user_data
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self[:email]}"
+    true
   end
 end

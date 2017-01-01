@@ -16,9 +16,22 @@ class Contest
   scope :upcomming, -> { where(start_time: { :$gt => DateTime.now }, state: true) }
   scope :running, -> { where(start_time: { :$lte => DateTime.now }, end_time: { :$gte => DateTime.now }, state: true) }
   scope :past, -> { where(end_time: { :$lt => DateTime.now }, state: true) }
-  scope :by_code, -> (ccode){ where(ccode: ccode, state: true) }
+  scope :by_code, ->(ccode) { where(ccode: ccode, state: true) }
+
+  before_create :create_contest_data
+  after_destroy :delete_contest_data
 
   def all_problems
     problems.where(state: true).order_by(submissions_count: -1)
+  end
+
+  def create_contest_data
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:ccode]}"
+    true
+  end
+
+  def delete_contest_data
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self[:ccode]}"
+    true
   end
 end
