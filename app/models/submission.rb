@@ -3,7 +3,7 @@ class Submission
 
   include Mongoid::Timestamps::Created::Short
 
-  field :status_code,                   type: String, default: ''
+  field :status_code,                   type: String, default: 'PE'
   field :submission_time,               type: DateTime, default: DateTime.now
   field :user_source_code,              type: String, default: ''
   field :error_desc,                    type: String, default: ''
@@ -15,6 +15,7 @@ class Submission
 
   scope :latest, -> { order_by(created_at: -1) }
   scope :by_query, ->(query) { where(query) }
+  scope :by_id, -> (id){ where(_id: id) }
 
   before_save :create_submission_data, :on => :create
   after_destroy :delete_submission_data

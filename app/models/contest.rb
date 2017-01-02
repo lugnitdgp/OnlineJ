@@ -4,7 +4,7 @@ class Contest
   include Mongoid::Timestamps::Created::Short
   field :cname, type: String, default: ''
   field :ccode,                  type: String, default: ''
-  field :state,                  type: Boolean, default: false
+  field :state,                  type: Boolean, default: true
   field :start_time,             type: DateTime, default: DateTime.now
   field :end_time,               type: DateTime, default: DateTime.now + 3.hours
   field :details,                type: String, default: ''
