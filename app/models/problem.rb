@@ -13,7 +13,6 @@ class Problem
   field :max_score,         type: Integer, default: 20
 
   belongs_to :contest, counter_cache: true
-  has_and_belongs_to_many :users
   belongs_to :setter, counter_cache: true
   has_many :submissions, dependent: :destroy
   has_many :test_cases, dependent: :destroy
