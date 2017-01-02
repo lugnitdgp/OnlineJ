@@ -58,6 +58,7 @@ class SubmissionController < ApplicationController
       contest.users << current_user
     end
     submission.save!
+    ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
     flash[:success] = "sucessfully submitted"
     redirect_to(submission_contest_path(ccode)) && return
   end
