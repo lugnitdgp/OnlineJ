@@ -38,7 +38,7 @@ $(document).on('turbolinks:load', function() {
     authenticity_token.name = 'authenticity_token';
     authenticity_token.type = 'hidden';
     authenticity_token.value = $('meta[name=csrf-token]').attr('content');
-    var user_source_code = document.createElement('input');
+    var user_source_code = document.createElement('textarea');
     user_source_code.name = 'user_source_code';
     user_source_code.value = cEditor.getValue();
     var lang_name = document.createElement('input');
@@ -57,8 +57,7 @@ $(document).on('turbolinks:load', function() {
     form.appendChild(ccode);
     form.appendChild(pcode);
     document.body.appendChild(form);
-    console.log(form);
-
+    form.style.visibility = 'hidden';
     form.submit();
   });
 });
