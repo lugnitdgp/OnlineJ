@@ -6,9 +6,10 @@ class Problem
   field :pname,             type: String, default: ''
   field :statement,         type: String, default: ''
   field :state,             type: Boolean, default: true
-  field :time_limit,        type: Float, default: '1.0'
+  field :time_limit,        type: Integer, default: 1
   field :memory_limit,      type: Integer, default: 268435456
   field :source_limit,      type: Integer, default: 51200
+  field :diff,              type: String, default:'-Bb'
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
