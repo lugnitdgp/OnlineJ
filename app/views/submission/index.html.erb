@@ -4,3 +4,6 @@
   <%= @Problems[index][:name] %>
   <%= @Contests[index] %>
 <% end %>
+
+<%= paginate @Submissions , theme: 'twitter-bootstrap-3',
+                pagination_class: "pagination pagination-inverse" %>

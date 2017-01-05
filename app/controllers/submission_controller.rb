@@ -3,8 +3,9 @@ class SubmissionController < ApplicationController
   #TODO add handle_unverified_request
   def index
     @title = 'Submission'
+    @submission_page = true
     query = get_query_from_params(params)
-    @Submissions = Submission.by_query(query).sort(created_at: -1)
+    @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(25)
     @Users = []
     @Contests = []
     @Problems = []
