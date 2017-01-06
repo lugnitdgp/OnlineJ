@@ -16,9 +16,9 @@ Rails.application.configure do
     domain: "gmail.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "archonlinej@gmail.com",
-    password: "achoolove"
-  } 
+    user_name: "",
+    password: ""
+  }
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true

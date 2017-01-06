@@ -44,4 +44,13 @@ $(document).ready(function() {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   }
+  $('.datatable').DataTable({
+         "bPaginate": false,
+         "sScrollY":  "250px",
+         "bAutoWidth": false,
+         "bScrollCollapse": true,
+         "fnInitComplete": function() {
+                this.css("visibility", "visible");},
+                "bLengthChange": false
+    });
 });

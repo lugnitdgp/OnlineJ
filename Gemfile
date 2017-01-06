@@ -26,6 +26,8 @@ gem "mongoid-paperclip"
 # gem 'kaminari' for pagination
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
+# for table
+gem 'jquery-datatables-rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # gem 'snappconfig' for global config

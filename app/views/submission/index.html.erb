@@ -1,9 +1,43 @@
-<% @Submissions.each_with_index do |submission, index|%>
-  <%=  submission[:status_code]%>
-  <%= @Users[index][:name]%>
-  <%= @Problems[index][:name] %>
-  <%= @Contests[index] %>
-<% end %>
+<div class= "container">
+  <div class = "table-responsive">
+    <table class="table table-bordered datatable table-hover " cellspacing="0" width="100%">
+      <thead "success">
+          <tr>
+              <th>User</th>
+              <th>Date/Time</th>
+              <th>Prob code</th>
+              <th>Result</th>
+              <th>Time</th>
+              <th>Lang</th>
+              <th>Sol</th>
+          </tr>
+      </thead>
+      <tbody>
+        <% @Submissions.each_with_index do |submission, index|%>
+          <tr id = "check_data" data-submission-id =<%= "'#{submission[:_id]}'".html_safe %>>
+              <td><%= @Users[index][:name]%></td>
+              <td><%= submission[:created_at]%></td>
+              <td><%= @Problems[index][:name] %></td>
+              <td><%= submission[:status_code]%></td>
+              <td>
+                <% if submission[:status_code] == 'PE' %>
+                  <%= "-" %>
+                <% else %>
+                  <%= submission[:time_taken]%>
+                <% end %>
+              </td>
+              <td><%= submission.language[:lang_code]%></td>
+              <td>
+                <div class="btn btn-primary btn-sm">
+                  view
+                </div>
+              </td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= paginate @Submissions , theme: 'twitter-bootstrap-3',
+                    pagination_class: "pagination pagination-inverse" %>
 
-<%= paginate @Submissions , theme: 'twitter-bootstrap-3',
-                pagination_class: "pagination pagination-inverse" %>
+  </div>
+</div>
