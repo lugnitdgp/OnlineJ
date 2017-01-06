@@ -49,7 +49,7 @@ class ProcessSubmissionWorker
       rescue
         compile_log = 'compilation Error'
       end
-      submission.update_attributes!(status_code: 'CE', error_desc: compile_log)
+      submission.update!(status_code: 'CE', error_desc: compile_log)
       return
     end
 
@@ -75,17 +75,18 @@ class ProcessSubmissionWorker
         diff = %x(diff #{diff_opt} #{user_output} #{code_output})
         if diff.length > 0
           @judge_data[0] = 'WA'
-          submission.update_attributes!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken )
+          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken )
           return
         end
       elsif @judge_data[0] == 'RTE'
-        submission.update_attributes!( status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken )
+        submission.update!( status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken )
         return
       else
-        submission.update_attributes!( status_code: @judge_data[0], time_taken: time_taken )
+        submission.update!( status_code: @judge_data[0], time_taken: time_taken )
         return
       end
     end
-    submission.update_attributes!( status_code: @judge_data[0], time_taken: time_taken )
+    submission.update!( status_code: @judge_data[0], time_taken: time_taken )
+    return
   end
 end
