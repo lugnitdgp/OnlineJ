@@ -8,6 +8,7 @@ class Submission
   field :user_source_code,              type: String, default: ''
   field :error_desc,                    type: String, default: ''
   field :time_taken,                    type: Float
+  # TODO: add memory_limit
 
   belongs_to :user, counter_cache: true
   belongs_to :problem, counter_cache: true
@@ -15,9 +16,9 @@ class Submission
 
   scope :latest, -> { order_by(created_at: -1) }
   scope :by_query, ->(query) { where(query) }
-  scope :by_id, -> (id){ where(_id: id) }
+  scope :by_id, ->(id) { where(_id: id) }
 
-  before_save :create_submission_data, :on => :create
+  before_save :create_submission_data, on: :create
   after_destroy :delete_submission_data
 
   def create_submission_data

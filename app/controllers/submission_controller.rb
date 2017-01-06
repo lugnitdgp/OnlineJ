@@ -64,6 +64,18 @@ class SubmissionController < ApplicationController
     redirect_to(submission_contest_path(ccode)) && return
   end
 
+  def get_submission_data
+    submission = Submission.by_id(params['submission_id']).first
+    if submission.nil?
+     msg = { error: "bad submission"}
+    else
+    msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken] }
+    end
+    respond_to do |format|
+      format.json  { render json: msg }
+    end
+  end
+
   private
 
   def get_query_from_params(params)

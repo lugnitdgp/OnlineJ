@@ -18,7 +18,6 @@
 //= require local
 //= require rippler
 
-
 $(document).ready(function() {
   $(".rippler").rippler({
     effectClass      :  'rippler-effect'
@@ -45,12 +44,13 @@ $(document).ready(function() {
     "hideMethod": "fadeOut"
   }
   $('.datatable').DataTable({
-         "bPaginate": false,
-         "sScrollY":  "250px",
-         "bAutoWidth": false,
-         "bScrollCollapse": true,
-         "fnInitComplete": function() {
-                this.css("visibility", "visible");},
-                "bLengthChange": false
+     "bPaginate": false,
+     "sScrollY":  "250px",
+     "bAutoWidth": false,
+     "bScrollCollapse": true,
+     "fnInitComplete": function() {
+        this.css("visibility", "visible");
+      },
+     "bLengthChange": false
     });
 });

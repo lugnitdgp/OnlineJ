@@ -14,17 +14,15 @@
       </thead>
       <tbody>
         <% @Submissions.each_with_index do |submission, index|%>
-          <tr id = "check_data" data-submission-id =<%= "'#{submission[:_id]}'".html_safe %>>
+          <tr>
               <td><%= @Users[index][:name]%></td>
               <td><%= submission[:created_at]%></td>
               <td><%= @Problems[index][:name] %></td>
-              <td><%= submission[:status_code]%></td>
+              <td data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
+                <%= submission[:status_code]%>
+              </td>
               <td>
-                <% if submission[:status_code] == 'PE' %>
-                  <%= "-" %>
-                <% else %>
-                  <%= submission[:time_taken]%>
-                <% end %>
+                -
               </td>
               <td><%= submission.language[:lang_code]%></td>
               <td>
@@ -40,4 +38,4 @@
                     pagination_class: "pagination pagination-inverse" %>
 
   </div>
-</div>
+</div

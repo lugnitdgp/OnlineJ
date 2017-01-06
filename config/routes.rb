@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get 'submission/user/:user_id' => 'submission#index', as: 'submission_user'
   get 'submission/contest/:ccode/user/:user_id' => 'submission#index', as: 'submission_contest_user'
   get 'submission/contest/:ccode/:pcode/user/:user_id' => 'submission#index', as: 'submission_problem_user'
+  get 'get_submission_data' => 'submission#get_submission_data', as: 'get_submission_data'
 end
