@@ -16,7 +16,11 @@
         <% @Submissions.each_with_index do |submission, index|%>
           <tr>
               <td><%= @Users[index][:name]%></td>
-              <td><%= submission[:created_at]%></td>
+              <td>
+                <time class ="timeago" datetime="<%= submission[:created_at].localtime.to_datetime%>">
+                  <%= submission[:created_at].localtime.to_datetime%>
+                </time>
+              </td>
               <td><%= @Problems[index][:name] %></td>
               <td data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                 <%= submission[:status_code]%>

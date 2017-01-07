@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $("time.timeago").timeago();
   $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)
   });
@@ -16,12 +17,11 @@ $(document).ready(function() {
         if( data['status_code'] == 'PE'){
           setTimeout( function(){
             get_submission_data(element)
-          }, 50000);
+          }, 5000);
         }
         else {
-          $('[data-id='+submission_id+']').text(data['status_code'])
+          $(element).text(data['status_code'])
         }
-
       },
       error: function(data){
         console.log(data);

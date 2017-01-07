@@ -44,6 +44,8 @@ $(document).ready(function() {
     "hideMethod": "fadeOut"
   }
   $('.datatable').DataTable({
+     "bFilter": false,
+     "bInfo": false
      "bPaginate": false,
      "sScrollY":  "250px",
      "bAutoWidth": false,
