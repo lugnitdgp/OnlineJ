@@ -59,10 +59,11 @@ $(document).ready(function() {
     });
   }
 
-  get_submission_button = $('.submission-btn').click(function(event) {
+  $('.submission-btn').click(function(event) {
     submission_id = ($(this).children().attr('data-get-id'));
     user = $(this).siblings('.user').text();
     problem = $(this).siblings('.problem').text();
+    status = $(this).siblings('.submission_status').text();
     $('#submission_modal .modal-title').text("Submission for "+problem)
     $('#submission_modal').modal();
     $.ajax({
@@ -76,6 +77,7 @@ $(document).ready(function() {
         source_code = '<div>'+data['user_source_code']+'</div>'
         $('#submission_modal .modal-body').text("");
         $('#submission_modal .modal-body').append(lang);
+        $('#submission_modal .modal-body').append(status);
         var cEditor = new CodeMirror(document.getElementById("code-body"), {
           lineNumbers: true,
           mode: data['lang_name'],
@@ -95,5 +97,42 @@ $(document).ready(function() {
       },
       type: 'GET'
     });
+  });
+
+  $('.submission_status').click(function(event) {
+    submission_id = $(this).attr('data-id');
+    status = $(this).attr('data-status');
+    problem = $(this).siblings('.problem').text();
+    if (status == 'CE'){
+      $('#submission_modal .modal-title').text("compilation for "+ problem)
+      $('#submission_modal').modal();
+      $.ajax({
+        url: '/get_submission_error',
+        data: {
+          "submission_id": submission_id
+        },
+        dataType: 'json',
+        success: function(data){
+          $('#submission_modal .modal-body').text("");
+          var cEditor = new CodeMirror(document.getElementById("code-body"), {
+            lineNumbers: true,
+            mode: 'text/plain',
+            lineWrapping: true,
+            styleActiveLine: true,
+            viewportMargin: Infinity,
+            readOnly: true
+          });
+           cEditor.setValue(data['error_desc']);
+           setTimeout(function() {
+             cEditor.refresh();
+           }, 300);
+        },
+        error: function(data){
+          $('#submission_modal .modal-body').text("");
+          $('#submission_modal .modal-body').append("error loading");
+        },
+        type: 'GET'
+      });
+    }
   });
 });

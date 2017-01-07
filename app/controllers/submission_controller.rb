@@ -88,6 +88,17 @@ class SubmissionController < ApplicationController
     end
   end
 
+  def get_submission_error
+    submission = Submission.by_id(params['submission_id']).first
+    if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
+      msg = { error: "wrong submission id"}
+    else
+      msg = { error_desc: submission[:error_desc] }
+    end
+    respond_to do |format|
+      format.json  { render json: msg }
+    end
+  end
   private
 
   def get_query_from_params(params)
