@@ -20,12 +20,12 @@ class UserController < ApplicationController
 
   end
 
-  def checkuser
-    user = User.find_by_username(params[:username])
-    respond_to do |format|
-        format.json {render json: user}
-    end
-  end
+  #def checkuser
+  #  user = User.find_by_username(params[:username])
+  #  respond_to do |format|
+  #      format.json {render json: user}
+  #  end
+  #end
 
 
   def profile
