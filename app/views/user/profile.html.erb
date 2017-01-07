@@ -1,0 +1,16 @@
+<h1><%=@user.first[:name]%>'s Profile</h1>
+<h8>@<%=@user.first[:username]%></h8>
+<p><%=@user.first[:college]%></p>
+<hr/>
+
+<h4>Solved Problems</h4>
+<table class="table">
+	<tr><td>Contest</td><td>Problems</td></tr>
+<%@solved_problem.each do |s|%>
+	<tr>
+	<td><%=s[:contest_code]%></td>
+	<td><%= s[:problem_code]%></td>
+	</tr>
+<%end%>
+</table>
+<hr/>

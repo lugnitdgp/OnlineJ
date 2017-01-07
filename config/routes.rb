@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get '/users/update' => 'user#update', as: 'force_update'
+  get '/users/update_form' => 'user#update_form' 
+  post '/users/update_form' => 'user#save_update'
+  get '/users/profile' => 'user#profile'
+  post '/users/checkusr' => 'user#checkusr'
+
   require 'sidekiq/web'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   mount Sidekiq::Web => '/sidekiq'

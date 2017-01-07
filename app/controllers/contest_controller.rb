@@ -1,4 +1,5 @@
 class ContestController < ApplicationController
+  before_action :check
   def index
     @ccode = params[:ccode]
     contest = Contest.by_code(@ccode).first
@@ -35,5 +36,11 @@ class ContestController < ApplicationController
                    end
     end
     languages
+  end
+
+  def check
+    if user_signed_in? && current_user.username.blank?
+      redirect_to force_update_url
+    end
   end
 end
