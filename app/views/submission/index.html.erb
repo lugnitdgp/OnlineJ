@@ -23,13 +23,21 @@
               </td>
               <td><%= @Problems[index][:name] %></td>
               <td data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
-                <%= submission[:status_code]%>
+                <% ext = '.png' %>
+                <% ext = '.gif' if submission[:status_code] == 'PE' %>
+                  <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" />
+                    <figcaption><%= submission[:status_code] if submission[:status_code] != 'RTE'%></figcaption>
+                    <figcaption><%= submission[:error_desc] if submission[:status_code] == 'RTE'%></figcaption>
               </td>
               <td>
-                -
+                <% if submission[:status_code] == 'CE' || submission[:status_code] == 'PE' %>
+                  <%= "-" %>
+                 <% else %>
+                   <%= submission[:time_taken] %>
+                 <% end %>
               </td>
               <td><%= submission.language[:lang_code]%></td>
-              <td>
+              <td class = "submission-btn">
                 <div class="btn btn-primary btn-sm">
                   view
                 </div>

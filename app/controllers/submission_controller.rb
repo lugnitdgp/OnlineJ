@@ -69,7 +69,7 @@ class SubmissionController < ApplicationController
     if submission.nil?
      msg = { error: "bad submission"}
     else
-    msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken] }
+    msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken].to_s }
     end
     respond_to do |format|
       format.json  { render json: msg }

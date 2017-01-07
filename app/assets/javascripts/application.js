@@ -45,14 +45,13 @@ $(document).ready(function() {
   }
   $('.datatable').DataTable({
      "bFilter": false,
-     "bInfo": false
+     "bInfo": false,
      "bPaginate": false,
-     "sScrollY":  "250px",
      "bAutoWidth": false,
      "bScrollCollapse": true,
      "fnInitComplete": function() {
         this.css("visibility", "visible");
       },
-     "bLengthChange": false
+     "bLengthChange": false,
     });
 });

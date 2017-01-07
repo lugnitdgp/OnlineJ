@@ -13,14 +13,28 @@ $(document).ready(function() {
       },
       dataType: 'json',
       success: function(data){
-        console.log(data)
         if( data['status_code'] == 'PE'){
           setTimeout( function(){
             get_submission_data(element)
           }, 5000);
         }
         else {
-          $(element).text(data['status_code'])
+          img = '';
+          status = '<figcaption>'+data['status_code']+'</figcaption>';
+          if( data['error_desc'] && data['status_code'] == "RTE") {
+            status = '<figcaption>'+data['error_desc']+'</figcaption>';
+          }
+          if( data['status_code'] == 'CE'){
+            img = '<img src="/icons/CE.png" alt="CE" width="25" height="25" />';
+          } else {
+            img = '<img src="/icons/'+data['status_code']+'.png" alt='+data['status_code']+' width="23" height="23" />';
+            console.log(img);
+            $(element).next().text(data['time_taken'])
+          }
+          $(element).children().remove();
+          $(element).append(img);
+          $(element).append(status);
+          $(element).attr('data-status',data['status_code']);
         }
       },
       error: function(data){
