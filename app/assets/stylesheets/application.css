@@ -21,4 +21,4 @@
  .table tbody,
  .table td {text-align: center;}
   figcaption {height:5px;font-size: 10px;}
-  .submission-btn .btn{ height: 30px;width: 60px;font-size: 12px;border-radius:2px;}
+.DataTables_sort_icon { display:none;}

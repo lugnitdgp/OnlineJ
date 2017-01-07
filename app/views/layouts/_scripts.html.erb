@@ -6,6 +6,11 @@
 <% if @submission_page %>
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.3/jquery.timeago.min.js' %>
 <%= javascript_include_tag 'submissions', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/python/python.min.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/python/python.min.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/clike/clike.min.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/ruby/ruby.min.js' %>
 <% end %>
 <% unless flash.empty? %>
 <script type="text/javascript">

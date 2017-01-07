@@ -69,7 +69,19 @@ class SubmissionController < ApplicationController
     if submission.nil?
      msg = { error: "bad submission"}
     else
-    msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken].to_s }
+      msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken].to_s }
+    end
+    respond_to do |format|
+      format.json  { render json: msg }
+    end
+  end
+
+  def get_submission
+    submission = Submission.by_id(params['submission_id']).first
+    if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
+      msg = { error: "wrong submission id"}
+    else
+      msg = { lang_name: submission.language[:name] , language: submission.language[:lang_code], user_source_code: submission[:user_source_code] }
     end
     respond_to do |format|
       format.json  { render json: msg }

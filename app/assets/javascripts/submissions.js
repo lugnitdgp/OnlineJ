@@ -1,5 +1,18 @@
 $(document).ready(function() {
   $("time.timeago").timeago();
+  $('.datatable-submission').DataTable({
+     "bFilter": false,
+     "bInfo": false,
+     "bPaginate": false,
+     "bAutoWidth": false,
+     "bScrollCollapse": true,
+     "fnInitComplete": function() {
+        this.css("visibility", "visible");
+      },
+     "bLengthChange": false,
+     "targets": 'no-sort', "bSort": false, "order": []
+    });
+
   $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)
   });
@@ -38,9 +51,49 @@ $(document).ready(function() {
         }
       },
       error: function(data){
-        console.log(data);
+        setTimeout( function(){
+          get_submission_data(element)
+        }, 5000);
       },
       type: 'GET'
     });
   }
+
+  get_submission_button = $('.submission-btn').click(function(event) {
+    submission_id = ($(this).children().attr('data-get-id'));
+    user = $(this).siblings('.user').text();
+    problem = $(this).siblings('.problem').text();
+    $('#submission_modal .modal-title').text("Submission for "+problem)
+    $('#submission_modal').modal();
+    $.ajax({
+      url: '/get_submission',
+      data: {
+        "submission_id": submission_id
+      },
+      dataType: 'json',
+      success: function(data){
+        lang = '<span>'+data['language']+'</span>'
+        source_code = '<div>'+data['user_source_code']+'</div>'
+        $('#submission_modal .modal-body').text("");
+        $('#submission_modal .modal-body').append(lang);
+        var cEditor = new CodeMirror(document.getElementById("code-body"), {
+          lineNumbers: true,
+          mode: data['lang_name'],
+          lineWrapping: true,
+          styleActiveLine: true,
+          viewportMargin: Infinity,
+          readOnly: true
+        });
+         cEditor.setValue(data['user_source_code']);
+         setTimeout(function() {
+           cEditor.refresh();
+         }, 300);
+      },
+      error: function(data){
+        $('#submission_modal .modal-body').text("");
+        $('#submission_modal .modal-body').append("error loading");
+      },
+      type: 'GET'
+    });
+  });
 });

@@ -1,7 +1,7 @@
 <div class= "container">
   <div class = "table-responsive">
-    <table class="table table-bordered datatable table-hover " cellspacing="0" width="100%">
-      <thead "success">
+    <table class="table table-bordered datatable-submission table-hover " cellspacing="0" width="100%">
+      <thead >
           <tr>
               <th>User</th>
               <th>Date/Time</th>
@@ -15,14 +15,14 @@
       <tbody>
         <% @Submissions.each_with_index do |submission, index|%>
           <tr>
-              <td><%= @Users[index][:name]%></td>
+              <td class = "user" ><%= @Users[index][:name]%></td>
               <td>
                 <time class ="timeago" datetime="<%= submission[:created_at].localtime.to_datetime%>">
                   <%= submission[:created_at].localtime.to_datetime%>
                 </time>
               </td>
-              <td><%= @Problems[index][:name] %></td>
-              <td data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
+              <td class = "problem"><%= @Problems[index][:name] %></td>
+              <td class="submission_status" data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                 <% ext = '.png' %>
                 <% ext = '.gif' if submission[:status_code] == 'PE' %>
                   <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" />
@@ -38,7 +38,7 @@
               </td>
               <td><%= submission.language[:lang_code]%></td>
               <td class = "submission-btn">
-                <div class="btn btn-primary btn-sm">
+                <div class="btn btn-primary btn-sm" data-get-id="<%= submission[:_id]%>">
                   view
                 </div>
               </td>
@@ -50,4 +50,18 @@
                     pagination_class: "pagination pagination-inverse" %>
 
   </div>
-</div
+</div>
+
+<div class="modal fade" id="submission_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" id= "code-body">
+              Loading ...
+            </div>
+        </div>
+    </div>
+</div>
