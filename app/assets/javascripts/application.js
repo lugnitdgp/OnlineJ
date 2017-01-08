@@ -25,6 +25,17 @@ $(document).ready(function() {
     ,addElement      :  'div'   // e.g. 'svg'(feature)
     ,duration        :  400
   });
+  // $('body').css({
+  //   'font-family': '"Helvetica Neue", Helvetica, "Noto Sans", sans-serif',
+  //   'font-size': '16px'
+  // });
+  $("body").addClass('page-fade-only-init')
+
+	setTimeout(function()
+	{
+		$('body').removeClass('page-fade-only-init page-fade-only');
+
+	}, 2000);
 
   toastr.options = {
     "closeButton": true,

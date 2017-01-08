@@ -1,0 +1,107 @@
+
+  .table thead,
+  .table th {text-align: center;}
+  .table tbody,
+  .table td {text-align: center;}
+  figcaption {height:5px;font-size: 10px;}
+
+  .dataTables_wrapper {
+    border: 1px solid #ebebeb;
+    -webkit-border-radius: 3px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 3px;
+    -moz-background-clip: padding;
+    border-radius: 3px;
+    background-clip: padding-box;
+  }
+  .dataTables_wrapper > div {
+    padding: 10px;
+  }
+  .dataTables_wrapper > div label {
+    margin-bottom: 0;
+    font-weight: normal;
+    color: #949494;
+  }
+
+  .dataTables_wrapper > div.dataTables_filter {
+    padding-top: 15px;
+  }
+
+  .dataTables_wrapper > table.dataTable {
+    border-left: 0;
+    border-right: 0;
+  }
+  .dataTables_wrapper > table.dataTable.no-footer {
+    border-bottom: 1px solid #ebebeb;
+  }
+  .dataTables_wrapper > table.dataTable .sorting_disabled {
+    padding-left: 10px;
+  }
+  .dataTables_wrapper .dataTables_info {
+    padding-top: 18px !important;
+  }
+  table.dataTable thead th {
+    position: relative;
+    background-image: none !important;
+    /* Remove the DataTables bootstrap integration styling */
+  }
+  table.dataTable thead th.sorting:after,
+  table.dataTable thead th.sorting_asc:after,
+  table.dataTable thead th.sorting_desc:after {
+    position: absolute;
+    top: 50% !important;
+    right: 8px;
+    display: block;
+    font-family: Entypo;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  table.dataTable thead th.sorting:after {
+    content: "\e834";
+    color: #ddd;
+    font-size: 0.8em;
+    padding-top: 0.12em;
+    -webkit-transform: translateY(-50%) rotate(90deg);
+    -moz-transform: translateY(-50%) rotate(90deg);
+    -ms-transform: translateY(-50%) rotate(90deg);
+    -o-transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(90deg);
+  }
+  table.dataTable thead th.sorting_asc:after {
+    content: "\e876";
+    -webkit-transform: translateY(-50%) rotate(0deg);
+    -moz-transform: translateY(-50%) rotate(0deg);
+    -ms-transform: translateY(-50%) rotate(0deg);
+    -o-transform: translateY(-50%) rotate(0deg);
+    transform: translateY(-50%) rotate(0deg);
+  }
+  table.dataTable thead th.sorting_desc:after {
+    content: "\e873";
+    -webkit-transform: translateY(-50%) rotate(0deg);
+    -moz-transform: translateY(-50%) rotate(0deg);
+    -ms-transform: translateY(-50%) rotate(0deg);
+    -o-transform: translateY(-50%) rotate(0deg);
+    transform: translateY(-50%) rotate(0deg);
+  }
+  div.dataTables_scrollBody table.dataTable thead th.sorting:after,
+  div.dataTables_scrollBody table.dataTable thead th.sorting_asc:after,
+  div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
+    content: "";
+  }
+  /* In Bootstrap and Foundation the padding top is a little different from the DataTables stylesheet */
+  table.table thead th.sorting:after,
+  table.table thead th.sorting_asc:after,
+  table.table thead th.sorting_desc:after {
+    top: 8px;
+  }
+  table
+  {
+  	border:none !important;
+  	overflow: hidden;
+  	-webkit-box-shadow: 4px 4px 17px 0px rgba(50, 50, 50, 0.24);
+    -moz-box-shadow:    4px 4px 17px 0px rgba(50, 50, 50, 0.24);
+    box-shadow:         4px 4px 17px 0px rgba(50, 50, 50, 0.24);
+  }

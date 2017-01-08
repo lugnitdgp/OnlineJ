@@ -13,12 +13,47 @@
  *= require_self
  *= require bootstrap-md
  *= require flat-ui
+ *= require neon-core
+ *= require white
  *= require rippler
+ *= require custom_datatable
  */
 
- .table thead,
- .table th {text-align: center;}
- .table tbody,
- .table td {text-align: center;}
-  figcaption {height:5px;font-size: 10px;}
-.DataTables_sort_icon { display:none;}
+ body {
+     font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
+     font-size: 15px;
+   }
+
+  body.page-fade-only {
+    background: #303641;
+    -webkit-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    -moz-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    -o-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    -webkit-transform-origin: 50% 30%;
+    -moz-transform-origin: 50% 30%;
+    -ms-transform-origin: 50% 30%;
+    -o-transform-origin: 50% 30%;
+    transform-origin: 50% 30%;
+  }
+  body.page-fade-only > .page-container {
+    -webkit-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    -moz-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    -o-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
+    zoom: 1;
+    filter: alpha(opacity=0);
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+  }
+  body.page-fade-only-init {
+    background: #ffffff;
+  }
+  body.page-fade-only-init > .page-container {
+    zoom: 1;
+    filter: alpha(opacity=100);
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+  }
