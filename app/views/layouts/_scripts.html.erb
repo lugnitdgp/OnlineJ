@@ -25,3 +25,7 @@ $(document).ready(function() {
 <% if @problem_page %>
   <%= javascript_include_tag 'codemirror-load', 'data-turbolinks-track': 'reload' %>
 <% end %>
+<% if @user_page %>
+  <%= javascript_include_tag 'users', 'data-turbolinks-track': 'reload' %>
+<% end %>
+

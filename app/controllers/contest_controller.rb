@@ -1,4 +1,5 @@
 class ContestController < ApplicationController
+  before_action :check
   def index
     @ccode = params[:ccode]
     contest = Contest.by_code(@ccode).first
@@ -36,4 +37,6 @@ class ContestController < ApplicationController
     end
     languages
   end
+
+  
 end
