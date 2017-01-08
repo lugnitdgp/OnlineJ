@@ -5,4 +5,13 @@ class ApplicationController < ActionController::Base
    force_update_url
   	
   end
+  
+  def check
+    if user_signed_in?
+     if current_user.username.blank?
+      redirect_to force_update_url
+     end
+    end
+  end
+
 end

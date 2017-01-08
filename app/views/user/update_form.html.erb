@@ -1,11 +1,9 @@
 
-
   	<%= form_tag("/users/update_form", method: "post") do %>
   		<div class="field">
     		Username<br/>
-    		<%=text_field_tag :username %>
-        <span id="usrres"></span>
-  		</div>
+    		<%=text_field_tag :username %><span id="status"></span>
+        </div>
 
   		Name<br/>
         <%=text_field_tag :name %>

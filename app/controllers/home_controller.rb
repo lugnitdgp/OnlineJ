@@ -10,9 +10,5 @@ class HomeController < ApplicationController
     @Contests << { name: "Past Contests", data: past_contests }
   end
 
-  def check
-    if user_signed_in? && current_user.username.blank?
-      redirect_to force_update_url
-    end
-  end
+  
 end
