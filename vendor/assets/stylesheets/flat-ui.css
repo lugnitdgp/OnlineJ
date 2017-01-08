@@ -349,13 +349,13 @@
 }
 body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.72222;
+  font-size: 15px;
+  line-height: 1.42222;
   color: #34495e;
   background-color: #ffffff;
 }
 a {
-  color: #16a085;
+  color: #34495e;
   text-decoration: none;
   -webkit-transition: .25s;
           transition: .25s;
@@ -2528,10 +2528,10 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   position: relative;
   display: block;
   background: #d6dbdf;
-  color: #ffffff;
+  color: #2c3e50;
   padding: 0;
   display: inline-block;
-  border-radius: 6px;
+  border-radius: 3px;
   word-spacing: -0.5px;
 }
 @media (min-width: 768px) {
@@ -2559,7 +2559,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 }
 .pagination li.active > a,
 .pagination li.active > span {
-  background-color: #1abc9c;
+  background-color: #2c3e50;
   color: #ffffff;
   border-color: #dfe2e5;
 }
@@ -2569,7 +2569,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .pagination li.active > span:hover,
 .pagination li.active > a:focus,
 .pagination li.active > span:focus {
-  background-color: #1abc9c;
+  background-color: #2c3e50;
   color: #ffffff;
   border-color: #dfe2e5;
 }
@@ -2591,12 +2591,12 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .pagination li.active.next > a:focus,
 .pagination li.active.previous > span:focus,
 .pagination li.active.next > span:focus {
-  background-color: #1abc9c;
+  background-color: #2c3e50;
   color: #ffffff;
 }
 .pagination li:first-child > a,
 .pagination li:first-child > span {
-  border-radius: 6px 0 0 6px;
+  border-radius: 3px 0 0 3px;
   border-left: none;
 }
 .pagination li:first-child.previous + li > a,
@@ -2612,14 +2612,14 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .pagination li:last-child > span:hover,
 .pagination li:last-child > a:focus,
 .pagination li:last-child > span:focus {
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 3px 3px 0;
 }
 .pagination li.previous > a,
 .pagination li.next > a,
 .pagination li.previous > span,
 .pagination li.next > span {
   border-right: 2px solid #e4e7ea;
-  font-size: 16px;
+  font-size: 15px;
   min-width: auto;
   padding: 12px 17px;
   background-color: transparent;
@@ -2630,7 +2630,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 }
 .pagination li.disabled > a,
 .pagination li.disabled > span {
-  color: #ffffff;
+  color: #2c3e50;
   background-color: rgba(255, 255, 255, 0.3);
   border-right-color: #dfe2e5;
   cursor: not-allowed;
@@ -2652,12 +2652,12 @@ fieldset[disabled] .input-group-btn .btn-default.active {
     right: 0;
     top: 0;
     z-index: 10;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 3px 3px 0;
   }
   .pagination li.previous {
     left: 0;
     right: auto;
-    border-radius: 6px 0 0 6px;
+    border-radius: 3px 0 0 3px;
   }
 }
 .pagination li > a,
@@ -2666,7 +2666,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   background: transparent;
   border: none;
   border-left: 2px solid #e4e7ea;
-  color: #ffffff;
+  color: #2c3e50;
   font-size: 14px;
   line-height: 16px;
   min-height: 41px;
@@ -2681,12 +2681,12 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .pagination li > span:hover,
 .pagination li > a:focus,
 .pagination li > span:focus {
-  background-color: #1abc9c;
+  background-color: #2c3e50;
   color: #ffffff;
 }
 .pagination li > a:active,
 .pagination li > span:active {
-  background-color: #1abc9c;
+  background-color: #2c3e50;
   color: #ffffff;
 }
 .pagination > .btn.previous,
@@ -2719,7 +2719,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   }
   .pagination > .btn:first-child {
     border-bottom: 2px solid #dfe2e5;
-    border-radius: 6px 0 0;
+    border-radius: 3px 0 0;
   }
   .pagination > .btn:first-child.btn-primary {
     border-bottom-color: #48c9b0;
@@ -3111,11 +3111,11 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 }
 .pagination-dropdown ul li:first-child > a,
 .pagination-dropdown ul li:first-child > span {
-  border-radius: 6px 6px 0 0;
+  border-radius: 3px 3px 0 0;
 }
 .pagination-dropdown ul li:last-child > a,
 .pagination-dropdown ul li:last-child > span {
-  border-radius: 0 0 6px 6px !important;
+  border-radius: 0 0 3px 3px !important;
 }
 .pagination-dropdown ul li > a,
 .pagination-dropdown ul li > span {

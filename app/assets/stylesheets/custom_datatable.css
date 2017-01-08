@@ -5,18 +5,6 @@
   .table td {text-align: center;}
   figcaption {height:5px;font-size: 10px;}
 
-  .dataTables_wrapper {
-    border: 1px solid #ebebeb;
-    -webkit-border-radius: 3px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 3px;
-    -moz-background-clip: padding;
-    border-radius: 3px;
-    background-clip: padding-box;
-  }
-  .dataTables_wrapper > div {
-    padding: 10px;
-  }
   .dataTables_wrapper > div label {
     margin-bottom: 0;
     font-weight: normal;

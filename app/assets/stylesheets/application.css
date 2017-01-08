@@ -19,9 +19,18 @@
  *= require custom_datatable
  */
 
- body {
+   body {
      font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
      font-size: 15px;
+   }
+
+   h4, .h4{
+     font-size: 15px;
+   }
+   .modal-content  {
+       -webkit-border-radius: 3px !important;
+       -moz-border-radius: 3px !important;
+       border-radius: 3px !important;
    }
 
   body.page-fade-only {
@@ -56,4 +65,8 @@
     -webkit-opacity: 1;
     -moz-opacity: 1;
     opacity: 1;
+  }
+
+  .pagination-right{
+    float:right;
   }
