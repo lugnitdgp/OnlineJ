@@ -1,11 +1,10 @@
 class SubmissionController < ApplicationController
-
-  #TODO add handle_unverified_request
+  # TODO: add handle_unverified_request
   def index
     @title = 'Submission'
     @submission_page = true
     query = get_query_from_params(params)
-    @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(25)
+    @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(10)
     @Users = []
     @Contests = []
     @Problems = []
@@ -60,45 +59,46 @@ class SubmissionController < ApplicationController
     end
     submission.save!
     ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
-    flash[:success] = "sucessfully submitted"
+    flash[:success] = 'sucessfully submitted'
     redirect_to(submission_contest_path(ccode)) && return
   end
 
   def get_submission_data
     submission = Submission.by_id(params['submission_id']).first
-    if submission.nil?
-     msg = { error: "bad submission"}
-    else
-      msg = { status_code: submission[:status_code], error_desc: submission[:error_desc],time_taken: submission[:time_taken].to_s }
-    end
+  msg = if submission.nil?
+          { error: 'bad submission' }
+        else
+          { status_code: submission[:status_code], error_desc: submission[:error_desc], time_taken: submission[:time_taken].to_s }
+        end
     respond_to do |format|
-      format.json  { render json: msg }
+      format.json { render json: msg }
     end
   end
 
   def get_submission
     submission = Submission.by_id(params['submission_id']).first
-    if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
-      msg = { error: "wrong submission id"}
-    else
-      msg = { lang_name: submission.language[:name] , language: submission.language[:lang_code], user_source_code: submission[:user_source_code] }
-    end
+    msg = if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
+             { error: 'wrong submission id' }
+          else
+             { lang_name: submission.language[:name], language: submission.language[:lang_code], user_source_code: submission[:user_source_code] }
+          end
     respond_to do |format|
-      format.json  { render json: msg }
+      format.json { render json: msg }
     end
   end
 
   def get_submission_error
     submission = Submission.by_id(params['submission_id']).first
-    if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
-      msg = { error: "wrong submission id"}
-    else
-      msg = { error_desc: submission[:error_desc] }
-    end
+    msg = if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
+            { error: 'wrong submission id' }
+          else
+            { error_desc: submission[:error_desc] }
+          end
     respond_to do |format|
-      format.json  { render json: msg }
+      format.json { render json: msg }
     end
   end
+
   private
 
   def get_query_from_params(params)
