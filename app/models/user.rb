@@ -81,14 +81,15 @@ class User
     user
   end
 
-  private
-
   def fetch_details(auth)
     self.name = auth.info.name
     self.email = auth.info.email
     ## TODO add image for the user
     # self.photo = URI.parse(auth.info.image)
   end
+
+  private
+
 
   def create_user_data
     system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:email]}"
