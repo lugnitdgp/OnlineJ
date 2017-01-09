@@ -25,7 +25,7 @@
                     <%= submission[:created_at].localtime.to_datetime%>
                   </time>
                 </td>
-                <td class = "problem"><%= @Problems[index][:name] %></td>
+                <td class = "problem"><%= @Problems[index][:code] %></td>
                 <td class="submission_status" data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                   <% ext = '.png' %>
                   <% ext = '.gif' if submission[:status_code] == 'PE' %>
