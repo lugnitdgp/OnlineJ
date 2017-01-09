@@ -1,44 +1,72 @@
 <div class="container">
-  <div class="navbar navbar-inverse" style="border-radius:3px" >
-    <div class="container-fluid">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
+    <li class="active"><%= @title %></li>
+  </ol>
 
-      <div class="navbar-collapse ">
-        <ul class="nav navbar-nav">
-          <li ><a href="javascript:void(0)">
-            <select class="form-control select  select-block" id="mode" style="border-radius:3px">
-              <% @language_hash.each do | language | %>
-                <option style="color: black;" value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
-              <% end %>
-            </select>
-          </a>
-        </li>
-          <li class="dropdown">
-            <button class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" type="button" style="margin-top:24%;">
-            <i class="material-icons " style=" font-size: 24px;">settings</i>
-            </button>
-            <ul class="dropdown-menu" role="menu" id="theme" style="background-color:#e5e9ea;">
-              <li value="default"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Default</a></li>
-              <li value="material"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Material</a></li>
-              <li value="mdn-like"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">MDN-like</a></li>
-              <li value="monokai"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Monokai</a></li>
-              <li value="solarized dark"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Dark</a></li>
-              <li value="solarized light"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Light</a></li>
-              <li >
-                <a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);" id="autocomplete">
-                  <div class="bootstrap-switch-square">
-                    <label for="complete" >autocomplete</label>
-                    <input id="complete" type="checkbox" data-toggle="switch" >
-                  </div>
+  <div class="panel panel-default panel-shadow">
+    <div class="panel-heading" >
+      <h3 class="panel-title"><%= @title %></h3>
+      <span><%= @pcode %><span>
+        <% if user_signed_in? %>
+          <div class="text-right pull-up">
+            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}" %> class="btn btn-primary">All Submissions</a>
+            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}/user/"+current_user._id %> class="btn btn-primary ">My Submissions</a>
+          </div>
+        <% end %>
+    </div>
+    <div class="panel-body">
+      <h5> Problem Statement </h5>
+      <p><%=@statement.html_safe%></p>
+      <blockquote>
+          <p>Time limit <%= @time_limit.to_s%>s</p>
+          <p>Source limit <%= @source_limit.to_s%> bytes</p>
+	    </blockquote>
+      <% if user_signed_in? %>
+        <div class="navbar navbar-inverse" style="border-radius:3px" >
+          <div class="container-fluid">
+
+            <div class="navbar-collapse ">
+              <ul class="nav navbar-nav">
+                <li ><a href="javascript:void(0)">
+                  <select class="form-control select  select-block" id="mode" style="border-radius:3px">
+                    <% @language_hash.each do | language | %>
+                      <option style="color: black;" value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
+                    <% end %>
+                  </select>
                 </a>
               </li>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <button class="btn btn-primary rippler rippler-default" id="submit_code" style="margin-top:10%; border-radius:3px; padding-left:40px;padding-right:40px" >Submit</button>
-      </div>
-    </ul>
+                <li class="dropdown">
+                  <button class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" type="button" style="margin-top:24%;">
+                  <i class="material-icons " style=" font-size: 24px;">settings</i>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" id="theme" style="background-color:#e5e9ea;">
+                    <li value="default"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Default</a></li>
+                    <li value="material"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Material</a></li>
+                    <li value="mdn-like"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">MDN-like</a></li>
+                    <li value="monokai"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Monokai</a></li>
+                    <li value="solarized dark"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Dark</a></li>
+                    <li value="solarized light"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Light</a></li>
+                    <li >
+                      <a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);" id="autocomplete">
+                        <div class="bootstrap-switch-square">
+                          <label for="complete" >autocomplete</label>
+                          <input id="complete" type="checkbox" data-toggle="switch" >
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <button class="btn btn-primary rippler rippler-default" id="submit_code" style="margin-top:10%; border-radius:3px; padding-left:40px;padding-right:40px" >Submit</button>
+            </div>
+          </ul>
+          </div>
+          <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
+        </div>
+      <% end %>
     </div>
-    <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
   </div>
 </div>

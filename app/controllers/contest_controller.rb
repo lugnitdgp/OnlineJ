@@ -21,12 +21,19 @@ class ContestController < ApplicationController
     @ccode = params[:ccode]
     @pcode = params[:pcode]
     problem = Problem.by_code(@pcode).first
+    if problem.nil?
+      render(file: 'public/404.html', status: :not_found, layout: false) && return
+    end
+    @cname = problem.contest[:cname]
     @title = problem[:pname]
     @statement = problem[:statement]
     @setter_name = problem.setter.user[:name]
     @setter_username = problem.setter.user[:username]
     @language_hash = get_language_data(problem, name: 'name', lang: 'lang_code')
     @score = problem[:max_score]
+    @time_limit = problem[:time_limit]
+    @memory_limit = problem[:memory_limit]
+    @source_limit = problem[:source_limit]
   end
 
   private
