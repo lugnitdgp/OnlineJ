@@ -35,8 +35,8 @@ $(document).ready(function() {
 	{
 		$('body').removeClass('page-fade-only-init page-fade-only');
 
-	}, 2000);
-
+	}, 500);
+  $('.dropdown-toggle').dropdown();
   toastr.options = {
     "closeButton": true,
     "debug": false,
@@ -54,15 +54,16 @@ $(document).ready(function() {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   }
-  $('.datatable').DataTable({
-     "bFilter": false,
-     "bInfo": false,
-     "bPaginate": false,
-     "bAutoWidth": false,
-     "bScrollCollapse": true,
-     "fnInitComplete": function() {
-        this.css("visibility", "visible");
-      },
-     "bLengthChange": false,
-    });
+
+  // $('.datatable').DataTable({
+  //    "bFilter": false,
+  //    "bInfo": false,
+  //    "bPaginate": false,
+  //    "bAutoWidth": false,
+  //    "bScrollCollapse": true,
+  //    "fnInitComplete": function() {
+  //       this.css("visibility", "visible");
+  //     },
+  //    "bLengthChange": false,
+  //   });
 });

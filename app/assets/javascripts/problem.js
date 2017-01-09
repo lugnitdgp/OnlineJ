@@ -1,6 +1,5 @@
 $(document).on('turbolinks:load', function() {
 
-  $('.dropdown-toggle').dropdown();
   var cEditor = new CodeMirror(document.getElementById("code_editor"), {
     lineNumbers: true,
     extraKeys: null,

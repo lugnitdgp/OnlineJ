@@ -85,8 +85,7 @@
   table.table thead th.sorting_desc:after {
     top: 8px;
   }
-  table
-  {
+  table{
   	border:none !important;
   	overflow: hidden;
   	-webkit-box-shadow: 4px 4px 17px 0px rgba(50, 50, 50, 0.24);

@@ -1,4 +1,19 @@
-<div class= "container page-container">
+<div class= "container ">
+
+  <ol class="breadcrumb bc-1">
+      <li> <a href="/"></i>Home</a> </li>
+      <li class="active"> <a href="/submissions"><%= @title %> </a> </li>
+      <% unless @cname.nil? %>
+          <li class="active"> <a href=<%="/contests/#{@ccode}/"%>><%= @cname %></a> </li>
+      <% end %>
+      <% unless @pname.nil? %>
+          <li class="active"> <a href=<%="/contests/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
+      <% end %>
+      <% unless @username.nil? %>
+          <li class="active"> <a href=""><i class="fa-user"></i><%= @username %></a></li>
+      <% end %>
+  </ol>
+
   <div class = "panel panel-default panel-shadow">
     <div class="panel-heading">
       <div class="panel-title">Submissions</div>
@@ -42,7 +57,7 @@
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-btn">
-                  <div class="btn btn-primary btn-sm" data-get-id="<%= submission[:_id]%>">
+                  <div class="btn btn-inverse btn-sm rippler rippler-default" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </div>
                 </td>
@@ -69,7 +84,7 @@
               Loading ...
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-inverse rippler rippler-default btn-sm" data-dismiss="modal" style="border-radius:3px">Close</button>
             </div>
         </div>
     </div>

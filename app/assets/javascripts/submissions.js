@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  $("time.timeago").timeago();
   $('.datatable-submission').DataTable({
      "bFilter": false,
      "bInfo": false,
@@ -12,7 +11,10 @@ $(document).ready(function() {
      "bLengthChange": false,
      "targets": 'no-sort', "bSort": false, "order": []
     });
+});
 
+$(document).on('turbolinks:load', function() {
+  $("time.timeago").timeago();
   $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)
   });
