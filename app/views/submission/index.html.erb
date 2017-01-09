@@ -1,4 +1,19 @@
 <div class= "container ">
+
+  <ol class="breadcrumb bc-1">
+      <li> <a href="/"></i>Home</a> </li>
+      <li class="active"> <a href="/submissions"><%= @title %> </a> </li>
+      <% unless @cname.nil? %>
+          <li class="active"> <a href=<%="/contests/#{@ccode}/"%>><%= @cname %></a> </li>
+      <% end %>
+      <% unless @pname.nil? %>
+          <li class="active"> <a href=<%="/contests/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
+      <% end %>
+      <% unless @username.nil? %>
+          <li class="active"> <a href=""><i class="fa-user"></i><%= @username %></a></li>
+      <% end %>
+  </ol>
+
   <div class = "panel panel-default panel-shadow">
     <div class="panel-heading">
       <div class="panel-title">Submissions</div>

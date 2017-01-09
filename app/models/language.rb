@@ -9,4 +9,5 @@ class Language
   has_many :submissions
 
   scope :by_name, -> (name){ where(name: name) }
+  scope :by_lang_code, -> (lang_code){ where(lang_code: lang_code) }
 end
