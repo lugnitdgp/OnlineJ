@@ -1,19 +1,5 @@
-$(document).ready(function() {
-  $('.datatable-submission').DataTable({
-     "bFilter": false,
-     "bInfo": false,
-     "bPaginate": false,
-     "bAutoWidth": false,
-     "bScrollCollapse": true,
-     "fnInitComplete": function() {
-        this.css("visibility", "visible");
-      },
-     "bLengthChange": false,
-     "targets": 'no-sort', "bSort": false, "order": []
-    });
-});
-
 $(document).on('turbolinks:load', function() {
+  $.timeago.settings.allowFuture = true;
   $("time.timeago").timeago();
   $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)

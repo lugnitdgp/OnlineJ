@@ -8,9 +8,9 @@ $(document).on('turbolinks:load', function() {
     viewportMargin: Infinity,
     matchBrackets: true
   });
-  height = $('.container').width();
+  height = $('.container-fluid').width();
   cEditor.setSize(height-2,400);
-
+  cEditor.refresh();
   $('#mode').change(function(event) {
     cEditor.setOption("mode",event.val);
   });
