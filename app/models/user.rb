@@ -51,6 +51,7 @@ class User
   has_many :submissions
 
   scope :by_id, ->(id) { where(_id: id) }
+  scope :by_username, ->(username) { where(username: username) }
 
   before_create :create_user_data
   after_destroy :delete_user_data
