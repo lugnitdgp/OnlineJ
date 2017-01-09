@@ -9,6 +9,8 @@ class UserController < ApplicationController
 
   def update_form
     @user_page = true
+    @user = []
+    @user << {name: current_user.name, username: current_user.username, college: current_user.college}
   end
 
   def save_update

@@ -102,7 +102,7 @@ class SubmissionController < ApplicationController
   private
 
   def get_query_from_params(params)
-    user_id = params[:user_id]
+    username = params[:username]
     @ccode = params[:ccode]
     @pcode = params[:pcode]
     query = {}
@@ -126,11 +126,12 @@ class SubmissionController < ApplicationController
         end
       end
     end
-    unless user_id.nil?
-      user = User.by_id(user_id).first
+    unless username.nil?
+      user = User.by_username(username).first
       if user.nil?
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
+        user_id = user.id
         @username = user[:name]
         query.merge! ({ user_id: user_id })
       end
