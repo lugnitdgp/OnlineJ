@@ -1,10 +1,10 @@
 <%= javascript_include_tag 'later', 'data-turbolinks-track': 'reload'%>
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js", 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/jquery.dataTables.min.js", 'data-turbolinks-track': 'reload'%>
-<!-- <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.min.js", 'data-turbolinks-track': 'reload' %> -->
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.3/jquery.timeago.min.js', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.min.js", 'data-turbolinks-track': 'reload' %>
 <!-- <%= javascript_include_tag "https://cdn.jsdelivr.net/toastr/2.1.3/toastr.min.js", 'data-turbolinks-track': 'reload' %> -->
 <% if @submission_page %>
-<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.3/jquery.timeago.min.js', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'submissions', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.js', 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/python/python.min.js', 'data-turbolinks-track': 'reload' %>

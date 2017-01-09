@@ -26,7 +26,7 @@
           <a href="#" class="dropdown-toggle rippler rippler-default" data-toggle="dropdown">User <b class="caret"></b></a>
           <span class="dropdown-arrow"></span>
           <ul class="dropdown-menu">
-            <!-- <li class="<%= "active" if @profile_page%>"><a href="/users/profile"+<%= current_user[:username]%>>Profile</a></li> -->
+            <li class="<%= "active" if @profile_page%>"><a href=<%= "/users/profile/#{current_user[:username]}"%>>Profile</a></li>
             <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
           </ul>
         </li>

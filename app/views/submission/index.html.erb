@@ -10,7 +10,7 @@
           <li class="active"> <a href=<%="/contests/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
       <% end %>
       <% unless @username.nil? %>
-          <li class="active"> <a href=""><i class="fa-user"></i><%= @username %></a></li>
+          <li class="active"> <a href= <%="/users/profile/#{@username}"%>><%= @uname %></a></li>
       <% end %>
   </ol>
 
@@ -57,7 +57,13 @@
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-btn">
-                  <div class="btn btn-inverse btn-sm rippler rippler-default" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
+                  <% perm = "disabled" %>
+                  <% if user_signed_in? %>
+                    <% if @Users[index][:user_id] == current_user[:_id] || current_user.admin == true %>
+                      <% perm = "" %>
+                    <% end %>
+                  <% end %>
+                  <div class="btn btn-inverse btn-sm rippler rippler-default <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </div>
                 </td>
