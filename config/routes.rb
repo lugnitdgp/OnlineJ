@@ -1,13 +1,9 @@
 Rails.application.routes.draw do
-  get '/users/update' => 'user#update', as: 'force_update'
-  get '/users/update_form' => 'user#update_form' 
-  post '/users/update_form' => 'user#save_update'
-  get '/users/profile' => 'user#profile'
-  post '/users/checkusr' => 'user#checkusr'
-
   require 'sidekiq/web'
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, lambda { |user| user.admin? } do
+      mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+      mount Sidekiq::Web => '/sidekiq'
+  end
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root :to => 'home#index'
@@ -23,4 +19,9 @@ Rails.application.routes.draw do
   get 'get_submission_data' => 'submission#get_submission_data', as: 'get_submission_data'
   get 'get_submission' => 'submission#get_submission', as: 'get_submission'
   get 'get_submission_error' => 'submission#get_submission_error', as: 'get_submission_error'
+  get '/users/update' => 'user#update', as: 'force_update'
+  get '/users/update_form' => 'user#update_form'
+  post '/users/update_form' => 'user#save_update'
+  get '/users/profile' => 'user#profile'
+  post '/users/checkusr' => 'user#checkusr'
 end
