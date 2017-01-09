@@ -29,10 +29,14 @@
                   <%= link_to contest_data[:ccode], contest_path(contest_data[:ccode]) %>
                 </td>
                 <td>
-                  <%= contest_data[:start_time].localtime %>
+                  <time class ="timeago" datetime="<%= contest_data[:start_time].localtime.to_datetime%>">
+                    <%= contest_data[:start_time].localtime.to_datetime%>
+                  </time>
                 </td>
                 <td>
-                  <%= contest_data[:end_time].localtime %>
+                  <time class ="timeago" datetime="<%= contest_data[:end_time].localtime.to_datetime%>">
+                    <%= contest_data[:end_time].localtime.to_datetime%>
+                  </time>
                 </td>
               </tr>
               <% end %>
@@ -43,3 +47,21 @@
     <% end %>
   <% end %>
 </div>
+<script charset="utf-8">
+  $(document).ready(function() {
+    $('.dataTable').DataTable({
+      //  "bFilter": false,
+      "bInfo": false,
+      aLengthMenu: [
+          [10, 25, 50, 100, -1],
+          [10, 25, 50, 100, "All"]
+      ],
+      "bScrollCollapse": true,
+      "fnInitComplete": function() {
+         this.css("visibility", "visible");
+       },
+      "bLengthChange": false,
+      "paging": false
+     })
+  });
+</script>

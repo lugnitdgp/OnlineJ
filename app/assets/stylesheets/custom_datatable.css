@@ -48,7 +48,7 @@
     transform: translateY(-50%);
   }
   table.dataTable thead th.sorting:after {
-    content: "\e834";
+    content: "\e606";
     color: #ddd;
     font-size: 0.8em;
     padding-top: 0.12em;
@@ -59,20 +59,20 @@
     transform: translateY(-50%) rotate(90deg);
   }
   table.dataTable thead th.sorting_asc:after {
-    content: "\e876";
-    -webkit-transform: translateY(-50%) rotate(0deg);
-    -moz-transform: translateY(-50%) rotate(0deg);
-    -ms-transform: translateY(-50%) rotate(0deg);
-    -o-transform: translateY(-50%) rotate(0deg);
-    transform: translateY(-50%) rotate(0deg);
+    content: "\e607";
+    -webkit-transform: translateY(-50%) rotate(90deg);
+    -moz-transform: translateY(-50%) rotate(90deg);
+    -ms-transform: translateY(-50%) rotate(90deg);
+    -o-transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(90deg);
   }
   table.dataTable thead th.sorting_desc:after {
-    content: "\e873";
-    -webkit-transform: translateY(-50%) rotate(0deg);
-    -moz-transform: translateY(-50%) rotate(0deg);
-    -ms-transform: translateY(-50%) rotate(0deg);
-    -o-transform: translateY(-50%) rotate(0deg);
-    transform: translateY(-50%) rotate(0deg);
+    content: "\e606";
+    -webkit-transform: translateY(-50%) rotate(90deg);
+    -moz-transform: translateY(-50%) rotate(90deg);
+    -ms-transform: translateY(-50%) rotate(90deg);
+    -o-transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(90deg);
   }
   div.dataTables_scrollBody table.dataTable thead th.sorting:after,
   div.dataTables_scrollBody table.dataTable thead th.sorting_asc:after,

@@ -5,18 +5,8 @@
 
 
 $(document).on('turbolinks:load', function() {
-  $('.datatable').DataTable({
-     "bFilter": false,
-     "bInfo": false,
-     "bPaginate": false,
-     "bAutoWidth": false,
-     "bScrollCollapse": true,
-     "fnInitComplete": function() {
-        this.css("visibility", "visible");
-      },
-     "bLengthChange": false,
-    });
-
+    $.timeago.settings.allowFuture = true;
+    $("time.timeago").timeago();
     $("body").addClass('page-fade-only-init')
 
     setTimeout(function()

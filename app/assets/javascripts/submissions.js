@@ -1,6 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  $.timeago.settings.allowFuture = true;
-  $("time.timeago").timeago();
   $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)
   });
@@ -48,6 +46,9 @@ $(document).on('turbolinks:load', function() {
   }
 
   $('.submission-btn').click(function(event) {
+    if ( $(this).children().hasClass('disabled')) {
+      return;
+    }
     submission_id = ($(this).children().attr('data-get-id'));
     user = $(this).siblings('.user').text();
     problem = $(this).siblings('.problem').text();
@@ -88,6 +89,9 @@ $(document).on('turbolinks:load', function() {
   });
 
   $('.submission_status').click(function(event) {
+    if ( $(this).children().hasClass('disabled')) {
+      return;
+    }
     submission_id = $(this).attr('data-id');
     status = $(this).attr('data-status');
     problem = $(this).siblings('.problem').text();
