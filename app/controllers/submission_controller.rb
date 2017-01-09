@@ -103,10 +103,10 @@ class SubmissionController < ApplicationController
 
   def get_query_from_params(params)
     puts params
-    user_id = params[:user_id]
+    username = params[:username]
+    query = {}
     ccode = params[:ccode]
     pcode = params[:pcode]
-    query = {}
     unless ccode.nil?
       contest = Contest.by_code(ccode).first
       if contest.nil?
@@ -120,16 +120,18 @@ class SubmissionController < ApplicationController
           if problem.nil?
             render(file: 'public/404.html', status: :not_found, layout: false) && return
           else
-            query.merge! ({ problem_id: pcode })
+            problem_id = Problem.by_code(pcode).first.id
+            query.merge! ({ problem_id: problem_id })
           end
         end
       end
     end
-    unless user_id.nil?
-      user = User.by_id(user_id).first
+    unless username.nil?
+      user = User.by_username(username).first
       if user.nil?
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
+        user_id = user.id
         query.merge! ({ user_id: user_id })
       end
     end
