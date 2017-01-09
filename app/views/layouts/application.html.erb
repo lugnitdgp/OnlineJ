@@ -6,8 +6,9 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="page-body page-fade-only" style="font-size: 15px;font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;">
+  <body class="page-body page-fade-only" style="font-size: 15px; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans', sans-serif;">
     <div class="page-container">
+      <%= render partial: 'layouts/nav' %>
       <div class="main-content">
         <%= yield %>
       </div>

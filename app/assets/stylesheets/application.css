@@ -13,8 +13,8 @@
  *= require_self
  *= require bootstrap-md
  *= require flat-ui
- *= require neon-core
- *= require white
+ * require neon-core
+ *= require navbar
  *= require rippler
  *= require custom_datatable
  */
@@ -23,18 +23,27 @@
      font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif;
      font-size: 15px;
    }
-
    h4, .h4{
      font-size: 15px;
    }
+
    .modal-content  {
        -webkit-border-radius: 3px !important;
        -moz-border-radius: 3px !important;
        border-radius: 3px !important;
    }
 
+   dbody.page-fade-only:before {
+
+   }
   body.page-fade-only {
     background: #303641;
+    content:url(/icons/preloader.gif);
+    width:50px;
+    height:50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     -webkit-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
     -moz-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
     -o-transition: 900ms all cubic-bezier(0.445, 0.050, 0.550, 0.950);
@@ -67,6 +76,6 @@
     opacity: 1;
   }
 
-  .pagination-right{
-    float:right;
-  }
+ .pagination-right{
+   float:right;
+ }
