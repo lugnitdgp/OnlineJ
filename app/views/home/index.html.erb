@@ -29,10 +29,10 @@
                   <%= link_to contest_data[:ccode], contest_path(contest_data[:ccode]) %>
                 </td>
                 <td>
-                  contest_data[:start_time]
+                  <%= contest_data[:start_time].localtime %>
                 </td>
                 <td>
-                  contest_data[:end_time]
+                  <%= contest_data[:end_time].localtime %>
                 </td>
               </tr>
               <% end %>
