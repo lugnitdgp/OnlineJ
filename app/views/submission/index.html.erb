@@ -2,7 +2,7 @@
 
   <ol class="breadcrumb bc-1">
       <li> <a href="/"></i>Home</a> </li>
-      <li class="active"> <a href="/submissions"><%= @title %> </a> </li>
+      <li class="active"> <a href="/submission"><%= @title %> </a> </li>
       <% unless @cname.nil? %>
           <li class="active"> <a href=<%="/contests/#{@ccode}/"%>><%= @cname %></a> </li>
       <% end %>

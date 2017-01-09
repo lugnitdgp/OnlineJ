@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   get '/users/update_form' => 'user#update_form'
   post '/users/update_form' => 'user#save_update'
   get '/users/profile/:username' => 'user#profile'
-  post '/users/checkusr' => 'user#checkusr'
+  post '/users/checkuser' => 'user#checkuser'
 end
