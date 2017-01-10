@@ -3,6 +3,7 @@ class SubmissionController < ApplicationController
   def index
     @title = 'Submission'
     @submission_page = true
+    @submission_page = true
     query = get_query_from_params(params)
     @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(10)
     @Users = []

@@ -27,6 +27,7 @@
           <span class="dropdown-arrow"></span>
           <ul class="dropdown-menu">
             <li class="<%= "active" if @profile_page%>"><a href=<%= "/users/profile/#{current_user[:username]}"%>>Profile</a></li>
+            <li class="<%="active" if @submission_page%>"><a href=<%= "/submission/user/#{current_user[:username]}"%>>Submission History </a></li>
             <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
           </ul>
         </li>
