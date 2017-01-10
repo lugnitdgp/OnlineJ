@@ -1,18 +1,26 @@
-  	<%= form_tag("/users/update_form", method: "post") do %>
-  		<div class="field">
+<h6 style="color:#ffffff; background-color: orange; padding:10px">Fill in the details to proced</h6>
+  	<div style="padding:0.7%">
+    <%= form_tag("/users/update_form", method: "post") do %>
+  		<div class="input-group ">
     		Username<br/>
-        
-    		<%=text_field_tag :username,''%><span id="status"></span>
+        <%if @user.first[:username].nil? || @user.first[:username].blank?%>
+          <input type="text" name="username" id="username" class="form-control"  /><br/>
+        <%else%>
+          <input type="text" name="username" class="form-control"  value="<%=@user.first[:username]%>"  disabled/><br/>
+        <%end%>
+        <span id="status"></span>
         </div>
+        <br/>
 
-  		Name<br/>
-        <%=text_field_tag :name  %>
+  		<div class="input-group">
+      Name<br/>
+        <input type="text" name="name" class="form-control" value="<%=@user.first[:name]%>" />
       </div>
-
-  		<div class="field">
+      <br/>
+  		<div class="input-group">
     		College<br />
-    		<%= text_field_tag :college  %>
+    		<input type="text" name="college" class="form-control" value="<%=@user.first[:college]%>" />
   		</div>
-
-  		<%=submit_tag("Fill") %>
+      <br/>
+  		<%=submit_tag "Fill",class: "btn btn-info"%>
    	<% end %>

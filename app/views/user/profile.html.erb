@@ -1,15 +1,35 @@
+<div style="color:#ffffff; padding:0.7%;background-color: #4b4879;margin:0">
 <h1><%=@user.first[:name]%>'s Profile</h1>
 <h8>@<%=@user.first[:username]%></h8>
+<span class="glyphicon glyphicon-education" ></span>
 <p><%=@user.first[:college]%></p>
+</div>
+<hr size="20"/>
+
+<h4>Recent Submissions</h4>
+<a href="/submission/user/<%=@user.first[:username]%>">Click Here</a>
 <hr/>
 
-<h4>Solved Problems</h4>
-<table class="table-condensed table-bordered">
-	<tr><td>Contest</td><td>Problems</td></tr>
-<%@solved_problem.each do |s|%>
-	<tr>
-	<td align="center"><%=s[:contest_code]%></td>
-	<td align="center"><a href="/contest/<%=s[:contest_code]%>/<%= s[:problem_code]%>"><%= s[:problem_code]%></a></td>
-	</tr>
-<%end%>
-</table>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class = "panel panel-success panel-shadow">
+				<div class="panel-heading">
+         		 <div class="panel-title">Solved Problems</div>
+        		</div>
+				<table class="table table-bordered" >
+				<tr>
+				<th style="color:#ffffff; background-color: #2c3e50">Contest</th>
+				<th style="color:#ffffff; background-color: #2c3e50">Problems</th>
+				</tr>
+				<%@solved_problem.each do |s|%>
+					<tr>
+					<td align="center"><%=s[:contest_code]%></td>
+					<td align="center"><a href="/contest/<%=s[:contest_code]%>/<%= s[:problem_code]%>"><%= s[:problem_code]%></a></td>
+					</tr>
+				<%end%>
+				</table>
+			</div>	
+		</div>
+	</div>
+</div>

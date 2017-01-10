@@ -25,9 +25,9 @@ class UserController < ApplicationController
     user = User.by_username(username).first
     data = {}
     data[:status] = if user.nil?
-                      'OK'
+                     'OK You can go with that'
                     else
-                      'fail'
+                     'Please try another username'
                     end
     respond_to do |format|
       format.json { render json: data }
