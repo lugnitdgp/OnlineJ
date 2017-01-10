@@ -3,6 +3,7 @@ class ContestController < ApplicationController
   def index
     @ccode = params[:ccode]
     contest = Contest.by_code(@ccode).first
+    @announcements = contest.announcements
     if contest.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end

@@ -44,7 +44,21 @@
       </table>
     </div>
   </div>
+ <%unless @announcements.blank?%>
   <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Announcements</h3>
+    </div>
+    <div class="panel-body">
+     <ul>
+      <%@announcements.each do |announcement|%>
+        <li><%=announcement.announcement%></li>
+      <%end%>
+    </ol>  
+    </div>
+  </div>
+ <%end%> 
+  <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">Description</h3>
     </div>
