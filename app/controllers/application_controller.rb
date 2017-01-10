@@ -5,8 +5,10 @@ class ApplicationController < ActionController::Base
   end
 
   def check
-    if user_signed_in?
-      redirect_to force_update_url if current_user.username.blank?
+    if user_signed_in? 
+      if (current_user.username.blank? || current_user.college.blank?)
+        redirect_to force_update_url
+      end
     end
   end
 end
