@@ -4,10 +4,10 @@
       <li> <a href="/"></i>Home</a> </li>
       <li class="active"> <a href="/submission"><%= @title %> </a> </li>
       <% unless @cname.nil? %>
-          <li class="active"> <a href=<%="/contests/#{@ccode}/"%>><%= @cname %></a> </li>
+          <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
       <% end %>
       <% unless @pname.nil? %>
-          <li class="active"> <a href=<%="/contests/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
+          <li class="active"> <a href=<%="/contest/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
       <% end %>
       <% unless @username.nil? %>
           <li class="active"> <a href= <%="/users/profile/#{@username}"%>><%= @uname %></a></li>
@@ -33,6 +33,12 @@
         </thead>
         <tbody>
           <% @Submissions.each_with_index do |submission, index|%>
+              <% perm = "disabled" %>
+              <% if user_signed_in? %>
+                <% if @Users[index][:user_id] == current_user[:_id] || current_user.admin == true %>
+                  <% perm = "" %>
+                <% end %>
+              <% end %>
             <tr>
                 <td class = "user" ><%= @Users[index][:name]%></td>
                 <td>
@@ -41,10 +47,10 @@
                   </time>
                 </td>
                 <td class = "problem"><%= @Problems[index][:code] %></td>
-                <td class="submission_status" data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
+                <td class="submission_status " data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                   <% ext = '.png' %>
                   <% ext = '.gif' if submission[:status_code] == 'PE' %>
-                    <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" />
+                    <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" class="<%= perm %>"/>
                       <figcaption><%= submission[:status_code] if submission[:status_code] != 'RTE'%></figcaption>
                       <figcaption><%= submission[:error_desc] if submission[:status_code] == 'RTE'%></figcaption>
                 </td>
@@ -57,12 +63,6 @@
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-btn">
-                  <% perm = "disabled" %>
-                  <% if user_signed_in? %>
-                    <% if @Users[index][:user_id] == current_user[:_id] || current_user.admin == true %>
-                      <% perm = "" %>
-                    <% end %>
-                  <% end %>
                   <div class="btn btn-inverse btn-sm rippler rippler-default <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </div>
