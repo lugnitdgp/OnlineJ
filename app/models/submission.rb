@@ -8,6 +8,7 @@ class Submission
   field :user_source_code,              type: String, default: ''
   field :error_desc,                    type: String, default: ''
   field :time_taken,                    type: Float
+  field :job_id,                        type: String, default: ''
   # TODO: add memory_limit
 
   belongs_to :user, counter_cache: true

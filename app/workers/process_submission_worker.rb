@@ -1,5 +1,6 @@
 class ProcessSubmissionWorker
   include Sidekiq::Worker
+  include Sidekiq::Status::Worker
   sidekiq_options unique: :until_executed, queue: :default, retry: 5
 
   def perform(args)
@@ -41,6 +42,8 @@ class ProcessSubmissionWorker
       return # TODO: do something
     end
 
+    at 0, "Compiling"
+
     pid = Process.spawn(compilation, chdir: submission_path)
     _, status = Process.wait2(pid)
     if !status.exited? || status.exitstatus != 0
@@ -50,11 +53,15 @@ class ProcessSubmissionWorker
         compile_log = 'compilation Error'
       end
       submission.update!(status_code: 'CE', error_desc: compile_log)
+      at 100 , "done"
       return
     end
 
     time_taken = 0
-    testcases.each do |testcase|
+    count = testcases.count
+    percentage = (100/count).to_i
+    testcase_count = 0
+    testcases.each_with_index do |testcase, index|
       execution = nil
       if lang_code == 'c' ||  lang_code == 'c++'
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{testcase[:name]}/testcase_output"
@@ -69,6 +76,9 @@ class ProcessSubmissionWorker
       judge_usage = File.read(submission_path+'usage_log')
       @judge_data = judge_usage.split("\n")
       time_taken += @judge_data[@judge_data.size-1].to_f
+
+      testcase_count += percentage
+      at testcase_count, "judging (#{index+1})"
       if @judge_data[0] == 'AC'
         user_output = submission_path + "#{testcase[:name]}/testcase_output"
         code_output = problem_path + "#{testcase[:name]}/testcase_output"

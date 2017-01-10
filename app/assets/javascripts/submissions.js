@@ -12,14 +12,18 @@ $(document).on('turbolinks:load', function() {
       },
       dataType: 'json',
       success: function(data){
+        console.log(data['pe_status']);
         if( data['status_code'] == 'PE'){
           setTimeout( function(){
             get_submission_data(element)
-          }, 5000);
+          }, 3000);
         }
         else {
           img = '';
           status = '<figcaption>'+data['status_code']+'</figcaption>';
+          if ( data['status_code'] == 'PE'){
+            status = '<figcaption>'+data['pe_status']+'</figcaption>';
+          }
           if( data['error_desc'] && data['status_code'] == "RTE") {
             status = '<figcaption>'+data['error_desc']+'</figcaption>';
           }
@@ -27,7 +31,6 @@ $(document).on('turbolinks:load', function() {
             img = '<img src="/icons/CE.png" alt="CE" width="25" height="25" />';
           } else {
             img = '<img src="/icons/'+data['status_code']+'.png" alt='+data['status_code']+' width="23" height="23" />';
-            console.log(img);
             $(element).next().text(data['time_taken'])
           }
           $(element).children().remove();

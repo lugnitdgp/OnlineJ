@@ -1,4 +1,6 @@
 class SubmissionController < ApplicationController
+  include Sidekiq::Status::Worker
+
   # TODO: add handle_unverified_request
   def index
     @title = 'Submission'
@@ -11,7 +13,7 @@ class SubmissionController < ApplicationController
     @Submissions.each do |submission|
       user = submission.user
       problem = submission.problem
-      @Users << { name: user[:name], user_id: user[:_id], email: user[:email], college: user[:college] }
+      @Users << { name: user[:name], user_id: user[:_id], email: user[:email], college: user[:college], username: user[:username] }
       @Problems << { name: problem[:pname], code: problem[:pcode] }
       @Contests << submission.problem.contest[:ccode]
     end
@@ -39,7 +41,7 @@ class SubmissionController < ApplicationController
       flash[:error] = 'source limit exceeded'
       redirect_to(problem_path(ccode, pcode)) && return
     end
-    if current_user.nil?
+    unless user_signed_in?
       flash[:alert] = 'Please sign in  Or sign up first'
       redirect_to(new_user_session_path) && return
     end
@@ -58,38 +60,44 @@ class SubmissionController < ApplicationController
       contest.users << current_user
     end
     submission.save!
-    ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
+    job_id = ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
+    submission.update!(job_id: job_id)
     flash[:success] = 'sucessfully submitted'
     redirect_to(submission_contest_path(ccode)) && return
   end
 
+  # TODO: fix 500 error on unauthorized access
+
   def get_submission_data
     submission = Submission.by_id(params['submission_id']).first
-  msg = if submission.nil?
-          { error: 'bad submission' }
-        else
-          { status_code: submission[:status_code], error_desc: submission[:error_desc], time_taken: submission[:time_taken].to_s }
-        end
-    respond_to do |format|
-      format.json { render json: msg }
-    end
-  end
-
-  def get_submission
-    submission = Submission.by_id(params['submission_id']).first
-    msg = if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
-             { error: 'wrong submission id' }
+    msg = if submission.nil?
+            { error: 'bad submission' }
           else
-             { lang_name: submission.language[:name], language: submission.language[:lang_code], user_source_code: submission[:user_source_code] }
+            pe_status = Sidekiq::Status.message submission.job_id
+            { status_code: submission[:status_code], pe_status: pe_status, error_desc: submission[:error_desc], time_taken: submission[:time_taken].to_s }
           end
     respond_to do |format|
       format.json { render json: msg }
     end
   end
 
+  # TODO: add authorization
+  def get_submission
+    submission = Submission.by_id(params['submission_id']).first
+    msg = if submission.nil?
+            { error: 'wrong submission id' }
+          else
+            { lang_name: submission.language[:name], language: submission.language[:lang_code], user_source_code: submission[:user_source_code] }
+          end
+    respond_to do |format|
+      format.json { render json: msg }
+    end
+  end
+
+  # TODO: add authorization
   def get_submission_error
     submission = Submission.by_id(params['submission_id']).first
-    msg = if submission.nil? || (submission.user != current_user && current_user.admin.nil?)
+    msg = if submission.nil?
             { error: 'wrong submission id' }
           else
             { error_desc: submission[:error_desc] }
@@ -132,7 +140,8 @@ class SubmissionController < ApplicationController
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
         user_id = user.id
-        @username = user[:name]
+        @username = user[:username]
+        @uname = user[:name]
         query.merge! ({ user_id: user_id })
       end
     end
