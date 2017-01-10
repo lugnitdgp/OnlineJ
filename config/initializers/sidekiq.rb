@@ -18,3 +18,5 @@ Sidekiq.configure_server do |config|
     chain.add Sidekiq::Status::ClientMiddleware, expiration: 20.minutes # default
   end
 end
+
+Dir[Rails.root.join "app/workers/*.rb"].each { |f| require f }
