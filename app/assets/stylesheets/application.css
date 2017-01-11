@@ -10,10 +10,10 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_self
  *= require bootstrap-md
  *= require flat-ui
  * require neon-core
+ *= require_self
  *= require navbar
  *= require rippler
  *= require custom_datatable
@@ -26,14 +26,34 @@
    h4, .h4{
      font-size: 15px;
    }
+   a{
+     text-decoration:none;
+    }
+    table a, .table a {
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #34495e;
+    }
+    .btn {
+      border-radius:3px;
+    }
 
    .modal-content  {
        -webkit-border-radius: 3px !important;
        -moz-border-radius: 3px !important;
        border-radius: 3px !important;
    }
-
-   dbody.page-fade-only:before {
+   .panel-heading h3, .panel-heading span {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     line-height: normal;
+     width: 75%;
+     padding-top: 8px;
+ }
+   body.page-fade-only:before {
 
    }
   body.page-fade-only {

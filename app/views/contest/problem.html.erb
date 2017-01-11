@@ -12,14 +12,15 @@
 
   <div class="panel panel-default panel-shadow">
     <div class="panel-heading" >
-      <h3 class="panel-title"><%= @title %></h3>
-      <span><%= @pcode %><span>
+      <h3 class="panel-title pull-left"><%= @title %></h3>
+      <span class="panel-title pull-left"><%= @pcode %></span>
+        <div class="text-right pull-up row" style="padding-right:1%">
+        <a href= <%="/submission/contest/#{@ccode}/#{@pcode}" %> class="btn btn-embossed btn-info rippler rippler-default">All Submissions</a>
         <% if user_signed_in? %>
-          <div class="text-right pull-up">
-            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}" %> class="btn btn-primary">All Submissions</a>
-            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}/user/"+current_user._id %> class="btn btn-primary ">My Submissions</a>
-          </div>
+            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}/user/"+current_user.username %> class="btn btn-embossed btn-info rippler rippler-default">My Submissions</a>
         <% end %>
+      </div>
+      <div class="clearfix"></div>
     </div>
     <div class="panel-body">
       <h5> Problem Statement </h5>
@@ -43,7 +44,7 @@
                 </a>
               </li>
                 <li class="dropdown">
-                  <button class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" type="button" style="margin-top:24%;">
+                  <button  class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" type="button" style="margin-top:24%;background-color: #303641;">
                   <i class="material-icons " style=" font-size: 24px;">settings</i>
                   </button>
                   <ul class="dropdown-menu" role="menu" id="theme" style="background-color:#e5e9ea;">
@@ -65,7 +66,7 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <button class="btn btn-primary rippler rippler-default" id="submit_code" style="margin-top:10%; border-radius:3px; padding-left:40px;padding-right:40px" >Submit</button>
+                <button class="btn btn-embossed btn-success rippler rippler-default" id="submit_code" style="margin-top:10%; padding-left:40px;padding-right:40px" >Submit</button>
             </div>
           </ul>
           </div>
@@ -73,5 +74,6 @@
         </div>
       <% end %>
     </div>
+     <div class="panel-footer">Panel Footer</div>
   </div>
 </div>
