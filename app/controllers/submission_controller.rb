@@ -129,7 +129,7 @@ class SubmissionController < ApplicationController
             render(file: 'public/404.html', status: :not_found, layout: false) && return
           else
             @pname = problem[:pname]
-            query.merge! ({ problem_id: @pcode })
+            query.merge! ({ problem_id: problem[:_id] })
           end
         end
       end
@@ -139,12 +139,12 @@ class SubmissionController < ApplicationController
       if user.nil?
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
-        user_id = user.id
+        user_id = user._id
         @username = user[:username]
         @uname = user[:name]
         query.merge! ({ user_id: user_id })
       end
     end
-    query
+    return query
   end
 end

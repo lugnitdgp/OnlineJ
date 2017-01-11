@@ -7,7 +7,7 @@
           <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
       <% end %>
       <% unless @pname.nil? %>
-          <li class="active"> <a href=<%="/contest/#{@ccode}/#{@pcode}"%>><%= @pcode %></a></li>
+          <li class="active"> <a href=<%="/contest/#{@ccode}/#{@pcode}"%>><%= @pname %></a></li>
       <% end %>
       <% unless @username.nil? %>
           <li class="active"> <a href= <%="/users/profile/#{@username}"%>><%= @uname %></a></li>
