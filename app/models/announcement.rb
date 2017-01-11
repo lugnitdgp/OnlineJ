@@ -3,7 +3,7 @@ class Announcement
 
   include Mongoid::Timestamps::Created::Short
 
-  field :announcement,			type: String, default: ''
+  field :announcement,	type: String, default: ''
 
   belongs_to :contest
 end
