@@ -6,7 +6,7 @@ class SubmissionController < ApplicationController
     @title = 'Submission'
     @submission_page = true
     query = get_query_from_params(params)
-    @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(10)
+    @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(25)
     @Users = []
     @Contests = []
     @Problems = []

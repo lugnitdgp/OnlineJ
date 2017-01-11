@@ -22,8 +22,8 @@ Rails.application.routes.draw do
   get 'get_submission' => 'submission#get_submission', as: 'get_submission'
   get 'get_submission_error' => 'submission#get_submission_error', as: 'get_submission_error'
   get '/users/update' => 'user#update', as: 'force_update'
-  get '/users/update_form' => 'user#update_form'
-  post '/users/update_form' => 'user#save_update'
-  get '/users/profile/:username' => 'user#profile'
-  post '/users/checkuser' => 'user#checkuser'
+  get '/users/update_form' => 'user#update_form', as: ''
+  post '/users/update_form' => 'user#save_update', as: ''
+  get '/users/profile/:username' => 'user#profile', as: 'users'
+  post '/users/checkuser' => 'user#checkuser', as: ''
 end
