@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   require 'sidekiq/web'
   require 'sidekiq-status/web'
   require 'sidetiq/web'

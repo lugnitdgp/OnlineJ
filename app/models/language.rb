@@ -4,7 +4,7 @@ class Language
   field :name, type: String, default: ''
   field :time_multiplier,             type: Integer, default: 1
   field :lang_code,                   type: String, default: ''
-
+  field :snippet,					  type: String, default: ''
   has_and_belongs_to_many :problems
   has_many :submissions
 

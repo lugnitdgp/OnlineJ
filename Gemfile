@@ -57,6 +57,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+#CKEditor for uploading questions
+gem 'ckeditor'
+gem 'mongoid-paperclip', require: 'mongoid_paperclip'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
