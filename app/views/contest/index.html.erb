@@ -1,7 +1,9 @@
 <div class="container">
+
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
     <li class="active"><%= @title %></li>
+    <span style="float: right"><%= link_to "Ranklist", scoreboard_path %></span>
   </ol>
   <div class = "panel panel-default panel-shadow">
     <div class="panel-heading">
@@ -54,10 +56,10 @@
       <%@announcements.each do |announcement|%>
         <li><%=announcement.announcement%></li>
       <%end%>
-    </ol>  
+    </ol>
     </div>
   </div>
- <%end%> 
+ <%end%>
   <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">Description</h3>
