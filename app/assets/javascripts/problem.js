@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function() {
-
   var cEditor = new CodeMirror(document.getElementById("code_editor"), {
     lineNumbers: true,
     extraKeys: null,
@@ -21,8 +20,8 @@ $(document).on('turbolinks:load', function() {
   $('#autocomplete').click(function(event) {
     event.stopPropagation();
   });
-  $('.bootstrap-switch-label').click(function(event) {
-    if( $('.bootstrap-switch').hasClass('bootstrap-switch-off') ) {
+  $('#autocomplete input').change(function(event) {
+    if($(this).is(":checked")){
         cEditor.setOption("extraKeys", {"Ctrl-Space": "autocomplete"});
       } else {
         cEditor.setOption("extraKeys", null);

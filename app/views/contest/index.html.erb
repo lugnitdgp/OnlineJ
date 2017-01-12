@@ -99,26 +99,26 @@
 </div>
 <script charset="utf-8">
 $(document).ready(function() {
-    $('.dataTable').DataTable({
-     "bFilter": false,
-    "bInfo": false,
-    aLengthMenu: [
-        [10, 25, 50, 100, -1],
-        [10, 25, 50, 100, "All"]
-    ],
-    "bScrollCollapse": true,
-    "fnInitComplete": function() {
-       this.css("visibility", "visible");
-     },
-    "bLengthChange": false
-    });
-    $("#contest-time").countdown($("#contest-time").attr('data-contest-time'), function(event) {
-      $(this).text(
-        event.strftime('%D Days %H Hrs %M Mins %S Sec')
-      );
-    });
+  $('.dataTable').DataTable({
+    "bFilter": false,
+   "bInfo": false,
+  aLengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"]
+  ],
+  "bScrollCollapse": true,
+  "fnInitComplete": function() {
+     this.css("visibility", "visible");
+   },
+  "bLengthChange": false,
+  "bPaginate": false
+  });
 });
-$(document).ready(function() {
-
+$(document).on('turbolinks:load', function() {
+  $("#contest-time").countdown($("#contest-time").attr('data-contest-time'), function(event) {
+    $(this).text(
+      event.strftime('%D Days %H Hrs %M Mins %S Sec')
+    );
+  });
 });
 </script>

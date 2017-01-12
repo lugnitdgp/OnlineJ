@@ -5,7 +5,9 @@
 .navbar{
   border-radius: 0px;
 }
-
+.navbar.navbar-inverse {
+  background-color: #303641;
+}
 .navbar-embossed > .navbar-collapse{
   border-radius: 0px;
   background-color: #303641;

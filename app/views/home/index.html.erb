@@ -50,8 +50,8 @@
 <script charset="utf-8">
   $(document).ready(function() {
     $('.dataTable').DataTable({
-      //  "bFilter": false,
-      // "bInfo": false,
+       "bFilter": false,
+      "bInfo": false,
       aLengthMenu: [
           [10, 25, 50, 100, -1],
           [10, 25, 50, 100, "All"]
@@ -60,7 +60,8 @@
       "fnInitComplete": function() {
          this.css("visibility", "visible");
        },
-      "bLengthChange": false
+      "bLengthChange": false,
+      "bPaginate": false
      })
   });
 </script>

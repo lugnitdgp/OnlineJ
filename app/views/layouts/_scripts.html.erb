@@ -25,6 +25,7 @@ $(document).ready(function() {
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js', 'data-turbolinks-track': 'reload' %>
 <% end %>
 <% if @problem_page %>
+  <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'codemirror-load', 'data-turbolinks-track': 'reload' %>
 <% end %>
 <% if @user_page %>
