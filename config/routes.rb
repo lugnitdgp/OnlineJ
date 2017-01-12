@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   post '/users/update_form' => 'user#save_update', as: ''
   get '/users/profile/:username' => 'user#profile', as: 'users'
   post '/users/checkuser' => 'user#checkuser', as: ''
+  get '/scoreboard/:ccode' => 'scoreboard#index',  as: 'scoreboard'
 end

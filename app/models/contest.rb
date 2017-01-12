@@ -10,6 +10,7 @@ class Contest
   field :details,                type: String, default: ''
 
   has_many :problems, dependent: :destroy
+  has_one :ranklist, dependent: :destroy
   belongs_to :setter, counter_cache: true
   has_many :announcements, dependent: :destroy
   has_and_belongs_to_many :users
@@ -20,6 +21,7 @@ class Contest
   scope :by_code, ->(ccode) { where(ccode: ccode, state: true) }
 
   before_create :create_contest_data
+  after_create :create_ranklist
   after_destroy :delete_contest_data
 
   def all_problems
@@ -29,6 +31,13 @@ class Contest
   def create_contest_data
     system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:ccode]}"
     true
+  end
+
+  def create_ranklist
+    @ranklist = Ranklist.new
+    @ranklist.contest_id = self[:ccode]
+    self.ranklist = @ranklist
+    @ranklist.save!
   end
 
   def delete_contest_data
