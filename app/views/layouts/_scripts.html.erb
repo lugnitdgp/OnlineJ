@@ -1,4 +1,3 @@
-<%= javascript_include_tag 'later', 'data-turbolinks-track': 'reload'%>
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js", 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/jquery.dataTables.min.js", 'data-turbolinks-track': 'reload'%>
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.3/jquery.timeago.min.js', 'data-turbolinks-track': 'reload' %>
@@ -22,9 +21,13 @@ $(document).ready(function() {
 })
 </script>
 <% end %>
+<% if @contest_page %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js', 'data-turbolinks-track': 'reload' %>
+<% end %>
 <% if @problem_page %>
   <%= javascript_include_tag 'codemirror-load', 'data-turbolinks-track': 'reload' %>
 <% end %>
 <% if @user_page %>
 	<%= javascript_include_tag "users" %>
 <% end %>
+<%= javascript_include_tag 'later', 'data-turbolinks-track': 'reload'%>

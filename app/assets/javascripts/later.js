@@ -1,26 +1,19 @@
 //= require bootstrap-sprockets
-//= require flat-ui
-//= require local
-//= require rippler
+//= require material.min
+//= require material-kit
 
 
 $(document).on('turbolinks:load', function() {
-    $.timeago.settings.allowFuture = true;
-    $("time.timeago").timeago();
-    $("body").addClass('page-fade-only-init')
+  $.timeago.settings.allowFuture = true;
+  $("time.timeago").timeago();
+  $("body").addClass('page-fade-only-init')
 
-    setTimeout(function()
-    {
-      $('body').removeClass('page-fade-only-init page-fade-only');
+  setTimeout(function()
+  {
+    $('body').removeClass('page-fade-only-init page-fade-only');
 
-    }, 500);
+  }, 500);
 
-  $(".rippler").rippler({
-    effectClass      :  'rippler-effect'
-    ,effectSize      :  16      // Default size (width & height)
-    ,addElement      :  'div'   // e.g. 'svg'(feature)
-    ,duration        :  400
-  });
   // $('body').css({
   //   'font-family': '"Helvetica Neue", Helvetica, "Noto Sans", sans-serif',
   //   'font-size': '16px'
