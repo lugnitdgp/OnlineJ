@@ -18,12 +18,12 @@ class Contest
   RailsAdmin.config do |config|
   config.model Contest do
     edit do
-      field :cname      
-      field :ccode      
-      field :state      
-      field :start_time      
-      field :end_time      
-      field :details, :ck_editor      
+      field :cname
+      field :ccode
+      field :state
+      field :start_time
+      field :end_time
+      field :details, :ck_editor
     end
   end
 end
