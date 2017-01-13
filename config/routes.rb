@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   require 'sidekiq/web'
   require 'sidekiq-status/web'
   require 'sidetiq/web'
@@ -21,8 +22,7 @@ Rails.application.routes.draw do
   get 'get_submission_data' => 'submission#get_submission_data', as: 'get_submission_data'
   get 'get_submission' => 'submission#get_submission', as: 'get_submission'
   get 'get_submission_error' => 'submission#get_submission_error', as: 'get_submission_error'
-  get '/users/update' => 'user#update', as: 'force_update'
-  get '/users/update_form' => 'user#update_form', as: ''
+  get '/users/update_form' => 'user#update_form', as: 'force_update'
   post '/users/update_form' => 'user#save_update', as: ''
   get '/users/profile/:username' => 'user#profile', as: 'users'
   post '/users/checkuser' => 'user#checkuser', as: ''

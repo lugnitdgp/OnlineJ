@@ -15,6 +15,19 @@ class Contest
   has_many :announcements, dependent: :destroy
   has_and_belongs_to_many :users
 
+  RailsAdmin.config do |config|
+  config.model Contest do
+    edit do
+      field :cname      
+      field :ccode      
+      field :state      
+      field :start_time      
+      field :end_time      
+      field :details, :ck_editor      
+    end
+  end
+end
+
   scope :upcomming, -> { where(start_time: { :$gt => DateTime.now }, state: true) }
   scope :running, -> { where(start_time: { :$lte => DateTime.now }, end_time: { :$gte => DateTime.now }, state: true) }
   scope :past, -> { where(end_time: { :$lt => DateTime.now }, state: true) }
