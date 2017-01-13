@@ -8,6 +8,48 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.model 'Contest' do
+    edit do
+        field :cname
+        field :ccode
+        field :start_time
+        field :end_time
+        field :state
+        field :details
+        field :setter
+        field :problems
+    end
+  end
+
+  config.model 'Problem' do
+    edit do
+      field :pcode
+      field :pname
+      field :statement
+      field :state
+      field :time_limit
+      field :memory_limit
+      field :source_limit
+      field :diff
+      field :max_score
+    end
+  end
+
+  config.model 'Ranklist' do
+    edit do
+      field :contest
+    end
+  end
+
+  config.model 'Setter' do
+    edit do
+      field :user
+      field :contests
+      field :problems
+    end
+  end
+
+
   ## == Cancan ==
   # config.authorize_with :cancan
 

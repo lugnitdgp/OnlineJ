@@ -54,6 +54,7 @@ GEM
     bson (4.2.1)
     builder (3.2.2)
     byebug (9.0.6)
+    cancancan (1.10.1)
     capybara (2.11.0)
       addressable
       mime-types (>= 1.16)
@@ -395,6 +396,7 @@ DEPENDENCIES
   bootstrap-sass
   bson
   byebug
+  cancancan
   capybara
   codemirror-rails
   coffee-rails (~> 4.2)
