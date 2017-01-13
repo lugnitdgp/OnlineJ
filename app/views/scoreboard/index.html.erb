@@ -1,12 +1,14 @@
 <div class="container">
   <div class="breadcrumb-env">
           <ol class="breadcrumb bc-1">
-              <li> <a href="/"><i class="fa-trophy"></i>home</a> </li>
-              <li class="active"> <a href="#"><i class="fa-graduation-cap"></i><%= params[:ccode] %> </a> </li>
+              <li> <a href="/">home</a> </li>
+              <li class="active"> <a href=<%="/contest/#{@ccode}/"%>> <%= @cname %></a> </li>
+              <li class="active"> Scoreboard</li>
           </ol>
   </div><div class = "panel panel-default panel-shadow">
             <div class="panel-heading">
-              <div class="panel-title"><%= "Scoreboard" %>
+              <div class="panel-title">
+                <%= "Scoreboard" %>
               </div>
               <span style="font-size: 0.6em">
               <%= "updated "%>
