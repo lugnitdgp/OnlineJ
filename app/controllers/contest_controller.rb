@@ -15,7 +15,6 @@ class ContestController < ApplicationController
     @announcements = (contest.announcements if contest.announcements.count > 0)
     lang_data = []
     success_sub = []
-    problems.each { |problem| lang_data << get_language_data(problem, lang: 'lang_code') }
     problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').count }
     @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
   end
@@ -33,6 +32,7 @@ class ContestController < ApplicationController
     @statement = problem[:statement]
     @setter_name = problem.setter.user[:name]
     @setter_username = problem.setter.user[:username]
+    @language_hash = get_language_data(problem, name: 'name', lang: 'lang_code')
     @score = problem[:max_score]
     @time_limit = problem[:time_limit]
     @memory_limit = problem[:memory_limit]
