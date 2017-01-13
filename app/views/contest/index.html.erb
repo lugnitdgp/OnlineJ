@@ -15,11 +15,10 @@
           <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
             <thead >
               <tr>
-                <th>Problem</th>
-                <th>Prob code</th>
-                <th>Successful Submissions</th>
-                <th>Accuracy</th>
-                <th>Languages</th>
+                <th>NAME</th>
+                <th>CODE</th>
+                <th>SUCCESSFUL SUBMISSIONS</th>
+                <th>ACCURACY</th>
               </tr>
             </thead>
             <tbody>
@@ -36,11 +35,6 @@
                 </td>
                 <td>
                   <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
-                </td>
-                <td>
-                  <% @problem_hash[:lang_data][index].each do |language| %>
-                  <%= language %>
-                  <% end %>
                 </td>
               </tr>
               <% end %>

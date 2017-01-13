@@ -4,7 +4,6 @@ class ContestController < ApplicationController
     @contest_page = true
     @ccode = params[:ccode]
     contest = Contest.by_code(@ccode).cache.first
-    @announcements = contest.announcements
     if contest.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
@@ -13,6 +12,7 @@ class ContestController < ApplicationController
     @Details = contest[:details]
     @start_time = contest[:start_time]
     @end_time = contest[:end_time]
+    @announcements = (contest.announcements if contest.announcements.count > 0)
     lang_data = []
     success_sub = []
     problems.each { |problem| lang_data << get_language_data(problem, lang: 'lang_code') }
@@ -33,7 +33,6 @@ class ContestController < ApplicationController
     @statement = problem[:statement]
     @setter_name = problem.setter.user[:name]
     @setter_username = problem.setter.user[:username]
-    @language_hash = get_language_data(problem, name: 'name', lang: 'lang_code')
     @score = problem[:max_score]
     @time_limit = problem[:time_limit]
     @memory_limit = problem[:memory_limit]
