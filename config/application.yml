@@ -2,3 +2,4 @@
 # For examples, see: https://github.com/ykessler/snappconfig#snappconfig
 
 base_path: "/home/neetesh/judge_data"
+penalty: 20
