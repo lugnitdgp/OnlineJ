@@ -12,12 +12,14 @@
 
   <div class="panel panel-default panel-shadow">
     <div class="panel-heading" >
-      <h3 class="panel-title pull-left"><%= @title %></h3>
-      <span class="panel-title pull-left"><%= @pcode %></span>
-        <div class="text-right pull-up row" style="padding-right:1%">
-        <a href= <%="/submission/contest/#{@ccode}/#{@pcode}" %> class="btn btn-embossed btn-info rippler rippler-default">All Submissions</a>
+      <div class="pull-left" style="width:50%">
+        <h3 class="panel-title"><%= @title %></h3>
+        <span class="panel-title "><%= @pcode %></span>
+      </div>
+        <div class="text-right pull-right" style="display:inline">
+        <a href= <%="/submission/contest/#{@ccode}/#{@pcode}" %> class="btn btn-embossed btn-info">All Submissions</a>
         <% if user_signed_in? %>
-            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}/user/"+current_user.username %> class="btn btn-embossed btn-info rippler rippler-default">My Submissions</a>
+            <a href= <%="/submission/contest/#{@ccode}/#{@pcode}/user/"+current_user.username %> class="btn btn-embossed btn-info">My Submissions</a>
         <% end %>
       </div>
       <div class="clearfix"></div>
@@ -35,30 +37,33 @@
 
             <div class="navbar-collapse ">
               <ul class="nav navbar-nav">
-                <li ><a href="javascript:void(0)">
-                  <select class="form-control select  select-block" id="mode" style="border-radius:3px">
+                <li >
+                  <a href="javascript:void(0)" style="display: inline">
+                  <select class="selectpicker select" id="mode">
                     <% @language_hash.each do | language | %>
                       <option style="color: black;" value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
                     <% end %>
                   </select>
-                </a>
-              </li>
+                 </a>
+                </li>
                 <li class="dropdown">
-                  <button  class="btn btn-inverse btn-sm dropdown-toggle" data-toggle="dropdown" type="button" style="margin-top:24%;background-color: #303641;">
+                  <button  class=" dropdown-toggle" data-toggle="dropdown" type="button" style="background-color: #303641;border:none !important; margin-top:40%">
                   <i class="material-icons " style=" font-size: 24px;">settings</i>
                   </button>
-                  <ul class="dropdown-menu" role="menu" id="theme" style="background-color:#e5e9ea;">
-                    <li value="default"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Default</a></li>
-                    <li value="material"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Material</a></li>
-                    <li value="mdn-like"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">MDN-like</a></li>
-                    <li value="monokai"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Monokai</a></li>
-                    <li value="solarized dark"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Dark</a></li>
-                    <li value="solarized light"><a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);">Solarized Light</a></li>
+                  <ul class="dropdown-menu" role="menu" id="theme" >
+                    <li value="default"><a href="javascript:void(0)">Default</a></li>
+                    <li value="material"><a href="javascript:void(0)">Material</a></li>
+                    <li value="mdn-like"><a href="javascript:void(0)">MDN-like</a></li>
+                    <li value="monokai"><a href="javascript:void(0)">Monokai</a></li>
+                    <li value="solarized dark"><a href="javascript:void(0)">Solarized Dark</a></li>
+                    <li value="solarized light"><a href="javascript:void(0)">Solarized Light</a></li>
                     <li >
-                      <a href="javascript:void(0)" style="color: rgba(52, 73, 94, 0.85);" id="autocomplete">
-                        <div class="bootstrap-switch-square">
-                          <label for="complete" >autocomplete</label>
-                          <input id="complete" type="checkbox" data-toggle="switch" >
+                      <a href="javascript:void(0)" id="autocomplete">
+                        <div class="togglebutton">
+                          <label>
+                            <input type="checkbox">
+                            Autocomplete
+                          </label>
                         </div>
                       </a>
                     </li>
@@ -66,9 +71,9 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <button class="btn btn-embossed btn-success rippler rippler-default" id="submit_code" style="margin-top:10%; padding-left:40px;padding-right:40px" >Submit</button>
+                <button class="btn btn-embossed btn-success" style="margin-top:10%" id="submit_code" >Submit</button>
+              </ul>
             </div>
-          </ul>
           </div>
           <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
         </div>

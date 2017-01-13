@@ -1,11 +1,13 @@
-/*.page-container.horizontal-menu header.navbar {
+.page-container.horizontal-menu header.navbar {
   background-color: #2c3e50
-}*/
+}
 
 .navbar{
   border-radius: 0px;
 }
-
+.navbar.navbar-inverse {
+  background-color: #303641;
+}
 .navbar-embossed > .navbar-collapse{
   border-radius: 0px;
   background-color: #303641;

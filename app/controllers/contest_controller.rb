@@ -1,18 +1,20 @@
 class ContestController < ApplicationController
   before_action :check
   def index
+    @contest_page = true
     @ccode = params[:ccode]
-    contest = Contest.by_code(@ccode).first
-    @announcements = contest.announcements
+    contest = Contest.by_code(@ccode).cache.first
     if contest.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     @title = contest[:cname]
     problems = contest.all_problems
     @Details = contest[:details]
+    @start_time = contest[:start_time]
+    @end_time = contest[:end_time]
+    @announcements = (contest.announcements if contest.announcements.count > 0)
     lang_data = []
     success_sub = []
-    problems.each { |problem| lang_data << get_language_data(problem, lang: 'lang_code') }
     problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').count }
     @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
   end

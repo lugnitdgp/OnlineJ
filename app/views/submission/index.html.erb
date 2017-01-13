@@ -22,13 +22,13 @@
       <table class="table table-bordered datatable-submission table-hover " cellspacing="0" width="100%">
         <thead >
             <tr>
-                <th style="color:#ffffff; background-color: #2c3e50;">User</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Date/Time</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Prob code</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Result</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Time</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Lang</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Sol</th>
+                <th>User</th>
+                <th>Date/Time</th>
+                <th>Prob code</th>
+                <th>Result</th>
+                <th>Time</th>
+                <th>Lang</th>
+                <th>Sol</th>
             </tr>
         </thead>
         <tbody>
@@ -40,13 +40,17 @@
                 <% end %>
               <% end %>
             <tr>
-                <td class = "user" ><%= @Users[index][:name]%></td>
+                <td class = "user" >
+                  <%=  link_to @Users[index][:name], users_path(@Users[index][:username]) %>
+                </td>
                 <td>
                   <time class ="timeago" datetime="<%= submission[:created_at].localtime.to_datetime%>">
                     <%= submission[:created_at].localtime.to_datetime%>
                   </time>
                 </td>
-                <td class = "problem"><%= @Problems[index][:code] %></td>
+                <td class = "problem">
+                  <%=  link_to @Problems[index][:code], problem_path(@Contests[index],@Problems[index][:code]) %>
+                </td>
                 <td class="submission_status " data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                   <% ext = '.png' %>
                   <% ext = '.gif' if submission[:status_code] == 'PE' %>

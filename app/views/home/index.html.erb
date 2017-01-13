@@ -13,10 +13,10 @@
           <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
             <thead >
                 <tr>
-                    <th style="color:#ffffff; background-color: #2c3e50;">Name</th>
-                    <th style="color:#ffffff; background-color: #2c3e50;">code</th>
-                    <th style="color:#ffffff; background-color: #2c3e50;">Start</th>
-                    <th style="color:#ffffff; background-color: #2c3e50;">End</th>
+                    <th>Name</th>
+                    <th>code</th>
+                    <th>Start</th>
+                    <th>End</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
 <script charset="utf-8">
   $(document).ready(function() {
     $('.dataTable').DataTable({
-      //  "bFilter": false,
+       "bFilter": false,
       "bInfo": false,
       aLengthMenu: [
           [10, 25, 50, 100, -1],
@@ -61,7 +61,7 @@
          this.css("visibility", "visible");
        },
       "bLengthChange": false,
-      "paging": false
+      "bPaginate": false
      })
   });
 </script>

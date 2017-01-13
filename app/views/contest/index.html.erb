@@ -1,87 +1,124 @@
 <div class="container">
+
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
     <li class="active"><%= @title %></li>
   </ol>
-  <div class = "panel panel-default panel-shadow">
-    <div class="panel-heading">
-      <div class="panel-title"><%= @title %></div>
-    </div>
-    <div class="panel-body table-responsive">
-      <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
-        <thead >
-            <tr>
-                <th style="color:#ffffff; background-color: #2c3e50;">Problem</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Prob code</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Successful Submissions</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Accuracy</th>
-                <th style="color:#ffffff; background-color: #2c3e50;">Languages</th>
-            </tr>
-        </thead>
-        <tbody>
-          <% @problem_hash[:problems].each_with_index do | problem, index |%>
-          <tr>
-            <td>
-              <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
-            </td>
-            <td>
-              <%=  link_to @ccode , problem_path(@ccode,problem[:pcode]) %>
-            </td>
-            <td>
-              <%= @problem_hash[:success_sub][index] %>
-            </td>
-            <td>
-              <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
-            </td>
-            <td>
-              <% @problem_hash[:lang_data][index].each do |language| %>
-                <%= language %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class = "panel panel-default panel-shadow">
+        <div class="panel-heading">
+          <div class="panel-title"><%= @title %></div>
+        </div>
+        <div class="panel-body table-responsive">
+          <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
+            <thead >
+              <tr>
+                <th>NAME</th>
+                <th>CODE</th>
+                <th>SUCCESSFUL SUBMISSIONS</th>
+                <th>ACCURACY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @problem_hash[:problems].each_with_index do | problem, index |%>
+              <tr>
+                <td>
+                  <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
+                </td>
+                <td>
+                  <%=  link_to @ccode , problem_path(@ccode,problem[:pcode]) %>
+                </td>
+                <td>
+                  <%= @problem_hash[:success_sub][index] %>
+                </td>
+                <td>
+                  <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
+                </td>
+              </tr>
               <% end %>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
- <%unless @announcements.blank?%>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Announcements</h3>
-    </div>
-    <div class="panel-body">
-     <ul>
-      <%@announcements.each do |announcement|%>
-        <li><%=announcement.announcement%></li>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%unless @announcements.blank?%>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Announcements</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <%@announcements.each do |announcement|%>
+            <li><%=announcement.announcement%></li>
+            <%end%>
+          </ol>
+        </div>
+      </div>
       <%end%>
-    </ol>  
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Description</h3>
+        </div>
+        <div class="panel-body">
+          <%= @Details %>
+        </div>
+      </div>
     </div>
-  </div>
- <%end%> 
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h3 class="panel-title">Description</h3>
-    </div>
-    <div class="panel-body">
-      <%= @Details.html_safe %>
+    <div class="col-sm-4">
+      <% if @end_time < DateTime.now %>
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title ">CONTEST</h3>
+        </div>
+        <div class="panel-body text-center">ENDED</div>
+      </div>
+      <% elsif @start_time < DateTime.now %>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">CONTEST ENDS IN</h3>
+        </div>
+        <div class="panel-body text-center " data-contest-time="<%= @end_time %>" id = "contest-time"></div>
+      </div>
+      <% else %>
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title ">CONTEST STARTS IN</h3>
+        </div>
+        <div class="panel-body text-center" data-contest-time="<%= @start_time %>" id = "contest-time" ></div>
+      </div>
+      <% end %>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title ">RANKING</h3>
+        </div>
+        <div class="panel-body text-center">See the contest <span style="text-decoration:underline"><%= link_to "Ranklist", scoreboard_path %></span></div>
+      </div>
+
     </div>
   </div>
 </div>
 <script charset="utf-8">
 $(document).ready(function() {
   $('.dataTable').DataTable({
-     "bFilter": false,
-    "bInfo": false,
-    aLengthMenu: [
-        [10, 25, 50, 100, -1],
-        [10, 25, 50, 100, "All"]
-    ],
-    "bScrollCollapse": true,
-    "fnInitComplete": function() {
-       this.css("visibility", "visible");
-     },
-    "bLengthChange": false,
-    "paging": false
-   })
+    "bFilter": false,
+   "bInfo": false,
+  aLengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"]
+  ],
+  "bScrollCollapse": true,
+  "fnInitComplete": function() {
+     this.css("visibility", "visible");
+   },
+  "bLengthChange": false,
+  "bPaginate": false
+  });
+});
+$(document).on('turbolinks:load', function() {
+  $("#contest-time").countdown($("#contest-time").attr('data-contest-time'), function(event) {
+    $(this).text(
+      event.strftime('%D Days %H Hrs %M Mins %S Sec')
+    );
+  });
 });
 </script>
