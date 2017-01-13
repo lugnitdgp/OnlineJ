@@ -3,7 +3,6 @@
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
     <li class="active"><%= @title %></li>
-    <span style="float: right"><%= link_to "Ranklist", scoreboard_path %></span>
   </ol>
   <div class="row">
     <div class="col-sm-8">
@@ -66,28 +65,34 @@
       </div>
     </div>
     <div class="col-sm-4">
-        <% if @end_time < DateTime.now %>
-        <div class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title ">CONTEST</h3>
-          </div>
-          <div class="panel-body text-center">ENDED</div>
+      <% if @end_time < DateTime.now %>
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title ">CONTEST</h3>
         </div>
-        <% elsif @start_time < DateTime.now %>
-        <div class="panel panel-success">
-          <div class="panel-heading">
-              <h3 class="panel-title">CONTEST ENDS IN</h3>
-          </div>
-          <div class="panel-body text-center " data-contest-time="<%= @end_time %>" id = "contest-time"></div>
+        <div class="panel-body text-center">ENDED</div>
+      </div>
+      <% elsif @start_time < DateTime.now %>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">CONTEST ENDS IN</h3>
         </div>
-        <% else %>
-        <div class="panel panel-warning">
-          <div class="panel-heading">
-            <h3 class="panel-title ">CONTEST STARTS IN</h3>
-          </div>
-          <div class="panel-body text-center" data-contest-time="<%= @start_time %>" id = "contest-time" ></div>
+        <div class="panel-body text-center " data-contest-time="<%= @end_time %>" id = "contest-time"></div>
+      </div>
+      <% else %>
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title ">CONTEST STARTS IN</h3>
         </div>
-        <% end %>
+        <div class="panel-body text-center" data-contest-time="<%= @start_time %>" id = "contest-time" ></div>
+      </div>
+      <% end %>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title ">RANKING</h3>
+        </div>
+        <div class="panel-body text-center">See the contest <span style="text-decoration:underline"><%= link_to "Ranklist", scoreboard_path %></span></div>
+      </div>
     </div>
   </div>
 </div>
