@@ -27,10 +27,32 @@
     <div class="panel-body">
       <h5> Problem Statement </h5>
       <p><%=@statement.html_safe%></p>
-      <blockquote>
-          <p>Time limit <%= @time_limit.to_s%>s</p>
-          <p>Source limit <%= @source_limit.to_s%> bytes</p>
-	    </blockquote>
+      <hr/>
+    <h3>Details</h3>
+    <div class="container">
+     <div class="row" style="width: 95%">
+      <table class='table table-striped'>
+        <tr>
+          <td style="text-align: left;padding: 0.8%">Setter</td>
+          <td style="text-align: left;padding: 0.8%"><a href=<%="/users/profile/#{@setter_username}"%>><%= @setter_username %></td>
+        </tr>
+        <tr>
+          <td style="text-align: left;padding: 0.8%">Setter Name</td>
+          <td style="text-align: left;padding: 0.8%"><%= @setter_name%></td>
+        </tr>
+        <tr>
+          <td style="text-align: left;padding: 0.8%">Time limit</td>
+          <td style="text-align: left;padding: 0.8%"><%= @time_limit.to_s%> s</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;padding: 0.8%">Source limit</td>
+          <td style="text-align: left;padding: 0.8%"><%= @source_limit.to_s%> bytes</td>
+        </tr>
+       </table>
+	    </div>
+    </div>
+  <hr/>
+    <h3>Spell your Magical Code</h3>
       <% if user_signed_in? %>
         <div class="navbar navbar-inverse" style="border-radius:3px" >
           <div class="container-fluid">
@@ -79,6 +101,6 @@
         </div>
       <% end %>
     </div>
-     <div class="panel-footer">Panel Footer</div>
+     <div class="panel-footer"> </div>
   </div>
 </div>
