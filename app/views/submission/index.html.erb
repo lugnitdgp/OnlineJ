@@ -41,6 +41,9 @@
             </tr>
         </thead>
         <tbody>
+          <% if @Submissions.blank? %>
+           <!-- # TODO implement for no submission -->
+          <% end %>
           <% @Submissions.each_with_index do |submission, index|%>
               <% perm = "disabled" %>
               <% if user_signed_in? %>
