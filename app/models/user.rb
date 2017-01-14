@@ -50,7 +50,7 @@ class User
   belongs_to :setter, optional: true
   has_many :submissions
 
-  index({ username: 1 }, unique: true)
+  index({ username: 1 }, unique: false)
 
   scope :by_id, ->(id) { where(_id: id) }
   scope :by_username, ->(username) { where(username: username) }
