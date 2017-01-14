@@ -9,11 +9,11 @@
     <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
     <li class="active"><%= @title %></li>
   </ol>
-
+<hr>
   <div class="panel panel-default panel-shadow">
     <div class="panel-heading" >
       <div class="pull-left" style="width:50%">
-        <h3 class="panel-title"><%= @title %></h3>
+        <h2 class="panel-title"><%= @title %></h2>
         <span class="panel-title "><%= @pcode %></span>
       </div>
         <div class="text-right pull-right" style="display:inline">
@@ -25,34 +25,46 @@
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
-      <h5> Problem Statement </h5>
-      <p><%=@statement.html_safe%></p>
-      <hr/>
-    <h3>Details</h3>
-    <div class="container">
-     <div class="row" style="width: 95%">
-      <table class='table table-striped'>
-        <tr>
-          <td style="text-align: left;padding: 0.8%">Setter</td>
-          <td style="text-align: left;padding: 0.8%"><a href=<%="/users/profile/#{@setter_username}"%>><%= @setter_username %></td>
-        </tr>
-        <tr>
-          <td style="text-align: left;padding: 0.8%">Setter Name</td>
-          <td style="text-align: left;padding: 0.8%"><%= @setter_name%></td>
-        </tr>
-        <tr>
-          <td style="text-align: left;padding: 0.8%">Time limit</td>
-          <td style="text-align: left;padding: 0.8%"><%= @time_limit.to_s%> s</td>
-        </tr>
-        <tr>
-          <td style="text-align: left;padding: 0.8%">Source limit</td>
-          <td style="text-align: left;padding: 0.8%"><%= @source_limit.to_s%> bytes</td>
-        </tr>
-       </table>
-	    </div>
-    </div>
-  <hr/>
-    <h3>Spell your Magical Code</h3>
+      <div style="padding-left:10%;padding-right:14%">
+        <h3> <%= @title %> </h3>
+        <hr>
+        <p><%=@statement.html_safe%></p>
+      </div>
+      <hr class="divider" style="margin-top: 40px;margin-bottom: 15px;">
+      <div class="container">
+       <div class="row" style="width: 95%;padding-left:10%;padding-right:14%">
+        <table class='table table-striped'>
+          <tr>
+            <td style="text-align: left;">Author</td>
+            <td style="text-align: left;">   <%=  link_to @setter_name, users_path(@setter_username) %></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;">Time limit</td>
+            <td style="text-align: left;"><%= @time_limit.to_s%> s</td>
+          </tr>
+          <tr>
+            <td style="text-align: left;">Source limit</td>
+            <td style="text-align: left;"><%= @source_limit.to_s%> bytes</td>
+          </tr>
+          <tr>
+            <td style="text-align: left;">languages:</td>
+            <td style="text-align: left;">
+            <% @language_hash.each do | language | %>
+              <% if language == @language_hash.last %>
+                  <%=language[:code]%>
+                <% else %>
+                  <%=language[:code]%>,
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+         </table>
+        </div>
+      </div>
+      <div class="row">
+        <h5 class="raised col-sm-2" >Code Editor</h5>
+        <hr class="divider col-sm-9 pull-right" style="margin-bottom:0px">
+      </div>
       <% if user_signed_in? %>
         <div class="navbar navbar-inverse" style="border-radius:3px" >
           <div class="container-fluid">

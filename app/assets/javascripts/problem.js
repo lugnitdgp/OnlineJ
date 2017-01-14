@@ -6,6 +6,14 @@ $(document).on('turbolinks:load', function() {
     lineWrapping: true,
     viewportMargin: Infinity,
     matchBrackets: true
+    // extraKeys: {
+    //     "F11": function(cm) {
+    //       setFullScreen(cm, !isFullScreen(cm));
+    //     },
+    //     "Esc": function(cm) {
+    //       if (isFullScreen(cm)) setFullScreen(cm, false);
+    //     }
+    //   }
   });
   height = $('.container-fluid').width();
   cEditor.setSize(height-2,400);
@@ -39,6 +47,10 @@ $(document).on('turbolinks:load', function() {
     var user_source_code = document.createElement('textarea');
     user_source_code.name = 'user_source_code';
     user_source_code.value = cEditor.getValue();
+    if (!user_source_code.val){
+      toastr['warning']("code editor is empty");
+      return;
+    }
     var lang_name = document.createElement('input');
     lang_name.name ='lang_name';
     lang_name.value = cEditor.getOption('mode');
