@@ -1,0 +1,30 @@
+footer {
+    height: 50px;
+    bottom: 0;
+    width: 100%;
+}
+footer .footer-left {
+	color:  #8f9296;
+	font-size: 14px;
+}
+
+/* Footer links */
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 600px) {
+
+	footer .footer-left,
+	footer .footer-right{
+		text-align: center;
+	}
+
+	footer .footer-right{
+		float: none;
+		margin: 0 auto 20px;
+	}
+
+	footer .footer-left p.footer-links{
+		line-height: 1.8;
+	}
+}
