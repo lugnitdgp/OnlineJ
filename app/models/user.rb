@@ -50,11 +50,21 @@ class User
   belongs_to :setter, optional: true
   has_many :submissions
 
+  index({ username: 1 }, unique: true)
+
   scope :by_id, ->(id) { where(_id: id) }
   scope :by_username, ->(username) { where(username: username) }
 
   before_create :create_user_data
   after_destroy :delete_user_data
+
+  def to_s
+    username
+  end
+
+  def title
+    to_s
+  end
 
   def self.find_for_oauth(auth, signed_user = nil)
     identity = Identity.find_for_oauth(auth)
@@ -90,7 +100,6 @@ class User
   end
 
   private
-
 
   def create_user_data
     system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:email]}"

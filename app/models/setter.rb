@@ -8,12 +8,19 @@ class Setter
   has_many :contests, dependent: :destroy
   has_many :problems, dependent: :destroy
 
+  def to_s
+    user
+  end
+
+  def title
+    to_s
+  end
+
   def user_id
-    self.user.try :id
+    user.try :id
   end
 
   def user_id=(id)
-    self.user = User.find_by_id(id)
+    self.user = User.by_id(id)
   end
-
 end

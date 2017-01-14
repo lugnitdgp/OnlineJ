@@ -9,7 +9,7 @@ class Contest
   field :end_time,               type: DateTime, default: DateTime.now + 3.hours
   field :details,                type: String, default: ''
 
-  index({ ccode: 1 }, unique: true)
+  index({ccode: 1}, {unique: true})
 
   has_many :problems, dependent: :destroy
   has_one :ranklist, dependent: :destroy
@@ -27,11 +27,10 @@ class Contest
   after_destroy :delete_contest_data
 
   def to_s
-    ccode
+    return self.ccode
   end
-
   def title
-    to_s
+      return self.to_s
   end
 
   def all_problems

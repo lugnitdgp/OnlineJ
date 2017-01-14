@@ -9,10 +9,18 @@ class TestCase
   do_not_validate_attachment_file_type :testcase
   do_not_validate_attachment_file_type :testcase_output
 
-  belongs_to :problem, counter_cache: true
+  belongs_to :problem, counter_cache: true, index: true
 
   before_create :create_test_data
   after_destroy :delete_test_data
+
+  def to_s
+    name
+  end
+
+  def title
+    to_s
+  end
 
   def create_test_data
     problem = self.problem
