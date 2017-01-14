@@ -22,8 +22,8 @@ gem 'sidekiq-status'
 gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
 # gem "mongoid-paperclip" for using paperclip with mongodb
-gem "mongoid-paperclip"
 gem 'cancancan'
+gem 'mongoid-paperclip', require: 'mongoid_paperclip'
 # gem 'kaminari' for pagination
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
@@ -58,6 +58,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+#CKEditor for uploading questions
+gem 'ckeditor'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

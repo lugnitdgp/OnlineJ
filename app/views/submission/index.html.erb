@@ -67,9 +67,9 @@
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-btn">
-                  <div class="btn btn-inverse btn-sm rippler rippler-default <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
+                  <button class="btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
-                  </div>
+                  </button>
                 </td>
             </tr>
             <% end %>
@@ -94,7 +94,7 @@
               Loading ...
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-inverse rippler rippler-default btn-sm" data-dismiss="modal" style="border-radius:3px">Close</button>
+              <button type="button" class="btn btn-white btn-sm" data-dismiss="modal" style="border-radius:3px">Close</button>
             </div>
         </div>
     </div>

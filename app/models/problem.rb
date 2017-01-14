@@ -21,6 +21,21 @@ class Problem
 
   scope :by_code, -> (pcode){ where(pcode: pcode, state: true) }
 
+RailsAdmin.config do |config|
+  config.model Problem do
+    edit do
+      field :pcode
+      field :pname
+      field :statement, :ck_editor
+      field :state   
+      field :time_limit
+      field :memory_limit
+      field :source_limit
+      field :submissions_count
+      field :max_score      
+    end
+  end
+end
   before_create :create_problem_data
   after_destroy :delete_problem_data
 

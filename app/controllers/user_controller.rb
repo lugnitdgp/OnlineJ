@@ -1,21 +1,29 @@
 class UserController < ApplicationController
-  def update
-    if current_user.username.blank? || current_user.college.blank?
-      redirect_to '/users/update_form'
+
+  def update_form
+    if user_signed_in?
+      if current_user.username.blank? || current_user.college.blank?
+        @user_page = true
+        @user = []
+        @user << { name: current_user.name, username: current_user.username, college: current_user.college }
+      else
+        redirect_to root_path
+      end
     else
-      redirect_to root_path
+      redirect_to "/users/sign_in"
     end
   end
 
-  def update_form
-    @user_page = true
-    @user = []
-    @user << { name: current_user.name, username: current_user.username, college: current_user.college }
-  end
-
   def save_update
-    current_user.update_attributes(username: params[:username],
-                                   college: params[:college], name: params[:name])
+     if current_user.username.blank?
+     current_user.update_attribute(:username,params[:username])
+    end
+    if current_user.college.blank?
+     current_user.update_attribute(:college,params[:college])
+    end
+    if current_user.name.blank?
+      current_user.update_attribute(:name,params[:name])
+    end
     flash[:notice] = 'Welcome !!'
     redirect_to root_path
   end

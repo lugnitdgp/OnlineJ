@@ -1,26 +1,98 @@
 <h6 style="color:#ffffff; background-color: orange; padding:10px">Fill in the details to proced</h6>
-  	<div style="padding:0.7%">
+    
+<div class="container" id="top_progressbar">
+      <ul class="progressbar">
+          <li class="active">Sign Up</li>
+          <li>Fill Details</li>
+          <li>Compete</li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="row">
     <%= form_tag("/users/update_form", method: "post") do %>
-  		<div class="input-group ">
-    		Username<br/>
+       <div class="col col-md-4">
+        Username<br/>
         <%if @user.first[:username].nil? || @user.first[:username].blank?%>
           <input type="text" name="username" id="username" class="form-control"  /><br/>
-        <%else%>
-          <input type="text" name="username" class="form-control"  value="<%=@user.first[:username]%>"  disabled/><br/>
+          <span id="status"></span>
+          <%else%>
+          <input type="text" name="username" class="form-control" value="<%=@user.first[:username]%>" disabled/>
         <%end%>
-        <span id="status"></span>
         </div>
+  </div>
         <br/>
-
-  		<div class="input-group">
+  <div class="row">
+      <div class="col col-md-4">
       Name<br/>
         <input type="text" name="name" class="form-control" value="<%=@user.first[:name]%>" />
       </div>
+  </div>
       <br/>
-  		<div class="input-group">
-    		College<br />
-    		<input type="text" name="college" class="form-control" value="<%=@user.first[:college]%>" />
-  		</div>
+  <div class="row">
+      <div class="col col-md-4">
+        College<br />
+        <input type="text" name="college" class="form-control" value="<%=@user.first[:college]%>" />
+      </div>
+  </div>
       <br/>
-  		<%=submit_tag "Fill",class: "btn btn-info"%>
-   	<% end %>
+  <div>
+      <%=submit_tag "Update",class: " btn btn-success"%>
+    <% end %>
+  </div>
+</div>
+
+<style>
+#top_progressbar {
+      width: 600px;
+      margin: 100px auto; 
+  }
+  .progressbar {
+      counter-reset: step;
+  }
+  .progressbar li {
+      list-style-type: none;
+      width: 25%;
+      float: left;
+      font-size: 12px;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+      color: #7d7d7d;
+  }
+  .progressbar li:before {
+      width: 30px;
+      height: 30px;
+      content: counter(step);
+      counter-increment: step;
+      line-height: 30px;
+      border: 2px solid #7d7d7d;
+      display: block;
+      text-align: center;
+      margin: 0 auto 10px auto;
+      border-radius: 50%;
+      background-color: white;
+  }
+  .progressbar li:after {
+      width: 100%;
+      height: 2px;
+      content: '';
+      position: absolute;
+      background-color: #7d7d7d;
+      top: 15px;
+      left: -50%;
+      z-index: -1;
+  }
+  .progressbar li:first-child:after {
+      content: none;
+  }
+  .progressbar li.active {
+      color: green;
+  }
+  .progressbar li.active:before {
+      border-color: #55b776;
+  }
+  .progressbar li.active + li:after {
+      background-color: #55b776;
+  }
+</style>

@@ -6,7 +6,7 @@
 $(document).on('turbolinks:load', function() {
   $.timeago.settings.allowFuture = true;
   $("time.timeago").timeago();
-  $("body").addClass('page-fade-only-init')
+  $("body").addClass('page-fade-only-init');
 
   setTimeout(function()
   {
@@ -20,6 +20,7 @@ $(document).on('turbolinks:load', function() {
   // });
 
   $('.dropdown-toggle').dropdown();
+  
   toastr.options = {
     "closeButton": true,
     "debug": false,
