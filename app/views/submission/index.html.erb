@@ -35,7 +35,7 @@
           <% @Submissions.each_with_index do |submission, index|%>
               <% perm = "disabled" %>
               <% if user_signed_in? %>
-                <% if @Users[index][:user_id] == current_user[:_id] || current_user.admin == true %>
+                <% if can? :read, submission %>
                   <% perm = "" %>
                 <% end %>
               <% end %>

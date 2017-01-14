@@ -5,7 +5,7 @@ class SubmissionCronWorker
 
   sidekiq_options failures: true
 
-  recurrence { hourly.minute_of_hour(0, 10, 20, 30, 40, 50) }
+  recurrence { hourly.minute_of_hour(0, 15, 30, 45) }
 
   def perform
     at 0, "checking PE submissions"

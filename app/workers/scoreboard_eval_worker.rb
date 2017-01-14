@@ -12,6 +12,7 @@ class ScoreboardEvalWorker
     contests.each do |contest|
       contest_start_time = contest[:start_time]
       ranklist = contest.ranklist
+      contest_setter = contest.setter
       contest_users = contest.users
       contest_problems = contest.problems
       user_array = []
@@ -25,6 +26,7 @@ class ScoreboardEvalWorker
       next if total_submissions_count == ranklist.submissions_count
 
       contest_users.each do |user|
+        next if user.setter_id == contest_setter[:_id]
         user_hash = { username: user[:username], id: user[:id], college: user[:college] }
         problem_array = []
         total_time = contest_start_time

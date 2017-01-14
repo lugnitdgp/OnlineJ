@@ -22,6 +22,7 @@ gem 'sidekiq-status'
 gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
 # gem "mongoid-paperclip" for using paperclip with mongodb
+gem 'cancancan'
 gem 'mongoid-paperclip', require: 'mongoid_paperclip'
 # gem 'kaminari' for pagination
 gem 'kaminari'
