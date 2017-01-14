@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:warning] = "You are not authorized to view this page"
+    redirect_to root_path
+  end
 end
