@@ -1,5 +1,14 @@
+<style media="screen">
+  .table > tbody > tr > td{
+    vertical-align: middle;
+    padding: 0px;
+  }
+  .table > thead > tr > th{
+   vertical-align: middle;
+   padding: 10px;
+  }
+</style>
 <div class= "container ">
-
   <ol class="breadcrumb bc-1">
       <li> <a href="/"></i>Home</a> </li>
       <li class="active"> <a href="/submission"><%= @title %> </a> </li>
@@ -19,7 +28,7 @@
       <div class="panel-title">Submissions</div>
     </div>
     <div class="panel-body table-responsive">
-      <table class="table table-bordered datatable-submission table-hover " cellspacing="0" width="100%">
+      <table class="table datatable-submission table-hover " cellspacing="0" width="100%">
         <thead >
             <tr>
                 <th>User</th>
@@ -84,17 +93,17 @@
 </div>
 
 <div class="modal fade custom_width" id="submission_modal" role="dialog" >
-    <div class="modal-dialog modal-lg" role="document" style="width: 60%">
+    <div class="modal-dialog modal-lg" role="document" >
         <div class="modal-content">
             <div class="modal-header" style="border-radius: 3px;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 style="font-size: 18px" class="modal-title"></h4>
             </div>
-            <div class="modal-body" id= "code-body" style="border-radius: 3px;">
+            <div class="modal-body" id= "code-body">
               Loading ...
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-white btn-sm" data-dismiss="modal" style="border-radius:3px">Close</button>
+              <button type="button" class="btn btn-simple btn-sm" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

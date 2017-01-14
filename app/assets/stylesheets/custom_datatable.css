@@ -4,12 +4,11 @@
   .table tbody,
   .table td {text-align: center;}
   figcaption {height:5px;font-size: 10px;}
-
-   .table > tbody > tr > td{
-    vertical-align: middle;
-    padding: 2px;
+  body
+  {
+  	font-family: 'Lato', 'Roboto', 'Open Sans', sans-serif;
   }
-
+  
   .dataTables_wrapper > div label {
     margin-bottom: 0;
     font-weight: normal;

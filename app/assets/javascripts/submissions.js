@@ -1,5 +1,6 @@
-$(document).on('turbolinks:load', function() {
-  $('[data-status="PE"]').each(function(index, el) {
+// $(document).on('turbolinks:load', function() {
+$(document).ready(function() {
+    $('[data-status="PE"]').each(function(index, el) {
     get_submission_data(el)
   });
 
@@ -56,7 +57,7 @@ $(document).on('turbolinks:load', function() {
     user = $(this).siblings('.user').text();
     problem = $(this).siblings('.problem').text();
     status = $(this).siblings('.submission_status').text();
-    $('#submission_modal .modal-title').text("Submission for "+problem)
+    $('#submission_modal .modal-title').text(user+" submission for "+problem)
     $('#submission_modal').modal();
     $.ajax({
       url: '/get_submission',
@@ -65,11 +66,10 @@ $(document).on('turbolinks:load', function() {
       },
       dataType: 'json',
       success: function(data){
-        lang = '<span>'+data['language']+'</span>'
+        lang = '<span>language: '+data['language']+'</span> <hr class="sm-divider">'
         source_code = '<div>'+data['user_source_code']+'</div>'
         $('#submission_modal .modal-body').text("");
         $('#submission_modal .modal-body').append(lang);
-        $('#submission_modal .modal-body').append(status);
         var cEditor = new CodeMirror(document.getElementById("code-body"), {
           lineNumbers: true,
           mode: data['lang_name'],
@@ -78,6 +78,7 @@ $(document).on('turbolinks:load', function() {
           viewportMargin: Infinity,
           readOnly: true
         });
+        $('#code-body').append('<hr class="sm-divider">')
          cEditor.setValue(data['user_source_code']);
          setTimeout(function() {
            cEditor.refresh();
@@ -99,7 +100,7 @@ $(document).on('turbolinks:load', function() {
     status = $(this).attr('data-status');
     problem = $(this).siblings('.problem').text();
     if (status == 'CE'){
-      $('#submission_modal .modal-title').text("compilation for "+ problem)
+      $('#submission_modal .modal-title').text("compilation error for "+ problem)
       $('#submission_modal').modal();
       $.ajax({
         url: '/get_submission_error',
