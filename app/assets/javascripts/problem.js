@@ -1,8 +1,9 @@
 $(document).on('turbolinks:load', function() {
+  mode = $('#mode').val();
   var cEditor = new CodeMirror(document.getElementById("code_editor"), {
     lineNumbers: true,
     extraKeys: null,
-    mode: "text/x-c++src",
+    mode: mode,
     lineWrapping: true,
     viewportMargin: Infinity,
     matchBrackets: true
@@ -19,7 +20,7 @@ $(document).on('turbolinks:load', function() {
   cEditor.setSize(height-2,400);
   cEditor.refresh();
   $('#mode').change(function(event) {
-    cEditor.setOption("mode",event.val);
+    cEditor.setOption("mode",$(this).val());
   });
 
   $('#theme li').click(function() {
@@ -47,7 +48,8 @@ $(document).on('turbolinks:load', function() {
     var user_source_code = document.createElement('textarea');
     user_source_code.name = 'user_source_code';
     user_source_code.value = cEditor.getValue();
-    if (!user_source_code.val){
+    if (!user_source_code.value){
+      console.log(user_source_code.value);
       toastr['warning']("code editor is empty");
       return;
     }
