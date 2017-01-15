@@ -8,7 +8,16 @@
   {
   	font-family: 'Lato', 'Roboto', 'Open Sans', sans-serif;
   }
-  
+
+  table > tbody > tr > td{
+    vertical-align: middle;
+    padding: 15px;
+  }
+  .table > thead > tr > th{
+   vertical-align: middle;
+   padding: 10px;
+  }
+
   .dataTables_wrapper > div label {
     margin-bottom: 0;
     font-weight: normal;

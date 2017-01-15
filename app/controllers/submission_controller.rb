@@ -70,6 +70,7 @@ class SubmissionController < ApplicationController
 
   def get_submission_data
     submission = Submission.by_id(params['submission_id']).first
+    authorize! :read, submission
     msg = if submission.nil?
             { error: 'bad submission' }
           else
@@ -84,6 +85,7 @@ class SubmissionController < ApplicationController
   # TODO: add authorization
   def get_submission
     submission = Submission.by_id(params['submission_id']).first
+    authorize! :read, submission
     msg = if submission.nil?
             { error: 'wrong submission id' }
           else
@@ -97,6 +99,7 @@ class SubmissionController < ApplicationController
   # TODO: add authorization
   def get_submission_error
     submission = Submission.by_id(params['submission_id']).first
+    authorize! :read, submission
     msg = if submission.nil?
             { error: 'wrong submission id' }
           else
@@ -145,6 +148,6 @@ class SubmissionController < ApplicationController
         query.merge! ({ user_id: user_id })
       end
     end
-    return query
+    query
   end
 end

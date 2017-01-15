@@ -3,13 +3,33 @@ class Ability
 
   def initialize(user)
     # Define abilities for the passed in user here. For example:
-    #
-      user ||= User.new # guest user (not logged in)
-      if user.admin?
-        can :manage, :all
-      else
-        can :read, :all
+
+    alias_action :read, :update, to: :modify
+    alias_action :create, :read, :update, :destroy, to: :crud
+
+    user ||= User.new # guest user (not logged in)
+    if user.has_role? :admin
+      can :manage, :all
+    elsif user.has_role? :setter
+      can :access, :rails_admin
+      # can :dashboard
+      # can :read, :all
+      can :read, Language
+      can :modify, Contest, setter_id: (user.setter? ? user.setter.id : nil)
+      can :read, Setter, id: (user.setter? ? user.setter.id : nil)
+      can :crud, Problem, setter_id: (user.setter? ? user.setter.id : nil)
+      can :crud, Announcement, Announcement.all do |announcement|
+        announcement.contest.setter.user._id == user._id if announcement.nil?
       end
+      can :crud, TestCase, TestCase.all do |testcase|
+        testcase.problem.setter.user._id == user._id if testcase.nil?
+      end
+      can [:read, :update, :destroy], Submission, Submission.all do |submission|
+        submission.problem.setter.user._id == user._id
+      end
+    else
+      can :read, Submission, user_id: user.id
+    end
 
     # The first argument to `can` is the action you are giving the user
     # permission to do.

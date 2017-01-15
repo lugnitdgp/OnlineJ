@@ -18,7 +18,7 @@ class User
 
   ## roles for
   field :enable,             type: Boolean, default: ''
-  field :admin,              type: Boolean, default: ''
+  field :roles_mask,         type: Integer, default: ''
 
   ## Recoverable
   field :reset_password_token,   type: String
@@ -55,8 +55,9 @@ class User
   scope :by_id, ->(id) { where(_id: id) }
   scope :by_username, ->(username) { where(username: username) }
 
-  before_create :create_user_data
+  before_save :create_user_data
   after_destroy :delete_user_data
+  before_create :first_user_admin
 
   def to_s
     username
@@ -64,6 +65,23 @@ class User
 
   def title
     to_s
+  end
+
+  ROLES = %i(admin setter).freeze
+
+  def roles=(roles)
+    roles = [*roles].map(&:to_sym)
+    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+  end
+
+  def roles
+    ROLES.reject do |r|
+      ((roles_mask.to_i || 0) & 2**ROLES.index(r)).zero?
+    end
+  end
+
+  def has_role?(role)
+    roles.include?(role)
   end
 
   def self.find_for_oauth(auth, signed_user = nil)
@@ -100,6 +118,10 @@ class User
   end
 
   private
+
+  def first_user_admin
+    self.roles = 'admin' if 'User'.constantize.count == 0
+  end
 
   def create_user_data
     system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:email]}"
