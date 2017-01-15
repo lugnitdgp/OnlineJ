@@ -8,40 +8,81 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
-  config.model 'Contest' do
-    edit do
-        field :cname
-        field :ccode
-        field :start_time
-        field :end_time
-        field :state
-        field :details
-        field :setter
-        field :problems
-    end
-  end
+  ## == Cancan ==
+  config.authorize_with :cancan
 
-  config.model 'Problem' do
+
+  config.excluded_models = ["Ckeditor::Asset", "Ckeditor::Picture","Ckeditor::AttachmentFile","Identity"]
+
+  config.model Contest do
+    list do
+      exclude_fields :c_at, :_id
+    end
     edit do
-      field :pcode
-      field :pname
-      field :statement
+      field :cname
+      field :ccode do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :problems
+      field :details, :ck_editor
+      field :announcements
+      field :start_time do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :end_time do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
       field :state
-      field :time_limit
-      field :memory_limit
-      field :source_limit
-      field :diff
-      field :max_score
+      field :setter
+      field :users
+      field :details, :ck_editor
     end
   end
+    config.model Problem do
+      list do
+        exclude_fields :c_at, :_id
+      end
+      edit do
+        field :pcode
+        field :pname
+        field :statement, :ck_editor
+        field :state
+        field :time_limit
+        field :memory_limit
+        field :source_limit
+        field :submissions_count do
+          visible do
+            bindings[:view]._current_user.has_role? :admin
+          end
+        end
+        field :max_score
+        field :contest
+        field :submissions
+        field :test_cases
+        field :languages
+        field :setter
+      end
+    end
 
   config.model 'Ranklist' do
+    list do
+      exclude_fields :c_at, :_id
+    end
     edit do
       field :contest
     end
   end
 
   config.model 'Setter' do
+    list do
+      exclude_fields :c_at, :_id
+    end
     edit do
       field :user
       field :contests
@@ -49,9 +90,33 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'Submission' do
+    list do
+      exclude_fields :_id, :job_id
+    end
+    edit do
+      exclude_fields :_id, :job_id
+    end
+  end
 
-  ## == Cancan ==
-  # config.authorize_with :cancan
+  config.model 'TestCase' do
+    list do
+      exclude_fields :_id
+    end
+    edit do
+      exclude_fields :_id
+    end
+  end
+
+  config.model 'Announcement' do
+    list do
+      exclude_fields :c_at, :_id
+    end
+    edit do
+      exclude_fields :c_at, :_id
+    end
+  end
+
 
   ## == Pundit ==
   # config.authorize_with :pundit
