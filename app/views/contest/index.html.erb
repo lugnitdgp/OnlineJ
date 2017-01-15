@@ -32,7 +32,11 @@
                   <%= @problem_hash[:success_sub][index] %>
                 </td>
                 <td>
+                  <% if problem[:submissions_count] == 0 %>
+                    0
+                  <% else %>
                   <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
+                  <% end %>
                 </td>
               </tr>
               <% end %>
