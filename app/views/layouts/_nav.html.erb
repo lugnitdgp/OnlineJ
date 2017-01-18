@@ -10,40 +10,40 @@
   </div>
   <div class="collapse navbar-collapse" id="navbar-collapse-01">
     <ul class="nav navbar-nav ">
-      <li class="<%= " active" if @home_page%>"><a href="/" class="rippler rippler-default">Home</a></li>
-      <li class="<%= " active" if @submission_page%>"><a href="/submission" class="rippler rippler-default">Submissions</a></li>
+      <li class="<%= " active" if @home_page%>"><a href="/" class="rippler rippler-default"><i class="material-icons">home</i>Home</a></li>
+      <li class="<%= " active" if @submission_page%>"><a href="/submission" class="rippler rippler-default"><i class="material-icons">dashboard</i>Submissions</a></li>
     </ul>
     <div class="navbar-right">
         <ul class="nav navbar-nav">
         <% if user_signed_in? %>
           <% if can? :manage, :all %>
               <li>
-                  <a href="/sidekiq"> Judge Status</a>
+                  <a href="/sidekiq"><i class="material-icons">extension</i> Judge Status</a>
               </li>
               <li>
-                  <a href="/admin">Admin </a>
+                  <a href="/admin"><i class="material-icons">https</i>Admin </a>
               </li>
           <% elsif can? :modify, Contest %>
               <li>
-                  <a href="/admin/contest">Admin </a>
+                  <a href="/admin/contest"><i class="material-icons">https</i>Admin </a>
               </li>
           <% end %>
           <% if !current_user[:username].blank?  %>
             <!-- true -->
           <li class="dropdown ">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-transform:none"> <%= current_user[:username] %><b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-transform:none"> <i class="material-icons">account_circle</i> <%= current_user[:username] %><b class="caret"></b></a>
             <span class="dropdown-arrow"></span>
             <ul class="dropdown-menu">
-              <li class="<%= "active" if @profile_page%>"><a href=<%= "/users/profile/#{current_user[:username]}"%>>Profile</a></li>
-              <li><a href=<%="/users/edit/"%>>Edit Profile</a></li>
-              <li class="<%="active" if @submission_page%>"><a href=<%= "/submission/user/#{current_user[:username]}"%>>Submission History </a></li>
-              <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+              <li class="<%= "active" if @profile_page%>"><a href=<%= "/users/profile/#{current_user[:username]}"%>><i class="material-icons">code</i>Profile</a></li>
+              <li><a href=<%="/users/edit/"%>><i class="material-icons">border_color</i>Edit Profile</a></li>
+              <li class="<%="active" if @submission_page%>"><a href=<%= "/submission/user/#{current_user[:username]}"%>><i class="material-icons">dashboard</i>Submission History </a></li>
+              <li><%= link_to('<i class="material-icons">exit_to_app</i> Logout'.html_safe, destroy_user_session_path, :method => :delete) %></li>
             </ul>
           </li>
           <% end %>
          <% else %>
          <li>
-           <%= link_to('Login', new_user_session_path)  %>
+           <%= link_to('<i class="material-icons">account_circle</i> Login'.html_safe, new_user_session_path)  %>
          </li>
          <% end %>
       </ul>
