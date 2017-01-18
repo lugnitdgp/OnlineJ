@@ -16,24 +16,26 @@
                 <div class="form-group label-floating">
                   <label class="control-label"> Username</label>
                   <input type="text" name="username" id="username" class="form-control">
-                  <span class="material-input"></span>
+                  <div class="material-input"></div>
+
                 </div>
-                <span id="status"></span>
+                
                 <%else%>
                 <div class="form-group label-floating">
                   <label class="control-label"> Username</label>
                   <input type="text" name="username" class="form-control" value="<%=@user.first[:username]%>" disabled/>
-                  <span class="material-input"></span>
+                  <div class="material-input"></div>
                 </div>
                 <%end%>
               </div>
+              <div class="col-sm-4" id="status"></div>
             </div>
             <div class="row">
               <div class=" col-sm-4">
                 <div class="form-group label-floating">
                   <label class="control-label"> Name </label>
                   <input type="text" name="name" class="form-control" value="<%=@user.first[:name]%>" />
-                  <span class="material-input"></span>
+                  <div class="material-input"></div>
                 </div>
               </div>
             </div>
@@ -43,7 +45,7 @@
                 <div class="form-group label-floating ">
                   <label class="control-label"> Institition </label>
                   <input type="text" name="college" class="form-control" value="<%=@user.first[:college]%>" />
-                  <span class="material-input"></span>
+                  <div class="material-input"></div>
                 </div>
               </div>
             </div>
