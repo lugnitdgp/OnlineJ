@@ -15,8 +15,10 @@ class ContestController < ApplicationController
     @announcements = (contest.announcements if contest.announcements.count > 0)
     lang_data = []
     success_sub = []
-    problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').distinct(:problem).count }
-    @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
+    unless problems.nil?
+      problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').distinct(:problem).count }
+      @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
+    end
   end
 
   def problem
