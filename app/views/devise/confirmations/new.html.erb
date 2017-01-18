@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<div class="card card-signup">
-						<div class="header header-primary text-center">
+						<div class="header header-warning text-center">
               <h4>Resend confirmation instructions</h4>
 						</div>
             <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
@@ -13,11 +13,11 @@
 								<span class="input-group-addon">
 									<i class="material-icons">face</i>
 								</span>
-								<div class="form-group is-empty">  <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) , class: "form-control", placeholder: "First Name..." %><span class="material-input"></span></div>
+								<div class="form-group is-empty">  <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) , class: "form-control", placeholder: "Email..." %><span class="material-input"></span></div>
 							</div>
 						</div>
 						<div class="footer text-center">
-                <%= f.submit "Resend confirmation instructions",  class: "btn btn-simple btn-primary btn-lg" %>
+                <%= f.submit "Resend confirmation instructions",  class: "btn btn-simple btn-warning btn-lg" %>
 						</div>
           <% end %>
 				</div>
