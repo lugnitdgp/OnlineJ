@@ -8,14 +8,14 @@ class ContestController < ApplicationController
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     @title = contest[:cname]
-    problems = contest.all_problems
+    problems = contest.all_problems if contest[:start_time] <= DateTime.now
     @Details = contest[:details]
     @start_time = contest[:start_time]
     @end_time = contest[:end_time]
     @announcements = (contest.announcements if contest.announcements.count > 0)
     lang_data = []
     success_sub = []
-    problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').count }
+    problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').distinct(:problem).count }
     @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
   end
 
@@ -24,7 +24,7 @@ class ContestController < ApplicationController
     @ccode = params[:ccode]
     @pcode = params[:pcode]
     problem = Problem.by_code(@pcode).first
-    if problem.nil?
+    if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     @cname = problem.contest[:cname]

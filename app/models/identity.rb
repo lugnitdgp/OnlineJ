@@ -3,7 +3,7 @@ class Identity
 
   field :uid,       type: String
   field :provider,  type: String
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
 
   #function to find uid of the user if not then create new
   def self.find_for_oauth(auth)

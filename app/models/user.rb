@@ -15,6 +15,7 @@ class User
   field :name,               type: String, default: ''
   field :college,            type: String, default: ''
   field :dob,                type: Date, default: ''
+  field :image,              type: String, default: ''
 
   ## roles for
   field :enable,             type: Boolean, default: ''
@@ -113,8 +114,7 @@ class User
   def fetch_details(auth)
     self.name = auth.info.name
     self.email = auth.info.email
-    ## TODO add image for the user
-    # self.photo = URI.parse(auth.info.image)
+    self.image = URI.parse(auth.info.image)
   end
 
   private
