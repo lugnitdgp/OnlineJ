@@ -67,14 +67,17 @@
                   <% ext = '.png' %>
                   <% ext = '.gif' if submission[:status_code] == 'PE' %>
                     <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" class="<%= perm %>"/>
-                      <figcaption><%= submission[:status_code] if submission[:status_code] != 'RTE'%></figcaption>
-                      <figcaption><%= submission[:error_desc] if submission[:status_code] == 'RTE'%></figcaption>
+                      <% if submission[:status_code] != 'RTE'%>
+                        <figcaption><%= submission[:status_code]%></figcaption>
+                      <% elsif submission[:status_code] == 'RTE'%> 
+                        <figcaption><%= submission[:error_desc] %></figcaption>
+                      <% end %>
                 </td>
                 <td>
                   <% if submission[:status_code] == 'CE' || submission[:status_code] == 'PE' %>
                     <%= "-" %>
                    <% else %>
-                     <%= submission[:time_taken] %>
+                     <%= submission[:time_taken].round(2).to_s %>
                    <% end %>
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
