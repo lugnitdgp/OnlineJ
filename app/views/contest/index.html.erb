@@ -20,25 +20,27 @@
               </tr>
             </thead>
             <tbody>
-              <% @problem_hash[:problems].each_with_index do | problem, index |%>
-              <tr>
-                <td>
-                  <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
-                </td>
-                <td>
-                  <%=  link_to @ccode , problem_path(@ccode,problem[:pcode]) %>
-                </td>
-                <td>
-                  <%= @problem_hash[:success_sub][index] %>
-                </td>
-                <td>
-                  <% if problem[:submissions_count] == 0 %>
+              <% unless @problem_hash.nil? %>
+                <% @problem_hash[:problems].each_with_index do | problem, index |%>
+                <tr>
+                  <td>
+                    <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
+                  </td>
+                  <td>
+                    <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode]) %>
+                  </td>
+                  <td>
+                    <%= @problem_hash[:success_sub][index] %>
+                  </td>
+                  <td>
+                    <% if problem[:submissions_count] == 0 %>
                     0
-                  <% else %>
-                  <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
-                  <% end %>
-                </td>
-              </tr>
+                    <% else %>
+                    <%= (@problem_hash[:success_sub][index].to_f/problem[:submissions_count].to_f).round(2) %>
+                    <% end %>
+                  </td>
+                </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>
