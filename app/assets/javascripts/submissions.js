@@ -6,6 +6,7 @@ $(document).ready(function() {
 
   function get_submission_data(element) {
     submission_id = element.getAttribute('data-id')
+    console.log();
     $.ajax({
       url: '/get_submission_data',
       data: {
@@ -13,8 +14,8 @@ $(document).ready(function() {
       },
       dataType: 'json',
       success: function(data){
-        console.log(data['pe_status']);
         if( data['status_code'] == 'PE'){
+          $(element).children('figcaption').text(data['pe_status']);
           setTimeout( function(){
             get_submission_data(element)
           }, 3000);
@@ -22,9 +23,6 @@ $(document).ready(function() {
         else {
           img = '';
           status = '<figcaption>'+data['status_code']+'</figcaption>';
-          if ( data['status_code'] == 'PE'){
-            status = '<figcaption>'+data['pe_status']+'</figcaption>';
-          }
           if( data['error_desc'] && data['status_code'] == "RTE") {
             status = '<figcaption>'+data['error_desc']+'</figcaption>';
           }

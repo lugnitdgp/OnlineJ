@@ -62,13 +62,16 @@ class ProcessSubmissionWorker
     percentage = (100/count).to_i
     testcase_count = 0
     testcases.each_with_index do |testcase, index|
+      testcase_count += percentage
+      at testcase_count, "judging (#{index+1})"
+
       execution = nil
       if lang_code == 'c' ||  lang_code == 'c++'
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{testcase[:name]}/testcase_output"
       elsif lang_code == 'java'
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage usage_log --exec /usr/bin/java main < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
       else
-        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec /usr/bin/#{lang_code} compiled_code < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
+        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec /usr/bin/#{lang_code} user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
       end
 
       pid = Process.spawn(execution, chdir: submission_path)
@@ -77,8 +80,6 @@ class ProcessSubmissionWorker
       @judge_data = judge_usage.split("\n")
       time_taken += @judge_data[@judge_data.size-1].to_f
 
-      testcase_count += percentage
-      at testcase_count, "judging (#{index+1})"
       if @judge_data[0] == 'AC'
         user_output = submission_path + "#{testcase[:name]}/testcase_output"
         code_output = problem_path + "#{testcase[:name]}/testcase_output"
