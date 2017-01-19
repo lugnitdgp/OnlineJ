@@ -1,10 +1,9 @@
 $(document).ready(function() {
-	$(':input[type="submit"]').prop('disabled', true);
-	$("#username").blur(function(){
+	// $(':input[type="submit"]').prop('disabled', true);
+	$("#username").keyup(function(){
 			username = $(this).val();
 			if(/^[a-zA-Z0-9_]*$/.test(username) == false) {
-				$('#status').css({'background':'red','color':'white'});
-    			$('#status').hide().html("No special characters and spaces allowed").fadeIn("slow");
+    			$('#status').hide().html('<br/><br/><img src="/icons/WA.png" width="23" height="23" >').fadeIn("slow");
     			$(':input[type="submit"]').prop('disabled', true);
 				return;
 			}
@@ -16,14 +15,15 @@ $(document).ready(function() {
 				success: function(result){
 					console.log(result);
 					if(result.status==='OK You can go with that'){
-						$('#status').css({'background':'green','color':'white','padding':'5px'});
 						$(':input[type="submit"]').prop('disabled', false);
+    					$('#status').hide().html('<br/><br/><img src="/icons/AC.png" width="23" height="23" >').fadeIn("slow");
+
 					}
 					else{
-						$('#status').css({'background':'red','color':'white'});
+    					$('#status').hide().html('<br/><br/><img src="/icons/WA.png" width="23" height="23" >').fadeIn("slow");
 						$(':input[type="submit"]').prop('disabled', true);
 					}
-					$('#status').hide().html(result.status).fadeIn("slow");
+					
 
 				}
 			});
