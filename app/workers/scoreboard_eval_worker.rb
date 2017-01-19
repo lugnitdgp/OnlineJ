@@ -27,11 +27,11 @@ class ScoreboardEvalWorker
 
       contest_users.each do |user|
         next if user.setter_id == contest_setter[:_id]
-        user_hash = { username: user[:username], id: user[:id], college: user[:college] }
         problem_array = []
         total_time = contest_start_time
         total_success = 0
         total_score = 0
+        total_penlty = 0
         contest_problems.each do |problem|
           problem_hash = { pcode: problem[:pcode], name: problem[:name], max_score: problem[:max_score] }
           problem_submissions = Submission.where(user_id: user[:_id], problem_id: problem[:_id])
@@ -41,20 +41,21 @@ class ScoreboardEvalWorker
             user_ac_earliest_time = problem_submissions_ac.first[:submission_time]
             problem_hash.merge! ({ success_time: user_ac_earliest_time, success: true })
             user_not_ac_count = problem_submissions.where(:status_code.nin => %w(AC PE CE), :submission_time.lte => user_ac_earliest_time).count
-            problem_hash.merge! ({ wa_count: user_not_ac_count })
+            problem_hash.merge! ({ penalty_count: user_not_ac_count })
+            total_penlty += user_not_ac_count
             total_time += user_ac_earliest_time - contest_start_time + user_not_ac_count * CONFIG[:penalty].minutes
             total_success += 1
             total_score += problem[:max_score]
           else
             problem_hash.merge! ({ success: false })
-            user_wa_count = problem_submissions.where(:status_code.nin => %w(AC PE CE)).count
-            problem_hash.merge! ({ wa_count: user_wa_count })
           end
           problem_array << problem_hash
         end
-
-        user_hash.merge! ({ problems: problem_array, total_time: (total_time - contest_start_time) / 60, successes: total_success, total_score: total_score })
-        user_array << user_hash
+        unless total_success == 0
+          user_hash = { username: user[:username], id: user[:id], college: user[:college] }
+          user_hash.merge! ({ problems: problem_array, total_time: (total_time - contest_start_time) / 60, successes: total_success, total_score: total_score, total_penlty: total_penlty })
+          user_array << user_hash
+        end
       end
       user_array.sort! { |a, b| a[:successes] > b[:successes] ? -1 : (a[:successes] < b[:successes] ? 1 : (a[:total_time] <=> b[:total_time])) }
       last_updated_time = DateTime.now

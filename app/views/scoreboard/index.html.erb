@@ -5,68 +5,70 @@
               <li class="active"> <a href=<%="/contest/#{@ccode}/"%>> <%= @cname %></a> </li>
               <li class="active"> Scoreboard</li>
           </ol>
-  </div><div class = "panel panel-default panel-shadow">
-            <div class="panel-heading">
-              <div class="panel-title">
-                <%= "Scoreboard" %>
-              </div>
-              <span style="font-size: 0.6em">
-              <%= "updated "%>
-              <time class ="timeago" datetime="<%= @last_updated_at.localtime%>">
-                <%= @last_updated_at.localtime%>
-              </time>
-            </span>
-
-            </div>
-            <div class="panel-body table-responsive">
-              <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
-
-                                    <thead >
-                                        <tr>
-                                            <th style="color:#ffffff; background-color: #2c3e50">#</th>
-                                            <th style="color:#ffffff; background-color: #2c3e50">Name</th>
-                                            <% @problems.each do |problem| %>
-                                                <th style="color:#ffffff; background-color: #2c3e50"><%=problem[:pcode]%></th>
-                                            <% end %>
-                                            <th style="color:#ffffff; background-color: #2c3e50">Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% @user_array.each_with_index do |user, index| %>
-                                            <tr>
-                                                <td class="text-primary">
-                                                    <%=index + 1%>
-                                                </td>
-                                                <td class="text-primary">
-                                                        <%= link_to user[:username], "/users/profile/#{user[:username]}" %><span style="font-size: 0.6em;color:black"><i>&nbsp;&nbsp;<%=user[:college] %></i></span>
-                                                </td>
-                                                <% user[:problems].each do |problem| %>
-                                                    <% if problem[:success] %>
-                                                        <td class="text-primary" style="background-color:#2ecc71;color:#fff;">
-                                                            <%= problem[:max_score].to_s %>
-                                                            <% if problem[:wa_count].to_i>0 %>
-                                                            <span style="color:#e74c3c"><%= '(' + problem[:wa_count].to_s + ')' %></span>
-                                                            <% else %>
-                                                            <%= '(0)' %>
-                                                            <% end %>
-                                                        </td>
-                                                    <% else %>
-                                                        <td class="text-primary" <% if problem[:wa_count].to_i > 0 %>style="background-color:rgb(247, 93, 93);color:#fff;" <% end %> >
-                                                          <%= "0" %>
-                                                          <span style="color:red"><%= '(' + problem[:wa_count].to_s + ')' if problem[:wa_count].to_i>0 %></span>
-                                                      </td>
-                                                    <% end %>
-                                                <% end %>
-                                                <td class="text-primary">
-                                                    <%=user[:total_score]%>
-                                                </td>
-                                            </tr>
-                                        <% end %>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                    </div>
+  </div>
+  <div class = "panel panel-default panel-shadow">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <%= "Scoreboard" %>
+      </div>
+      <span style="font-size: 0.6em">
+        <%= "updated "%>
+        <time class ="timeago" datetime="<%= @last_updated_at.localtime%>">
+          <%= @last_updated_at.localtime%>
+        </time>
+     </span>
+    </div>
+    <div class="panel-body table-responsive">
+      <table class="table table-bordered dataTable table-hover " cellspacing="0" width="100%">
+        <thead >
+            <tr>
+                <th >#</th>
+                <th >Name</th>
+                <th >Score</th>
+                <% @problems.each do |problem| %>
+                    <th ><%=problem[:pcode]%></th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <% @user_array.each_with_index do |user, index| %>
+                <tr>
+                    <td>
+                        <%=index + 1%>
+                    </td>
+                    <td>
+                      <div>
+                        <%= link_to user[:username], users_path(user[:username]) %><span style="font-size: 0.6em;color:black"><i>&nbsp;&nbsp;<%=user[:college] %></i></span>
+                      </div>
+                    </td>
+                    <td>
+                      <%=user[:total_score]%>
+                      <% if user[:total_penlty] > 0%>
+                        <span style="color:#e74c3c"><%= '(' + user[:total_penlty].to_s + ')' %></span>
+                      <% end %>
+                    </td>
+                    <% user[:problems].each do |problem| %>
+                        <% if problem[:success] %>
+                            <td style="background-color:#2ecc71;color:#fff;">
+                                <%= problem[:max_score].to_s %>
+                                <% if problem[:penalty_count].to_i > 0 %>
+                                  <span style="color:#e74c3c"><%= '(' + problem[:penalty_count].to_s + ')' %></span>
+                                <% else %>
+                                  <%= '(0)' %>
+                                <% end %>
+                            </td>
+                          <% else %>
+                            <td >
+                              <%= "0" %>
+                          </td>
+                        <% end %>
+                    <% end %>
+                </tr>
+            <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <script charset="utf-8">
   $(document).ready(function() {
