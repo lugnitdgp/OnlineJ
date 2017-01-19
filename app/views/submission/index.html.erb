@@ -36,6 +36,7 @@
                 <th>Prob code</th>
                 <th>Result</th>
                 <th>Time</th>
+                <th>Mem</th>
                 <th>Lang</th>
                 <th>Sol</th>
             </tr>
@@ -69,7 +70,7 @@
                     <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" class="<%= perm %>"/>
                       <% if submission[:status_code] != 'RTE'%>
                         <figcaption><%= submission[:status_code]%></figcaption>
-                      <% elsif submission[:status_code] == 'RTE'%> 
+                      <% elsif submission[:status_code] == 'RTE'%>
                         <figcaption><%= submission[:error_desc] %></figcaption>
                       <% end %>
                 </td>
@@ -80,11 +81,19 @@
                      <%= submission[:time_taken].round(2).to_s %>
                    <% end %>
                 </td>
+                <td>
+                  <% if submission[:status_code] == 'CE' || submission[:status_code] == 'PE' %>
+                    <%= "-" %>
+                   <% else %>
+                      <%= (submission[:memory_taken].to_f/1000).round(2) %>
+                   <% end %>
+                </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-btn">
                   <button class="btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </button>
+                  <i class="material-icons">update</i>
                 </td>
             </tr>
             <% end %>
