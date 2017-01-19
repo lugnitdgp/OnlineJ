@@ -58,6 +58,7 @@ class ProcessSubmissionWorker
     end
 
     time_taken = 0
+    memory_taken = 0
     count = testcases.count
     percentage = (100/count).to_i
     testcase_count = 0
@@ -69,7 +70,7 @@ class ProcessSubmissionWorker
       if lang_code == 'c' ||  lang_code == 'c++'
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{testcase[:name]}/testcase_output"
       elsif lang_code == 'java'
-        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage usage_log --exec /usr/bin/java main < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
+        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage usage_log --exec /usr/bin/java Main < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
       else
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec /usr/bin/#{lang_code} user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
       end
@@ -79,6 +80,7 @@ class ProcessSubmissionWorker
       judge_usage = File.read(submission_path+'usage_log')
       @judge_data = judge_usage.split("\n")
       time_taken += @judge_data[@judge_data.size-1].to_f
+      memory_taken += @judge_data[@judge_data.size-2].to_i
 
       if @judge_data[0] == 'AC'
         user_output = submission_path + "#{testcase[:name]}/testcase_output"
@@ -86,18 +88,18 @@ class ProcessSubmissionWorker
         diff = %x(diff #{diff_opt} #{user_output} #{code_output})
         if diff.length > 0
           @judge_data[0] = 'WA'
-          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken )
+          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
           return
         end
       elsif @judge_data[0] == 'RTE'
-        submission.update!( status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken )
+        submission.update!( status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken, memory_taken: memory_taken )
         return
       else
-        submission.update!( status_code: @judge_data[0], time_taken: time_taken )
+        submission.update!( status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken )
         return
       end
     end
-    submission.update!( status_code: @judge_data[0], time_taken: time_taken )
+    submission.update!( status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken )
     return
   end
 end

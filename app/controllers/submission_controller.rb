@@ -76,7 +76,8 @@ class SubmissionController < ApplicationController
           else
             pe_status = Sidekiq::Status.message submission.job_id
             time_taken = submission[:time_taken].round(2) unless submission[:time_taken].nil?
-            { status_code: submission[:status_code], pe_status: pe_status, error_desc: submission[:error_desc], time_taken: time_taken.to_s }
+            memory_taken= (submission[:memory_taken].to_f/1000) .round(2) unless submission[:memory_taken].nil?
+            { status_code: submission[:status_code], pe_status: pe_status, error_desc: submission[:error_desc], time_taken: time_taken.to_s,memory_taken: memory_taken.to_s  }
           end
     respond_to do |format|
       format.json { render json: msg }

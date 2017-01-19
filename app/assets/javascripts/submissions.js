@@ -31,6 +31,7 @@ $(document).ready(function() {
           } else {
             img = '<img src="/icons/'+data['status_code']+'.png" alt='+data['status_code']+' width="23" height="23" />';
             $(element).next().text(data['time_taken'])
+            $(element).next().next().text(data['memory_taken'])
           }
           $(element).children().remove();
           $(element).append(img);
