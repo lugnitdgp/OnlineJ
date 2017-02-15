@@ -40,6 +40,8 @@
               <li><%= link_to('<i class="material-icons">exit_to_app</i> Logout'.html_safe, destroy_user_session_path, :method => :delete) %></li>
             </ul>
           </li>
+	<% else%>
+              <li><%= link_to('<i class="material-icons">exit_to_app</i> Logout'.html_safe, destroy_user_session_path, :method => :delete) %></li>
           <% end %>
          <% else %>
          <li>

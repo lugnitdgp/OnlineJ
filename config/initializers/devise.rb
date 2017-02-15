@@ -12,7 +12,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'admin@codecracker.in'
+  config.mailer_sender = 'codecracker@gmail.com'
 
   # Configure the class responsible to send e-mails.
   config.mailer = 'Devise::Mailer'
@@ -248,9 +248,9 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :github, 'd226989abe824776ae42', '23e0c70216339025695aaede716875cd75971f2d', scope: 'user'
-  config.omniauth :facebook, '1049922238356484', '3ba64fae5d60f5b05b900b0c0c784b61'
-  config.omniauth :google_oauth2, '175269204516-dfjfant8d4s9mmq66gbmuok88jrp9bn2.apps.googleusercontent.com', 'rpuFL9rZB5H9Z--_OYncAXto' , { name: "google"}
+  config.omniauth :github, 'aaaa3e1503719169315d', '7ad203fe442b61f8c3497b134be617b4a42297e3', scope: 'user'
+  config.omniauth :facebook, '554147544792420', '45e745dfa151c234b816a004e2771709'
+  config.omniauth :google_oauth2, '690861203055-k26akfm7clumvcqm272j36m3939mhmar.apps.googleusercontent.com', 'GoeZcHhoJKhdq1B_bFyEwEsi' , { name: "google"}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
