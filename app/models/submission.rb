@@ -30,7 +30,11 @@ class Submission
     user_email = user[:email]
     lang_code = language[:lang_code]
     system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{user_email}/#{ccode}/#{problem[:pcode]}/#{self[:_id]}"
-    user_source_code = File.open("#{CONFIG[:base_path]}/#{user_email}/#{ccode}/#{problem[:pcode]}/#{self[:_id]}/user_source_code#{ext_hash[lang_code]}", 'w')
+    if lang_code == 'java'
+      user_source_code = File.open("#{CONFIG[:base_path]}/#{user_email}/#{ccode}/#{problem[:pcode]}/#{self[:_id]}/Main#{ext_hash[lang_code]}", 'w')
+    else
+      user_source_code = File.open("#{CONFIG[:base_path]}/#{user_email}/#{ccode}/#{problem[:pcode]}/#{self[:_id]}/user_source_code#{ext_hash[lang_code]}", 'w')
+    end
     user_source_code.write(self[:user_source_code])
     user_source_code.close
     problem.test_cases.each do |test_case|
