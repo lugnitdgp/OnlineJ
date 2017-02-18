@@ -68,63 +68,69 @@
          </table>
         </div>
       </div>
-      <div class="row">
-        <h5 class="raised col-sm-2" >Code Editor</h5>
-        <hr class="divider col-sm-9 pull-right" style="margin-bottom:0px">
-      </div>
       <% if user_signed_in? %>
-      <nav class="navbar navbar-inverse">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#code-editor-nav">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-          </div>
-          <div class="collapse navbar-collapse" id="code-editor-nav">
-            <ul class="nav navbar-nav">
-              <li >
-                <a href="javascript:void(0)" style="display: inline">
-                <select class="selectpicker select" id="mode">
-                  <% @language_hash.each do | language | %>
-                    <option style="color: black;" value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
-                  <% end %>
-                </select>
-               </a>
-              </li>
-              <li class="dropdown">
-                <button  class=" dropdown-toggle" data-toggle="dropdown" type="button" style="background-color: #303641;border:none !important; margin-top:40%">
-                <i class="material-icons " style=" font-size: 24px;">settings</i>
-                </button>
-                <ul class="dropdown-menu" role="menu" id="theme" >
-                  <li value="default"><a href="javascript:void(0)">Default</a></li>
-                  <li value="material"><a href="javascript:void(0)">Material</a></li>
-                  <li value="mdn-like"><a href="javascript:void(0)">MDN-like</a></li>
-                  <li value="monokai"><a href="javascript:void(0)">Monokai</a></li>
-                  <li value="solarized dark"><a href="javascript:void(0)">Solarized Dark</a></li>
-                  <li value="solarized light"><a href="javascript:void(0)">Solarized Light</a></li>
-                  <li >
-                    <a href="javascript:void(0)" id="autocomplete">
-                      <div class="togglebutton">
-                        <label>
-                          <input type="checkbox">
-                          Autocomplete
-                        </label>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <button class="btn btn-embossed btn-success" style="margin-top:10%" id="submit_code" >Submit</button>
-            </ul>
-					</div>
-				</div>
-        <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
-			</nav>
+        <div class="row">
+          <h5 class="raised col-sm-2" >Code Editor</h5>
+          <hr class="divider col-sm-9 pull-right" style="margin-bottom:0px">
+        </div>
+        <nav class="navbar navbar-inverse">
+  				<div class="container-fluid">
+  					<div class="navbar-header">
+  						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#code-editor-nav">
+  							<span class="sr-only">Toggle navigation</span>
+  							<span class="icon-bar"></span>
+  							<span class="icon-bar"></span>
+  							<span class="icon-bar"></span>
+  						</button>
+            </div>
+            <div class="collapse navbar-collapse" id="code-editor-nav">
+              <ul class="nav navbar-nav">
+                <li >
+                  <a href="javascript:void(0)" style="display: inline">
+                  <select class="selectpicker select" id="mode">
+                    <% @language_hash.each do | language | %>
+                      <option style="color: black;" value=<%=('"'+language[:name]+'"').html_safe %>><%=language[:code]%></option>
+                    <% end %>
+                  </select>
+                 </a>
+                </li>
+                <li class="dropdown">
+                  <button  class=" dropdown-toggle" data-toggle="dropdown" type="button" style="background-color: #303641;border:none !important; margin-top:40%">
+                  <i class="material-icons " style=" font-size: 24px;">settings</i>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" id="theme" >
+                    <li value="default"><a href="javascript:void(0)">Default</a></li>
+                    <li value="material"><a href="javascript:void(0)">Material</a></li>
+                    <li value="mdn-like"><a href="javascript:void(0)">MDN-like</a></li>
+                    <li value="monokai"><a href="javascript:void(0)">Monokai</a></li>
+                    <li value="solarized dark"><a href="javascript:void(0)">Solarized Dark</a></li>
+                    <li value="solarized light"><a href="javascript:void(0)">Solarized Light</a></li>
+                    <li >
+                      <a href="javascript:void(0)" id="autocomplete">
+                        <div class="togglebutton">
+                          <label>
+                            <input type="checkbox">
+                            Autocomplete
+                          </label>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <button class="btn btn-embossed btn-success" style="margin-top:10%" id="submit_code" >Submit</button>
+              </ul>
+  					</div>
+  				</div>
+          <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
+  			</nav>
+      <% else %>
+      <div class="row">
+        <hr class="divider " style="margin-bottom:0px">
+      </div>
+
+      <h5 class="raised" ><%= link_to("Login", new_user_session_path)  %>/<%= link_to "Register", new_user_registration_path %> to make a submission.</h5>
       <% end %>
     </div>
      <div class="panel-footer"> </div>
