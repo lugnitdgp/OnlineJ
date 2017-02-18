@@ -13,11 +13,10 @@ class ContestController < ApplicationController
     @start_time = contest[:start_time]
     @end_time = contest[:end_time]
     @announcements = (contest.announcements if contest.announcements.count > 0)
-    lang_data = []
     success_sub = []
     unless problems.nil?
       problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').distinct(:user).count }
-      @problem_hash = { problems: problems, lang_data: lang_data, success_sub: success_sub }
+      @problem_hash = { problems: problems, success_sub: success_sub }
     end
   end
 
@@ -39,6 +38,7 @@ class ContestController < ApplicationController
     @time_limit = problem[:time_limit]
     @memory_limit = problem[:memory_limit]
     @source_limit = problem[:source_limit]
+    @difficulty = problem[:difficulty]
   end
 
   private

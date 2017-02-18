@@ -10,6 +10,7 @@ class Problem
   field :memory_limit,      type: Integer, default: 268_435_456
   field :source_limit,      type: Integer, default: 51_200
   field :diff,              type: String, default: '-Bb'
+  field :difficulty,        type: String, default: '-'
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
