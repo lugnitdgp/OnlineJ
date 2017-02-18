@@ -44,7 +44,6 @@ class UserController < ApplicationController
   def profile
     @profile_page = true
     username = params[:username]
-    puts username
     user = User.by_username(username).first
     @name = user[:name]
     @username = user[:username]
