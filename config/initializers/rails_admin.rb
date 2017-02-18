@@ -19,8 +19,8 @@ RailsAdmin.config do |config|
       exclude_fields :c_at, :_id
     end
     edit do
-      field :cname
-      field :ccode do
+      field :cname, :string
+      field :ccode, :string do
         visible do
           bindings[:view]._current_user.has_role? :admin
         end
@@ -49,13 +49,14 @@ RailsAdmin.config do |config|
         exclude_fields :c_at, :_id
       end
       edit do
-        field :pcode
-        field :pname
+        field :pcode, :string
+        field :pname, :string
         field :statement, :ck_editor
         field :state
         field :time_limit
         field :memory_limit
         field :source_limit
+        field :difficulty, :string
         field :submissions_count do
           visible do
             bindings[:view]._current_user.has_role? :admin
@@ -92,10 +93,18 @@ RailsAdmin.config do |config|
 
   config.model 'Submission' do
     list do
-      exclude_fields :_id, :job_id
-    end
+      exclude_fields :_id, :job_id, :c_at
+      end
     edit do
-      exclude_fields :_id, :job_id
+      field :status_code, :string
+      field :user_source_code, :code_mirror
+      field :submission_time
+      field :error_desc, :string
+      field :time_taken
+      field :memory_taken
+      field :user
+      field :problem
+      field :language
     end
   end
 
