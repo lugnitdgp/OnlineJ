@@ -46,6 +46,13 @@
             <td style="text-align: left;">Source limit</td>
             <td style="text-align: left;"><%= @source_limit.to_s%> bytes</td>
           </tr>
+          <% if @difficulty != "-"%>
+            <tr>
+              <!-- true -->
+              <td style="text-align: left;">Difficulty</td>
+              <td style="text-align: left;"><%= @difficulty%> </td>
+            </tr>
+          <% end %>
           <tr>
             <td style="text-align: left;">languages:</td>
             <td style="text-align: left;">

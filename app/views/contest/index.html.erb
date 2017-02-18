@@ -16,6 +16,7 @@
                 <th>NAME</th>
                 <th>CODE</th>
                 <th>SUCCESSFUL SUBMISSIONS</th>
+                <th>DIFFICULTY</th>
                 <th>ACCURACY</th>
               </tr>
             </thead>
@@ -31,6 +32,9 @@
                   </td>
                   <td>
                     <%= @problem_hash[:success_sub][index] %>
+                  </td>
+                  <td>
+                    <%= problem[:difficulty] %>
                   </td>
                   <td>
                     <% if problem[:submissions_count] == 0 %>
