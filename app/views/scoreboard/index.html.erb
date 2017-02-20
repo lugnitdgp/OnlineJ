@@ -72,7 +72,7 @@
 </div>
 <script charset="utf-8">
   $(document).ready(function() {
-    $('.dataTable').DataTable({
+    var table = $('.dataTable').DataTable({
       //  "bFilter": false,
       "bInfo": false,
       aLengthMenu: [
@@ -84,7 +84,10 @@
          this.css("visibility", "visible");
        },
       "bLengthChange": false,
-      "paging": false
-     })
-  });
+        "sScrollX": "100%",
+        "sScrollXInner": "110%",
+      "paging": false,
+     });
+setTimeout(function(){ table.columns.adjust().draw(); }, 1000);
+});
 </script>
