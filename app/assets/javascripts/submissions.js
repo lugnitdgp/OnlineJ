@@ -53,10 +53,7 @@ $(document).ready(function() {
     if ( $(this).hasClass('disabled')) {
       return;
     }
-<<<<<<< HEAD
     $('#submission_modal .modal-body').text("loading...");
-=======
->>>>>>> a1b83a3337887be298feab48de166f84c0570903
     submission_id = ($(this).attr('data-get-id'));
     user = $(this).parent().siblings('.user').text();
     problem = $(this).parent().siblings('.problem').text();
