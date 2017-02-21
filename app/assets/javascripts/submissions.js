@@ -53,6 +53,7 @@ $(document).ready(function() {
     if ( $(this).hasClass('disabled')) {
       return;
     }
+    $('#submission_modal .modal-body').text("loading...");
     submission_id = ($(this).attr('data-get-id'));
     user = $(this).parent().siblings('.user').text();
     problem = $(this).parent().siblings('.problem').text();
@@ -96,6 +97,7 @@ $(document).ready(function() {
     if ( $(this).children().hasClass('disabled')) {
       return;
     }
+    $('#submission_modal .modal-body').text("loading...");
     submission_id = $(this).attr('data-id');
     status = $(this).attr('data-status');
     problem = $(this).siblings('.problem').text();
