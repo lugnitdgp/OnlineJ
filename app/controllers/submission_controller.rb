@@ -112,6 +112,24 @@ class SubmissionController < ApplicationController
     end
   end
 
+  def rejudge_submission
+    submission_id = params['submission_id'];
+    submission = Submission.by_id(submission_id).first;
+    authorize! :read, submission
+    msg = if submission.nil?
+            { error: 'wrong submission id' }
+          else
+            { submit: 'true' }
+          end
+    submission.status_code = 'PE';
+    submission.save!
+    job_id = ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
+    submission.update!(job_id: job_id)
+    respond_to do |format|
+      format.json { render json: msg }
+    end
+  end
+
   private
 
   def get_query_from_params(params)

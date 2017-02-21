@@ -5,8 +5,8 @@ $(document).ready(function() {
   });
 
   function get_submission_data(element) {
-    submission_id = element.getAttribute('data-id')
-    console.log();
+    submission_id = $(element).attr('data-id');
+    $(element).siblings('.submission-log').children('.rejudge-btn').hide('slow');
     $.ajax({
       url: '/get_submission_data',
       data: {
@@ -37,6 +37,7 @@ $(document).ready(function() {
           $(element).append(img);
           $(element).append(status);
           $(element).attr('data-status',data['status_code']);
+          $(element).siblings('.submission-log').children('.rejudge-btn').show('slow');
         }
       },
       error: function(data){
@@ -49,13 +50,13 @@ $(document).ready(function() {
   }
 
   $('.submission-btn').click(function(event) {
-    if ( $(this).children().hasClass('disabled')) {
+    if ( $(this).hasClass('disabled')) {
       return;
     }
-    submission_id = ($(this).children().attr('data-get-id'));
-    user = $(this).siblings('.user').text();
-    problem = $(this).siblings('.problem').text();
-    status = $(this).siblings('.submission_status').text();
+    submission_id = ($(this).attr('data-get-id'));
+    user = $(this).parent().siblings('.user').text();
+    problem = $(this).parent().siblings('.problem').text();
+    status = $(this).parent().siblings('.submission_status').text();
     $('#submission_modal .modal-title').text(user+" submission for "+problem)
     $('#submission_modal').modal();
     $.ajax({
@@ -129,5 +130,27 @@ $(document).ready(function() {
         type: 'GET'
       });
     }
+  });
+
+  $('.rejudge-btn').click(function(event) {
+    /* Act on the event */
+    submission_id = $(this).siblings('.submission-btn').attr('data-get-id');
+    $(this).hide('slow');
+    img = '<img src="/icons/CE.png" alt="CE" width="25" height="25" />';
+    submission = $(this).parent().siblings('.submission_status');
+    $(submission).children('figcaption').text('waiting');
+    $(submission).children('img').attr('src','/icons/PE.gif');
+    $(submission).children('img').attr('alt','wating');
+    $.ajax({
+      url: '/rejudge_submission',
+      data: {
+        "submission_id": submission_id
+      },
+      dataType: 'json',
+      success: function(data){
+        get_submission_data(submission);
+      },
+      type: 'GET'
+    });
   });
 });
