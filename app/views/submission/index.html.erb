@@ -89,10 +89,14 @@
                    <% end %>
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
-                <td class = "submission-btn">
-                  <button class="btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
+                <td class = "submission-log">
+                  <button class=" submission-btn btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </button>
+                  <% if can? :read, submission %>
+                      <button type="button" class=" rejudge-btn btn btn-inverse btn-sm btn-info" style="border-radius:3px"><i class="material-icons">rotate_right</i></button>
+                  <% end %>
+
                 </td>
             </tr>
             <% end %>
