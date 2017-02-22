@@ -19,14 +19,18 @@ class Ability
       can :read, Setter, id: (user.setter? ? user.setter.id : nil)
       can :crud, Problem, setter_id: (user.setter? ? user.setter.id : nil)
       can :crud, Announcement, Announcement.all do |announcement|
-        announcement.contest.setter.user._id == user._id if announcement.nil?
+        announcement.contest.setter.try(:user) == user unless announcement.nil?
       end
       can :crud, TestCase, TestCase.all do |testcase|
-        testcase.problem.setter.user._id == user._id if testcase.nil?
+        testcase.problem.setter.try(:user) == user unless testcase.nil?
       end
-      can [:read, :update, :destroy], Submission, Submission.all do |submission|
-        submission.problem.setter.user._id == user._id
+      can [:read], Submission, Submission.all do |submission|
+        submission.problem.setter.try(:user) == user || submission.try(:user) == user
       end
+      can [:update, :destroy], Submission, Submission.all do |submission|
+        submission.problem.setter.try(:user) == user
+      end
+      can :read, Submission, user_id: user.id
     else
       can :read, Submission, user_id: user.id
     end
