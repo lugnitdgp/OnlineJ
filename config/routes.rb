@@ -23,6 +23,14 @@ Rails.application.routes.draw do
   get 'get_submission' => 'submission#get_submission', as: 'get_submission'
   get 'get_submission_error' => 'submission#get_submission_error', as: 'get_submission_error'
   get 'rejudge_submission' => 'submission#rejudge_submission', as: 'rejudge_submission'
+
+  get 'rejudge_all_submission' => 'submission#rejudge_all_submission'
+  get 'rejudge_all_submission/contest/:ccode' => 'submission#rejudge_all_submission'
+  get 'rejudge_all_submission/contest/:ccode/:pcode' => 'submission#rejudge_all_submission'
+  get 'rejudge_all_submission/user/:username' => 'submission#rejudge_all_submission'
+  get 'rejudge_all_submission/contest/:ccode/:pcode/user/:username' => 'submission#rejudge_all_submission'
+  get 'rejudge_all_submission/contest/:ccode/user/:username' => 'submission#rejudge_all_submission'
+
   get '/users/update_form' => 'user#update_form', as: 'force_update'
   post '/users/update_form' => 'user#save_update', as: ''
   get '/users/profile/:username' => 'user#profile', as: 'users'

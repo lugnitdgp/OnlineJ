@@ -134,25 +134,68 @@ $(document).ready(function() {
     }
   });
 
+ function rejudge(element, callback) {
+   submission_id = $(element).siblings('.submission-btn').attr('data-get-id');
+   img = '<img src="/icons/CE.png" alt="CE" width="25" height="25" />';
+   submission = $(element).parent().siblings('.submission_status');
+   $(submission).children('figcaption').text('waiting');
+   $(submission).children('img').attr('src','/icons/PE.gif');
+   $(submission).children('img').attr('alt','waiting');
+   $(element).hide('slow');
+   callback(submission_id, submission );
+ }
+
+ function remote_rejudge( submission_id ,submission) {
+   $.ajax({
+     url: "/rejudge_submission",
+     data: {
+       "submission_id": submission_id
+     },
+     dataType: 'json',
+     success: function(data){
+       setTimeout(function() {
+         get_submission_data(submission);
+       }, 3000);
+     },
+     type: 'GET'
+   });
+ }
+
+  function remote_check(submission_id, submission) {
+    setTimeout(function() {
+      get_submission_data(submission);
+    }, 3000);
+  }
+
   $('.rejudge-btn').click(function(event) {
     /* Act on the event */
-    submission_id = $(this).siblings('.submission-btn').attr('data-get-id');
-    $(this).hide('slow');
-    img = '<img src="/icons/CE.png" alt="CE" width="25" height="25" />';
-    submission = $(this).parent().siblings('.submission_status');
-    $(submission).children('figcaption').text('waiting');
-    $(submission).children('img').attr('src','/icons/PE.gif');
-    $(submission).children('img').attr('alt','wating');
-    $.ajax({
-      url: '/rejudge_submission',
-      data: {
-        "submission_id": submission_id
-      },
-      dataType: 'json',
-      success: function(data){
-        get_submission_data(submission);
-      },
-      type: 'GET'
+    rejudge($(this), remote_rejudge);
+  });
+
+  $('.rejudge').click(function(event) {
+    /* Act on the event */
+    $('.rejudge-btn').each(function(index, el) {
+      rejudge(el, remote_rejudge);
     });
+  });
+
+  $('.rejudge-all').click(function(event) {
+    /* Act on the event */
+     var location = window.location.pathname.split('/').splice(2).join('/');
+     url =  "/rejudge_all_submission/"+location;
+     $.ajax({
+       url: url,
+       success: function(data){
+         console.log("sfsdf");
+         $('.rejudge-btn').each(function(index, el) {
+           rejudge(el, remote_check);
+         });
+       },
+       error: function(data) {
+         /* Act on the event */
+         console.log("error");
+       },
+       type: 'GET'
+     });
   });
 });
