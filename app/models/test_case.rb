@@ -32,6 +32,11 @@ class TestCase
     testcase_output = File.open("#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase_output", 'w')
     testcase_output.write(Paperclip.io_adapters.for(self.testcase_output).read)
     testcase_output.close
+    if problem.submissions?
+      submissions = problem.submissions
+      submission_ids = submissions.pluck(:id).collect(&:to_s)
+      RejudgeWorker.perform_async(submission_ids)
+    end
     true
   end
 

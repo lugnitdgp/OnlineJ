@@ -18,12 +18,12 @@ class ScoreboardEvalWorker
       user_array = []
       return if contest_users.nil?
 
-      total_submissions_count = 0
+      total_submissions_count_ac = 0
       contest_problems.each do |problem|
-        total_submissions_count += problem.submissions_count
+        total_submissions_count_ac += problem.submissions.where(status_code: 'AC').order_by(submission_time: 1).count
       end
 
-      next if total_submissions_count == ranklist.submissions_count
+      next if total_submissions_count_ac == ranklist.submissions_count
 
       contest_users.each do |user|
         next if user.setter_id == contest_setter[:_id]
@@ -59,7 +59,7 @@ class ScoreboardEvalWorker
       end
       user_array.sort! { |a, b| a[:successes] > b[:successes] ? -1 : (a[:successes] < b[:successes] ? 1 : (a[:total_time] <=> b[:total_time])) }
       last_updated_time = DateTime.now
-      ranklist.update!(information: user_array, last_updated_time: last_updated_time, submissions_count: total_submissions_count)
+      ranklist.update!(information: user_array, last_updated_time: last_updated_time, submissions_count: total_submissions_count_ac)
     end
     nil
   end
