@@ -125,14 +125,37 @@
   				</div>
           <div class="codemirror" id="code_editor" style="border:1px solid #ddd !important;border-top:none !important;"></div>
   			</nav>
+        <hr class="divider col-sm-9 pull-right" />
+        <h5>Comments</h5>
+        
+        <% if @comments.blank? %>
+          Be the First to comment
+        <% else %>
+          <div class="conatiner" style="width:60%;" %>
+            <% @comments.each do |comment| %>
+              <div class="row" style=" padding-left: 3%;padding-right:3%">
+                <div style="padding-top: 2%">
+                  <b><%= link_to comment.user.username, users_path(comment.user.username)%></b>
+                </div>
+                <div style="background-color: rgba(199, 199, 196, 0.53);padding: 2%"><%= comment.text %></div>
+              </div>
+            <% end %>
+          <div class="row" style="padding-left: 3%; padding-top: 2%;">
+          </div>
+        <% end %>
+            <h6>Make a comment:</h6>
+            <%= form_tag(create_comment_path(@pcode), method: 'post') do %>
+              <textarea class="form-control" name="comment" rows="3" id="comment" ></textarea>
+              <%=submit_tag "Comment",class: " btn btn-primary"%>
+            <% end %>
+        </div>
       <% else %>
       <div class="row">
         <hr class="divider " style="margin-bottom:0px">
       </div>
-
       <h5 class="raised" ><%= link_to("Login", new_user_session_path)  %>/<%= link_to "Register", new_user_registration_path %> to make a submission.</h5>
       <% end %>
     </div>
-     <div class="panel-footer"> </div>
+   <div class="panel-footer"> </div>
   </div>
 </div>
