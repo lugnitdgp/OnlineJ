@@ -28,4 +28,5 @@ Rails.application.routes.draw do
   get '/users/profile/:username' => 'user#profile', as: 'users'
   post '/users/checkuser' => 'user#checkuser', as: ''
   get '/scoreboard/:ccode' => 'scoreboard#index',  as: 'scoreboard'
+  post '/comment/:pcode' => 'contest#create_comment', as: 'create_comment'
 end

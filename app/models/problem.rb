@@ -20,6 +20,7 @@ class Problem
   belongs_to :setter, counter_cache: true
   has_many :submissions, dependent: :destroy
   has_many :test_cases, dependent: :destroy
+  has_many :comment, dependent: :destroy
   has_and_belongs_to_many :languages
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
