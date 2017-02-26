@@ -54,7 +54,7 @@ class UserController < ApplicationController
     problems = submissions.where(status_code: 'AC').distinct(:problem)
     @total_currect = problems.count
     solved_problem = []
-    @solved = Hash.new []
+    @solved = Hash.new { |hash, key| hash[key] = [] } 
     problems.each do |problem|
       p = Problem.find_by(_id: problem)
       solved_problem << { contest_code: p.contest[:ccode], problem_code: p[:pcode] }
