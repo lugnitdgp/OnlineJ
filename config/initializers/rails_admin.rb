@@ -64,7 +64,11 @@ RailsAdmin.config do |config|
         end
         field :max_score
         field :contest
-        field :submissions
+        field :submissions do
+          visible do
+            bindings[:view]._current_user.has_role? :admin
+          end
+        end
         field :test_cases
         field :languages
         field :setter
@@ -83,6 +87,11 @@ RailsAdmin.config do |config|
   config.model 'Setter' do
     list do
       exclude_fields :c_at, :_id
+      field :problems do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
     end
     edit do
       field :user
@@ -98,19 +107,49 @@ RailsAdmin.config do |config|
     edit do
       field :status_code, :string
       field :user_source_code, :code_mirror
-      field :submission_time
+      field :submission_time do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
       field :error_desc, :string
-      field :time_taken
-      field :memory_taken
-      field :user
+      field :time_taken do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :memory_taken do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :user do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
       field :problem
-      field :language
+      field :language do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
     end
   end
 
   config.model 'TestCase' do
     list do
       exclude_fields :_id
+      field :testcase do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :testcase_output do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
     end
     edit do
       exclude_fields :_id

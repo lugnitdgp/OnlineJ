@@ -5,6 +5,7 @@ class Ability
     # Define abilities for the passed in user here. For example:
 
     alias_action :read, :update, to: :modify
+    alias_action :read, :update, :destroy, to: :change
     alias_action :create, :read, :update, :destroy, to: :crud
 
     user ||= User.new # guest user (not logged in)
@@ -18,11 +19,13 @@ class Ability
       can :modify, Contest, setter_id: (user.setter? ? user.setter.id : nil)
       can :read, Setter, id: (user.setter? ? user.setter.id : nil)
       can :crud, Problem, setter_id: (user.setter? ? user.setter.id : nil)
-      can :crud, Announcement, Announcement.all do |announcement|
-        announcement.contest.setter.try(:user) == user unless announcement.nil?
+      can :create, Announcement
+      can :change, Announcement, Announcement.all do |announcement|
+        announcement.contest.setter.try(:user) == user unless announcement.contest.nil?
       end
-      can :crud, TestCase, TestCase.all do |testcase|
-        testcase.problem.setter.try(:user) == user unless testcase.nil?
+      can :create, TestCase
+      can :change, TestCase, TestCase.all do |testcase|
+        testcase.problem.setter.try(:user) == user unless testcase.problem.nil?
       end
       can [:read], Submission, Submission.all do |submission|
         submission.problem.setter.try(:user) == user || submission.try(:user) == user
@@ -30,7 +33,6 @@ class Ability
       can [:update, :destroy], Submission, Submission.all do |submission|
         submission.problem.setter.try(:user) == user
       end
-      can :read, Submission, user_id: user.id
     else
       can :read, Submission, user_id: user.id
     end

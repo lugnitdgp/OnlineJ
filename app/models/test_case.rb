@@ -9,7 +9,7 @@ class TestCase
   do_not_validate_attachment_file_type :testcase
   do_not_validate_attachment_file_type :testcase_output
 
-  belongs_to :problem, counter_cache: true, index: true
+  belongs_to :problem, counter_cache: true, index: true, inverse_of: :test_cases
 
   before_create :create_test_data
   after_destroy :delete_test_data
