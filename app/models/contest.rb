@@ -14,8 +14,10 @@ class Contest
   has_many :problems, dependent: :destroy
   has_one :ranklist, dependent: :destroy
   belongs_to :setter, counter_cache: true
-  has_many :announcements, dependent: :destroy
+  has_many :announcements, dependent: :destroy, inverse_of: :contest
   has_and_belongs_to_many :users
+
+  accepts_nested_attributes_for :announcements, :allow_destroy => true
 
   scope :upcomming, -> { where(start_time: { :$gt => DateTime.now }, state: true) }
   scope :running, -> { where(start_time: { :$lte => DateTime.now }, end_time: { :$gte => DateTime.now }, state: true) }
