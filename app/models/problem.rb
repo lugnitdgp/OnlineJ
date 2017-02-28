@@ -19,6 +19,7 @@ class Problem
   belongs_to :contest, counter_cache: true
   belongs_to :setter, counter_cache: true
   has_many :submissions, dependent: :destroy
+  has_many :comment, dependent: :destroy
   has_many :test_cases, dependent: :destroy, inverse_of: :problem
   has_and_belongs_to_many :languages
 
