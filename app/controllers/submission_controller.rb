@@ -130,6 +130,22 @@ class SubmissionController < ApplicationController
     end
   end
 
+  def rejudge_all_submission
+    query = get_query_from_params(params)
+    submissions = Submission.by_query(query).order_by(created_at: -1)
+    authorization_check = submissions.all? { |submission| can? :update, submission }
+    msg = if authorization_check
+             submission_ids = submissions.pluck(:id).collect(&:to_s)
+             RejudgeWorker.perform_async(submission_ids)
+              { submit: 'true' }
+          else
+              { error: 'wrong submission id' }
+          end
+    respond_to do |format|
+      format.json { render json: msg }
+    end
+  end
+
   private
 
   def get_query_from_params(params)
@@ -138,13 +154,12 @@ class SubmissionController < ApplicationController
     @pcode = params[:pcode]
     query = {}
     unless @ccode.nil?
-      contest = Contest.by_code(@ccode).first
-      if contest.nil?
+      @contest = Contest.by_code(@ccode).first
+      if @contest.nil?
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
-        @cname = contest[:cname]
         if @pcode.nil?
-          problem_ids = contest.problems.map(&:_id)
+          problem_ids = @contest.problems.map(&:_id)
           query.merge! ({ :problem_id.in => problem_ids })
         else
           problem = Problem.by_code(@pcode).first

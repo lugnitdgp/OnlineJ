@@ -5,5 +5,5 @@ class Announcement
 
   field :announcement,	type: String, default: ''
 
-  belongs_to :contest
+  belongs_to :contest, inverse_of: :announcements
 end

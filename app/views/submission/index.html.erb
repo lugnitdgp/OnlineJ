@@ -12,8 +12,8 @@
   <ol class="breadcrumb bc-1">
       <li> <a href="/"></i>Home</a> </li>
       <li class="active"> <a href="/submission"><%= @title %> </a> </li>
-      <% unless @cname.nil? %>
-          <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
+      <% unless @contest.nil? %>
+          <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @contest[:cname] %></a> </li>
       <% end %>
       <% unless @pname.nil? %>
           <li class="active"> <a href=<%="/contest/#{@ccode}/#{@pcode}"%>><%= @pname %></a></li>
@@ -28,6 +28,12 @@
       <div class="panel-title">Submissions</div>
     </div>
     <div class="panel-body table-responsive">
+      <% if can? :read, @contest %>
+        <div class="pull-right" >
+          <div class="btn btn-embossed btn-info rejudge-all">Rejudge All</div>
+          <div class="btn btn-embossed btn-info rejudge">Rejudge</div>
+        </div>
+      <% end %>
       <table class="table datatable-submission table-hover " cellspacing="0" width="100%">
         <thead >
             <tr>
@@ -64,14 +70,16 @@
                 <td class = "problem">
                   <%=  link_to @Problems[index][:code], problem_path(@Contests[index],@Problems[index][:code]) %>
                 </td>
-                <td class="submission_status " data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
+                <td class="submission_status" data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                   <% ext = '.png' %>
                   <% ext = '.gif' if submission[:status_code] == 'PE' %>
                     <img src="/icons/<%= submission[:status_code]%><%= ext%>" alt="<%= submission[:status_code]%>" width="23" height="23" class="<%= perm %>"/>
-                      <% if submission[:status_code] != 'RTE'%>
-                        <figcaption><%= submission[:status_code]%></figcaption>
+                      <% if submission[:status_code] == 'PE'%>
+                        <figcaption>waiting</figcaption>
                       <% elsif submission[:status_code] == 'RTE'%>
                         <figcaption><%= submission[:error_desc] %></figcaption>
+                      <% else %>
+                        <figcaption><%= submission[:status_code]%></figcaption>
                       <% end %>
                 </td>
                 <td>
@@ -90,11 +98,11 @@
                 </td>
                 <td><%= submission.language[:lang_code]%></td>
                 <td class = "submission-log">
-                  <button class=" submission-btn btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
+                  <button class=" submission-btn sm-btn btn btn-inverse btn-sm btn-info <%= perm %>" data-get-id="<%= submission[:_id]%>" style="border-radius:3px">
                     view
                   </button>
                   <% if can? :read, submission %>
-                      <button type="button" class=" rejudge-btn btn btn-inverse btn-sm btn-info" style="border-radius:3px"><i class="material-icons">rotate_right</i></button>
+                      <button type="button" class=" rejudge-btn sm-btn btn btn-inverse btn-sm btn-info" style="border-radius:3px;"><i class="material-icons">rotate_right</i></button>
                   <% end %>
 
                 </td>
@@ -106,7 +114,6 @@
         <%= paginate @Submissions , theme: 'twitter-bootstrap-3' %>
       </div>
     </div>
-
   </div>
 </div>
 
