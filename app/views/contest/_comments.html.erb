@@ -1,0 +1,29 @@
+<% if user_signed_in? %>
+  <h6>Leave a comment:</h6>
+  <%= form_tag(create_comment_path(@pcode), method: 'post' , remote: true) do %>
+    <textarea class="form-control" name="comment" rows="3" required="true" id="comment" style="max-width:60%"></textarea>
+    <%=submit_tag "Comment",class: " btn btn-info"%>
+  <% end %>
+<% end %>
+<hr>
+<% if @comments.blank? %>
+  Be the First to comment
+<% else %>
+  <div class="conatiner" style="max-width:60%;margin-left:2%;" %>
+    <% @comments.each do |comment| %>
+      <div class="row" style=" padding-left: 3%;padding-right:3%;">
+        <div style="padding-top: 2%">
+          <b><%= link_to comment.user.username, users_path(comment.user.username)%> </b>
+          <span style="font-size: 0.6em;"><i> &nbsp;&nbsp;
+            <%= time_ago_in_words(comment[:created_at].localtime.to_datetime) + " ago"%>
+          </span>
+        </div>
+        <div><%= comment.text %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="container" style="padding-top:2">
+    <%= paginate @comments, :params => { :controller => 'contest', :action => 'comments'}, :remote => true , theme: 'twitter-bootstrap-3' %>
+  </div>
+<% end %>

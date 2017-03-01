@@ -73,3 +73,26 @@ $(document).on('turbolinks:load', function() {
     form.submit();
   });
 });
+
+function fetch_comments() {
+  ccode = window._contest;
+  pcode = window._problem;
+  $('.comments').html("loading...")
+  $.ajax({
+    url: "/comments/"+ccode+"/"+pcode,
+    success: function(data){
+      $('.fetch_comments').removeClass('fetch_comments');
+      $('.comments').html(data);
+    },
+    error: function(data) {
+      /* Act on the event */
+      var d = "<p>Error loading Please reload the page and try again</p>"
+      $('.comments').html(d);
+    },
+    type: 'GET'
+  });
+}
+$('.fetch_comments').click(function(event) {
+  /* Act on the event */
+  fetch_comments();
+});
