@@ -24,7 +24,8 @@ class ContestController < ApplicationController
     @problem_page = true
     @ccode = params[:ccode]
     @pcode = params[:pcode]
-    problem = Problem.by_code(@pcode).first
+    contest = Contest.by_code(@ccode).first
+    problem = contest.problems.by_code(@pcode).first
     if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
