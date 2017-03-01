@@ -24,7 +24,8 @@ class ContestController < ApplicationController
     @problem_page = true
     @ccode = params[:ccode]
     @pcode = params[:pcode]
-    problem = Problem.by_code(@pcode).first
+    contest = Contest.by_code(@ccode).first
+    problem = contest.problems.by_code(@pcode).first
     if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
@@ -39,7 +40,18 @@ class ContestController < ApplicationController
     @memory_limit = problem[:memory_limit]
     @source_limit = problem[:source_limit]
     @difficulty = problem[:difficulty]
-    @comments = problem.comment
+  end
+
+  def comments
+    @ccode = params[:ccode]
+    @pcode = params[:pcode]
+    contest = Contest.by_code(@ccode).first
+    problem = contest.problems.by_code(@pcode).first
+    @comments = problem.comment.order(created_at: 'desc').page(params[:page]).per(10)
+    respond_to do |format|
+     format.html { render :partial => 'contest/comments' }
+     format.js
+    end
   end
 
   def create_comment
@@ -51,7 +63,11 @@ class ContestController < ApplicationController
       comment.problem = Problem.by_code(pcode).first
       comment.save
       ccode = comment.problem.contest.ccode
-      redirect_to problem_path(ccode,pcode)
+      respond_to do |format|
+        format.html { redirect_to problem_path(ccode,pcode), notice: 'Comment was successfully created.' }
+        format.js   { }
+        format.json { render :show, status: :created, location: @comment }
+      end
   end
 
   private
