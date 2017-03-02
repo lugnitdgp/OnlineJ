@@ -4,6 +4,7 @@
     <%= render partial: 'layouts/head' %>
     <%= yield :styles %>
     <%= csrf_meta_tags %>
+    <%= include_gon(:init => true) %>
   </head>
 
   <body class="page-body page-fade-only">
