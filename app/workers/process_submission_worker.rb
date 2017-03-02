@@ -19,9 +19,9 @@ class ProcessSubmissionWorker
     submission_path = "#{CONFIG[:base_path]}/#{user_email}/#{contest[:ccode]}/#{problem[:pcode]}/#{submission_id}/"
     judge_path = "#{CONFIG[:base_path]}/judge_exec/judge_exec"
     problem_path = "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{problem[:pcode]}/"
-    begin
-      File.exist?(submission_path + "/user_source_code#{ext_hash[lang_code]}")
-    rescue Errno::ENOENT
+
+    if !File.exist?(submission_path + "/user_source_code#{ext_hash[lang_code]}")
+      submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
       system 'rm', '-rf', submission_path
       return
     end
@@ -39,7 +39,8 @@ class ProcessSubmissionWorker
     end
 
     if compilation.nil?
-      return # TODO: do something
+      submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
+      return
     end
 
     at 0, "Compiling"
@@ -60,12 +61,19 @@ class ProcessSubmissionWorker
     time_taken = 0
     memory_taken = 0
     count = testcases.count
+    if testcases.count == 0
+      submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+      return
+    end
     percentage = (100/count).to_i
     testcase_count = 0
     testcases.each_with_index do |testcase, index|
       testcase_count += percentage
       at testcase_count, "judging (#{index+1})"
-
+      if !File.exist?("#{problem_path}#{testcase[:name]}/testcase")
+        submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+        return
+      end
       execution = nil
       if lang_code == 'c' ||  lang_code == 'c++'
         execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{testcase[:name]}/testcase_output"
@@ -85,6 +93,10 @@ class ProcessSubmissionWorker
       if @judge_data[0] == 'AC'
         user_output = submission_path + "#{testcase[:name]}/testcase_output"
         code_output = problem_path + "#{testcase[:name]}/testcase_output"
+        if !File.exist?(user_output) || !File.exist?(code_output)
+          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+          return
+        end
         diff = %x(diff #{diff_opt} #{user_output} #{code_output})
         if diff.length > 0
           @judge_data[0] = 'WA'
