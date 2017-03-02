@@ -33,6 +33,8 @@ gem 'jquery-datatables-rails'
 gem 'puma', '~> 3.0'
 # gem 'snappconfig' for global config
 gem 'snappconfig'
+# To use controller variables as javascript variables
+gem 'gon'
 # gem 'codemirror' for code editor
 gem 'codemirror-rails'
 # 'bootstrap and material for rails'

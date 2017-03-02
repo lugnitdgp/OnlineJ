@@ -39,7 +39,7 @@ $(document).on('turbolinks:load', function() {
 
   $('#submit_code').click(function(event) {
     var form = document.createElement('form');
-    form.action = '/submit/'+window._problem;
+    form.action = '/submit/'+gon.problem;
     form.method = 'post';
     var authenticity_token = document.createElement('input');
     authenticity_token.name = 'authenticity_token';
@@ -59,10 +59,10 @@ $(document).on('turbolinks:load', function() {
     // lang_name.value = $("#select2-chosen-1").text().toLowerCase();
     var ccode = document.createElement('input');
     ccode.name = 'ccode';
-    ccode.value = window._contest;
+    ccode.value = gon.contest;
     var pcode = document.createElement('input');
     pcode.name = 'pcode';
-    pcode.value = window._problem;
+    pcode.value = gon.problem;
     form.appendChild(authenticity_token);
     form.appendChild(user_source_code);
     form.appendChild(lang_name);
@@ -72,27 +72,27 @@ $(document).on('turbolinks:load', function() {
     form.style.visibility = 'hidden';
     form.submit();
   });
-});
 
-function fetch_comments() {
-  ccode = window._contest;
-  pcode = window._problem;
-  $('.comments').html("loading...")
-  $.ajax({
-    url: "/comments/"+ccode+"/"+pcode,
-    success: function(data){
-      $('.fetch_comments').removeClass('fetch_comments');
-      $('.comments').html(data);
-    },
-    error: function(data) {
-      /* Act on the event */
-      var d = "<p>Error loading Please reload the page and try again</p>"
-      $('.comments').html(d);
-    },
-    type: 'GET'
+  function fetch_comments() {
+    ccode = gon.contest;
+    pcode = gon.problem;
+    $('.comments').html("loading...")
+    $.ajax({
+      url: "/comments/"+ccode+"/"+pcode,
+      success: function(data){
+        $('.fetch_comments').removeClass('fetch_comments');
+        $('.comments').html(data);
+      },
+      error: function(data) {
+        /* Act on the event */
+        var d = "<p>Error loading Please reload the page and try again</p>"
+        $('.comments').html(d);
+      },
+      type: 'GET'
+    });
+  }
+  $('.fetch_comments').click(function(event) {
+    /* Act on the event */
+    fetch_comments();
   });
-}
-$('.fetch_comments').click(function(event) {
-  /* Act on the event */
-  fetch_comments();
 });

@@ -32,7 +32,7 @@ class SubmissionController < ApplicationController
     if contest.nil? || contest[:start_time] > DateTime.now || contest[:end_time] < DateTime.now
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
-    problem = Problem.by_code(pcode).first
+    problem = contest.problems.by_code(pcode).first
     if problem.nil? || !(problem.languages.include? language)
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
@@ -162,7 +162,7 @@ class SubmissionController < ApplicationController
           problem_ids = @contest.problems.map(&:_id)
           query.merge! ({ :problem_id.in => problem_ids })
         else
-          problem = Problem.by_code(@pcode).first
+          problem = @contest.problems.by_code(@pcode).first
           if problem.nil?
             render(file: 'public/404.html', status: :not_found, layout: false) && return
           else

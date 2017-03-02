@@ -24,6 +24,8 @@ class ContestController < ApplicationController
     @problem_page = true
     @ccode = params[:ccode]
     @pcode = params[:pcode]
+    gon.contest = @ccode
+    gon.problem = @pcode
     contest = Contest.by_code(@ccode).first
     problem = contest.problems.by_code(@pcode).first
     if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
@@ -59,8 +61,11 @@ class ContestController < ApplicationController
       comment = Comment.new
       comment.text = text
       comment.user = current_user
+      ccode = params[:ccode]
       pcode = params[:pcode]
-      comment.problem = Problem.by_code(pcode).first
+      contest = Contest.by_code(@ccode).first
+      problem = contest.problems.by_code(@pcode).first
+      comment.problem = problem
       comment.save
       ccode = comment.problem.contest.ccode
       respond_to do |format|
