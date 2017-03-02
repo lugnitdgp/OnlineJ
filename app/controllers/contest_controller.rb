@@ -26,10 +26,22 @@ class ContestController < ApplicationController
     @pcode = params[:pcode]
     gon.contest = @ccode
     gon.problem = @pcode
+    @submission_id = params[:submission_id]
     contest = Contest.by_code(@ccode).first
     problem = contest.problems.by_code(@pcode).first
     if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
       render(file: 'public/404.html', status: :not_found, layout: false) && return
+    end
+    submission = problem.submissions.by_id(@submission_id).first
+    puts @submission_id.nil?
+    if (submission.nil?) && !@submission_id.nil?
+      render(file: 'public/404.html', status: :not_found, layout: false) && return
+    elsif !submission.nil?
+      authorize! :read, submission
+      gon.submission = true
+      gon.user_source_code = submission.user_source_code
+      gon.lang_code = submission.language.lang_code
+      gon.lang_name = submission.language.name
     end
     @cname = problem.contest[:cname]
     @title = problem[:pname]

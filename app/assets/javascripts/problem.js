@@ -18,7 +18,18 @@ $(document).on('turbolinks:load', function() {
   });
   height = $('.container-fluid').width();
   cEditor.setSize(height-2,400);
-  cEditor.refresh();
+    if(gon.submission) {
+    $('#mode').val(gon.lang_name)
+    cEditor.setOption("mode",gon.lang_name);
+    cEditor.setValue(gon.user_source_code);
+    // setTimeout(function() {
+    //   cEditor.codemmrror.refresh();
+    // }.bind(cEditor), 0);
+  }
+  setTimeout(function() {
+    cEditor.refresh();
+  },1000);
+
   $('#mode').change(function(event) {
     cEditor.setOption("mode",$(this).val());
   });
