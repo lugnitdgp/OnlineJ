@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
   <h6>Leave a comment:</h6>
-  <%= form_tag(create_comment_path(@pcode), method: 'post' , remote: true) do %>
+  <%= form_tag(create_comment_path(@ccode,@pcode), method: 'post' , remote: true, class: 'comment-form') do %>
     <textarea class="form-control" name="comment" rows="3" required="true" id="comment" style="max-width:60%"></textarea>
-    <%=submit_tag "Comment",class: " btn btn-info"%>
+    <%=submit_tag "Comment",class: "btn btn-info submit-comment"%>
   <% end %>
 <% end %>
 <hr>
@@ -27,3 +27,17 @@
     <%= paginate @comments, :params => { :controller => 'contest', :action => 'comments'}, :remote => true , theme: 'twitter-bootstrap-3' %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $('.comment-form').submit(function(event) {
+    $('.comment').html("<p>Posting...</p>");
+    $('.comments').hide('fast');
+  });
+  $('.comment-form').on("ajax:error", function(data) {
+    setTimeout(function() {
+      $('.comment').html("");
+      toastr['error']('Please try again');
+      $('.comments').show('slow');
+    },2000);
+  })
+</script>

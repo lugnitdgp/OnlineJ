@@ -1,3 +1,7 @@
-toastr['success']('Posted successfully');
-$('textarea').val('');
-fetch_comments();
+setTimeout(function() {
+  $('textarea').val('');
+  fetch_comments();
+  $('.comment').html("");
+  toastr['success']('Posted successfully');
+  $('.comments').show('slow');
+},2000);
