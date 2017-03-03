@@ -5,7 +5,7 @@ class Problem
   field :pcode,             type: String, default: ''
   field :pname,             type: String, default: ''
   field :statement,         type: String, default: ''
-  field :state,             type: Boolean, default: true
+  field :state,             type: Boolean, default: false
   field :time_limit,        type: Integer, default: 1
   field :memory_limit,      type: Integer, default: 268_435_456
   field :source_limit,      type: Integer, default: 51_200
@@ -23,7 +23,7 @@ class Problem
   has_many :test_cases, dependent: :destroy, inverse_of: :problem
   has_and_belongs_to_many :languages
 
-  accepts_nested_attributes_for :test_cases, :allow_destroy => true
+  accepts_nested_attributes_for :test_cases, allow_destroy: true
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
   before_create :create_problem_data
