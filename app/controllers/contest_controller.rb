@@ -34,7 +34,7 @@ class ContestController < ApplicationController
     end
     submission = problem.submissions.by_id(@submission_id).first
     puts @submission_id.nil?
-    if (submission.nil?) && !@submission_id.nil?
+    if submission.nil? && !@submission_id.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     elsif !submission.nil?
       authorize! :read, submission
@@ -63,28 +63,39 @@ class ContestController < ApplicationController
     problem = contest.problems.by_code(@pcode).first
     @comments = problem.comment.order(created_at: 'desc').page(params[:page]).per(10)
     respond_to do |format|
-     format.html { render :partial => 'contest/comments' }
-     format.js
+      format.html { render partial: 'contest/comments' }
+      format.js
     end
   end
 
   def create_comment
-      text = params[:comment]
-      comment = Comment.new
-      comment.text = text
-      comment.user = current_user
-      ccode = params[:ccode]
-      pcode = params[:pcode]
-      contest = Contest.by_code(@ccode).first
-      problem = contest.problems.by_code(@pcode).first
-      comment.problem = problem
-      comment.save
-      ccode = comment.problem.contest.ccode
-      respond_to do |format|
-        format.html { redirect_to problem_path(ccode,pcode), notice: 'Comment was successfully created.' }
-        format.js   { }
-        format.json { render :show, status: :created, location: @comment }
-      end
+    text = params[:comment]
+    comment = Comment.new
+    comment.text = text
+    comment.user = current_user
+    ccode = params[:ccode]
+    pcode = params[:pcode]
+    contest = Contest.by_code(ccode).first
+    problem = contest.problems.by_code(pcode).first
+    comment.problem = problem
+    comment.save
+    ccode = comment.problem.contest.ccode
+    respond_to do |format|
+      format.html { redirect_to problem_path(ccode, pcode), notice: 'Comment was successfully created.' }
+      format.js   {}
+    end
+  end
+
+  def get_snippet
+    language = Language.where(lang_code: params['lang_code']).first
+    msg = if language.nil? || !user_signed_in?
+            { error: 'error loading' }
+          else
+            { snippet: language[:snippet] }
+          end
+    respond_to do |format|
+      format.json { render json: msg }
+    end
   end
 
   private

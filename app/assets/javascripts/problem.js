@@ -1,5 +1,6 @@
 $(document).on('turbolinks:load', function() {
   mode = $('#mode').val();
+  snippets = [];
   var cEditor = new CodeMirror(document.getElementById("code_editor"), {
     lineNumbers: true,
     extraKeys: null,
@@ -18,20 +19,31 @@ $(document).on('turbolinks:load', function() {
   });
   height = $('.container-fluid').width();
   cEditor.setSize(height-2,400);
-    if(gon.submission) {
+  if(gon.submission) {
     $('#mode').val(gon.lang_name)
     cEditor.setOption("mode",gon.lang_name);
     cEditor.setValue(gon.user_source_code);
-    // setTimeout(function() {
-    //   cEditor.codemmrror.refresh();
-    // }.bind(cEditor), 0);
+  } else {
+    var lang_code = $('#mode option:selected');
+    $(lang_code).addClass('pre');
+    fetch_snippets($(lang_code).text());
   }
   setTimeout(function() {
     cEditor.refresh();
   },1000);
 
   $('#mode').change(function(event) {
+    var pre = $('#mode').find('.pre');
+    var lang_code = $('#mode option:selected');
     cEditor.setOption("mode",$(this).val());
+    snippets[$(pre).text()] = cEditor.getValue();
+    if( snippets[$(lang_code).text()] == undefined) {
+      fetch_snippets($(lang_code).text());
+    } else {
+      cEditor.setValue(snippets[$(lang_code).text()]);
+    }
+    $(pre).removeClass('pre');
+    $(lang_code).addClass('pre');
   });
 
   $('#theme li').click(function() {
@@ -88,6 +100,19 @@ $(document).on('turbolinks:load', function() {
     /* Act on the event */
     fetch_comments();
   });
+
+   function fetch_snippets(lang_code) {
+     $.ajax({
+       url: "/get_snippet/"+lang_code,
+       success: function(data){
+         cEditor.setValue(data['snippet']);
+       },
+       error: function(data) {
+         cEditor.setValue("")
+       },
+       type: 'GET'
+     });
+   }
 });
 
 function fetch_comments() {
