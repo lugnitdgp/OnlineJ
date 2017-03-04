@@ -64,4 +64,21 @@ class UserController < ApplicationController
       @solved[ccode.to_sym] << pcode
     end
   end
+
+  def setLang
+    lang_code = params[:default_language]
+    language = Language.where( lang_code: lang_code).first
+    msg = if language.nil?
+            { error: 'True' }
+          elsif current_user.default_language == lang_code
+            { status: 'SET'  }
+          else
+            current_user.default_language = lang_code
+            current_user.save
+            { status: 'OK'}
+          end
+    respond_to do |format|
+      format.json { render json: msg }
+    end
+  end
 end

@@ -49,6 +49,9 @@ class ContestController < ApplicationController
     @setter_name = problem.setter.user[:name]
     @setter_username = problem.setter.user[:username]
     @language_hash = get_language_data(problem, name: 'name', lang: 'lang_code')
+    unless current_user[:default_language].blank?
+      @language_hash.rotate!(@language_hash.index{ |language| language[:code] == current_user[:default_language]})
+    end
     @score = problem[:max_score]
     @time_limit = problem[:time_limit]
     @memory_limit = problem[:memory_limit]

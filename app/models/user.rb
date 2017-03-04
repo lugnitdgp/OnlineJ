@@ -17,6 +17,7 @@ class User
   field :college,            type: String, default: ''
   field :dob,                type: Date, default: ''
   field :image,              type: String, default: ''
+  field :default_language,   type: String, default: ''
 
   ## roles for
   field :enable,             type: Boolean, default: ''

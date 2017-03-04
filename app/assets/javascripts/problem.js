@@ -44,6 +44,7 @@ $(document).on('turbolinks:load', function() {
     }
     $(pre).removeClass('pre');
     $(lang_code).addClass('pre');
+    $('#default-lang').text("Set "+$(lang_code).text()+ " as default");
   });
 
   $('#theme li').click(function() {
@@ -60,6 +61,23 @@ $(document).on('turbolinks:load', function() {
       }
   });
 
+$("#default-lang").click(function(event) {
+  /* Act on the event */
+    event.stopPropagation();
+    var lang_code = $('#mode option:selected').text();
+    $.ajax({
+      url: "/users/set_lang/"+lang_code,
+      success: function(data){
+        if( data['status'] == 'OK') toastr['success'](lang_code+" is set as your default language");
+        else if( data['status'] == 'SET') toastr['warning'](lang_code+" is already your default language");
+        else toastr['error']('try again');
+      },
+      error: function(data) {
+        toastr['error']('Cannot set please try again');
+      },
+      type: 'POST'
+    });
+});
   $('#submit_code').click(function(event) {
     var form = document.createElement('form');
     form.action = '/submit/'+gon.problem;
