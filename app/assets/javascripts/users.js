@@ -13,19 +13,15 @@ $(document).ready(function() {
 				url: "/users/checkuser",
 				data: {"username": username},
 				success: function(result){
-					console.log(result);
-					if(result.status==='OK You can go with that'){
+					if(result.status==='OK'){
 						$(':input[type="submit"]').prop('disabled', false);
     					$('#status').hide().html('<br/><br/><img src="/icons/AC.png" width="23" height="23" >').fadeIn("slow");
-
 					}
 					else{
     					$('#status').hide().html('<br/><br/><img src="/icons/WA.png" width="23" height="23" >').fadeIn("slow");
 						$(':input[type="submit"]').prop('disabled', true);
 					}
-					
-
-				}
+				},
 			});
 		});
 });

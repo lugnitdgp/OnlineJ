@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   def check
     if user_signed_in?
-      if current_user.username.blank? || current_user.college.blank?
+      if current_user.username.blank? || current_user.college.blank? || current_user.name.blank?
         redirect_to force_update_url
       end
     end

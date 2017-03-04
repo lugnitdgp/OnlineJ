@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   def update_form
     if user_signed_in?
-      if current_user.username.blank? || current_user.college.blank?
+      if current_user.username.blank? || current_user.college.blank? || current_user.name.blank?
         @user_page = true
         @user = []
         @user << { name: current_user.name, username: current_user.username, college: current_user.college }
@@ -14,15 +14,14 @@ class UserController < ApplicationController
   end
 
   def save_update
-    if current_user.username.blank?
-      current_user.update_attribute(:username, params[:username])
+    username = params[:username]
+    user = User.by_username(username).first
+    if user.nil? && !(username =~ /^[a-zA-Z0-9_]*$/).nil?
+      current_user.username = username
     end
-    if current_user.college.blank?
-      current_user.update_attribute(:college, params[:college])
-    end
-    if current_user.name.blank?
-      current_user.update_attribute(:name, params[:name])
-    end
+    current_user.college = params[:college]
+    current_user.name = params[:name]
+    current_user.save!
     flash[:notice] = 'Welcome !!'
     redirect_to root_path
   end
@@ -31,10 +30,10 @@ class UserController < ApplicationController
     username = params[:username]
     user = User.by_username(username).first
     data = {}
-    data[:status] = if user.nil?
-                      'OK You can go with that'
+    data[:status] = if user.nil? && !(username =~ /^[a-zA-Z0-9_]*$/).nil?
+                      'OK'
                     else
-                      'Please try another username'
+                      '500'
                     end
     respond_to do |format|
       format.json { render json: data }
@@ -54,7 +53,7 @@ class UserController < ApplicationController
     problems = submissions.where(status_code: 'AC').distinct(:problem)
     @total_currect = problems.count
     solved_problem = []
-    @solved = Hash.new { |hash, key| hash[key] = [] } 
+    @solved = Hash.new { |hash, key| hash[key] = [] }
     problems.each do |problem|
       p = Problem.find_by(_id: problem)
       solved_problem << { contest_code: p.contest[:ccode], problem_code: p[:pcode] }
