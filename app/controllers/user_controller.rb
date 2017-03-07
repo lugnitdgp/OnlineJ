@@ -16,7 +16,7 @@ class UserController < ApplicationController
   def save_update
     username = params[:username]
     user = User.by_username(username).first
-    if user.nil? && !(username =~ /^[a-zA-Z0-9_]*$/).nil?
+    if user.nil? && !(username =~ /^[a-zA-Z0-9_]*$/).nil? && username.length > 1
       current_user.username = username
     end
     current_user.college = params[:college]
