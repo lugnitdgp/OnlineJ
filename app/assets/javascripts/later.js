@@ -1,4 +1,5 @@
 //= require bootstrap-sprockets
+//= require google_analytics
 //= require material.min
 //= require material-kit
 
@@ -21,5 +22,4 @@ $(document).on('turbolinks:load', function() {
 
   $('.dropdown-toggle').dropdown();
 
-  
 });
