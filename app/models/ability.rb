@@ -18,6 +18,7 @@ class Ability
       can :read, Language
       can :modify, Contest, setter_id: (user.setter? ? user.setter.id : nil)
       can :read, Setter, id: (user.setter? ? user.setter.id : nil)
+      cannot :index, Setter
       can :crud, Problem, setter_id: (user.setter? ? user.setter.id : nil)
       can :create, Announcement
       can :change, Announcement, Announcement.all do |announcement|
@@ -27,6 +28,7 @@ class Ability
       can :change, TestCase, TestCase.all do |testcase|
         testcase.problem.setter.try(:user) == user unless testcase.problem.nil?
       end
+      cannot :index, TestCase
       can [:read], Submission, Submission.all do |submission|
         submission.problem.setter.try(:user) == user || submission.try(:user) == user
       end

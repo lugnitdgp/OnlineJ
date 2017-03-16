@@ -3,7 +3,7 @@ class TestCase
   include Mongoid::Paperclip
 
   field :name, type: String, default: ''
-  field :rejudge_submission, type: Boolean, default: false
+  field :rejudge_submissions, type: Boolean, default: false
 
   has_mongoid_attached_file :testcase
   has_mongoid_attached_file :testcase_output
@@ -33,7 +33,7 @@ class TestCase
     testcase_output = File.open("#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase_output", 'w')
     testcase_output.write(Paperclip.io_adapters.for(self.testcase_output).read)
     testcase_output.close
-    if self.rejudge_submission?
+    if self.rejudge_submissions?
       if problem.submissions?
         submissions = problem.submissions
         submission_ids = submissions.pluck(:id).collect(&:to_s)
@@ -47,7 +47,7 @@ class TestCase
     problem = self.problem
     ccode = problem.contest[:ccode]
     system 'rm', '-rf', "#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}"
-    if self.rejudge_submission?
+    if self.rejudge_submissions?
       if problem.submissions?
         submissions = problem.submissions
         submission_ids = submissions.pluck(:id).collect(&:to_s)
