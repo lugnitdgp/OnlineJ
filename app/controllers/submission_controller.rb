@@ -24,15 +24,32 @@ class SubmissionController < ApplicationController
     pcode = params[:pcode]
     user_source_code = params[:user_source_code]
     language_name = params[:lang_name]
+    test = params[:test]
     language = Language.by_name(language_name).first
     if language.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
-    contest = Contest.by_code(ccode).first
-    if contest.nil? || contest[:start_time] > DateTime.now || contest[:end_time] < DateTime.now
+    contest = if test == 'true'
+                Contest.by_code_test(ccode).first
+              else
+                Contest.by_code(ccode).first
+               end
+    if contest.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
-    problem = contest.problems.by_code(pcode).first
+    if test != 'true'
+      if contest[:start_time] > DateTime.now || contest[:end_time] < DateTime.now
+        render(file: 'public/404.html', status: :not_found, layout: false) && return
+      end
+    else
+      authorize! :read, contest
+    end
+
+    problem = if test == 'true'
+                contest.problems.by_code_all(pcode).first
+              else
+                contest.problems.by_code(pcode).first
+              end
     if problem.nil? || !(problem.languages.include? language)
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
@@ -52,7 +69,7 @@ class SubmissionController < ApplicationController
         redirect_to(problem_path(ccode, pcode)) && return
       end
     end
-    submission = Submission.new(submission_time: DateTime.now, user_source_code: user_source_code)
+    submission = Submission.new(submission_time: DateTime.now, user_source_code: user_source_code, test: test)
     current_user.submissions << submission
     language.submissions << submission
     problem.submissions << submission
@@ -63,7 +80,11 @@ class SubmissionController < ApplicationController
     job_id = ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
     submission.update!(job_id: job_id)
     flash[:success] = 'sucessfully submitted'
-    redirect_to(submission_contest_path(ccode)) && return
+    if test == 'true'
+      redirect_to(submission_contest_path(ccode, test: true)) && return
+    else
+      redirect_to(submission_contest_path(ccode)) && return
+    end
   end
 
   # TODO: fix 500 error on unauthorized access
@@ -76,8 +97,8 @@ class SubmissionController < ApplicationController
           else
             pe_status = Sidekiq::Status.message submission.job_id
             time_taken = submission[:time_taken].round(2) unless submission[:time_taken].nil?
-            memory_taken= (submission[:memory_taken].to_f/1000) .round(2) unless submission[:memory_taken].nil?
-            { status_code: submission[:status_code], pe_status: pe_status, error_desc: submission[:error_desc], time_taken: time_taken.to_s,memory_taken: memory_taken.to_s  }
+            memory_taken = (submission[:memory_taken].to_f / 1000) .round(2) unless submission[:memory_taken].nil?
+            { status_code: submission[:status_code], pe_status: pe_status, error_desc: submission[:error_desc], time_taken: time_taken.to_s, memory_taken: memory_taken.to_s }
           end
     respond_to do |format|
       format.json { render json: msg }
@@ -113,15 +134,15 @@ class SubmissionController < ApplicationController
   end
 
   def rejudge_submission
-    submission_id = params['submission_id'];
-    submission = Submission.by_id(submission_id).first;
+    submission_id = params['submission_id']
+    submission = Submission.by_id(submission_id).first
     authorize! :read, submission
     msg = if submission.nil?
             { error: 'wrong submission id' }
           else
             { submit: 'true' }
           end
-    submission.status_code = 'PE';
+    submission.status_code = 'PE'
     submission.save!
     job_id = ProcessSubmissionWorker.perform_async(submission_id: submission[:_id].to_s)
     submission.update!(job_id: job_id)
@@ -135,11 +156,11 @@ class SubmissionController < ApplicationController
     submissions = Submission.by_query(query).order_by(created_at: -1)
     authorization_check = submissions.all? { |submission| can? :update, submission }
     msg = if authorization_check
-             submission_ids = submissions.pluck(:id).collect(&:to_s)
-             RejudgeWorker.perform_async(submission_ids)
-              { submit: 'true' }
+            submission_ids = submissions.pluck(:id).collect(&:to_s)
+            RejudgeWorker.perform_async(submission_ids)
+            { submit: 'true' }
           else
-              { error: 'wrong submission id' }
+            { error: 'wrong submission id' }
           end
     respond_to do |format|
       format.json { render json: msg }
@@ -152,9 +173,15 @@ class SubmissionController < ApplicationController
     username = params[:username]
     @ccode = params[:ccode]
     @pcode = params[:pcode]
+    @test = params[:test] || false
     query = {}
+    authorize! :read, Contest if @test
     unless @ccode.nil?
-      @contest = Contest.by_code(@ccode).first
+      @contest = if @test
+                   Contest.by_code_test(@ccode).first
+                 else
+                   Contest.by_code(@ccode).first
+                 end
       if @contest.nil?
         render(file: 'public/404.html', status: :not_found, layout: false) && return
       else
@@ -162,7 +189,11 @@ class SubmissionController < ApplicationController
           problem_ids = @contest.problems.map(&:_id)
           query.merge! ({ :problem_id.in => problem_ids })
         else
-          problem = @contest.problems.by_code(@pcode).first
+          problem = if @test
+                      @contest.problems.by_code_all(@pcode).first
+                    else
+                      @contest.problems.by_code(@pcode).first
+                    end
           if problem.nil?
             render(file: 'public/404.html', status: :not_found, layout: false) && return
           else
@@ -183,6 +214,7 @@ class SubmissionController < ApplicationController
         query.merge! ({ user_id: user_id })
       end
     end
+    query.merge! ({ test: @test })
     query
   end
 end

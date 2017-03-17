@@ -10,7 +10,7 @@ class Submission
   field :time_taken,                    type: Float
   field :memory_taken,                  type: Integer
   field :job_id,                        type: String, default: ''
-  # TODO: add memory_limit
+  field :test,                          type: Boolean, default: false
 
   belongs_to :user, counter_cache: true
   belongs_to :problem, counter_cache: true
