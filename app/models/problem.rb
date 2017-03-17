@@ -26,6 +26,7 @@ class Problem
   accepts_nested_attributes_for :test_cases, allow_destroy: true
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
+  scope :by_code_all, ->(pcode) { where(pcode: pcode) }
   before_create :create_problem_data
   after_destroy :delete_problem_data
 

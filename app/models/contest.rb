@@ -23,6 +23,8 @@ class Contest
   scope :running, -> { where(start_time: { :$lte => DateTime.now }, end_time: { :$gte => DateTime.now }, state: true) }
   scope :past, -> { where(end_time: { :$lt => DateTime.now }, state: true) }
   scope :by_code, ->(ccode) { where(ccode: ccode, state: true) }
+  scope :by_code_test, ->(ccode) { where(ccode: ccode) }
+  scope :myContests, -> (current_user){ where(setter: current_user.setter)   }
 
   before_create :create_contest_data
   after_create :create_ranklist
@@ -38,6 +40,10 @@ class Contest
 
   def all_problems
     problems.where(state: true).order_by(submissions_count: -1)
+  end
+
+  def all_problems_test
+    problems.all.order_by(submissions_count: -1)
   end
 
   def create_contest_data
