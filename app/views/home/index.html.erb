@@ -1,7 +1,10 @@
 
 <div class="container">
   <ol class="breadcrumb">
-    <li class="active">home</li>
+    <li><a href="/">Home</a></li>
+    <% if @test %>
+    <li class="active">Test</li>
+    <% end %>
   </ol>
   <% @Contests.each do |contest| %>
     <% unless contest[:data].empty? %>
@@ -23,10 +26,18 @@
               <% contest[:data].each do | contest_data |%>
               <tr>
                 <td>
-                  <%= link_to contest_data[:cname], contest_path(contest_data[:ccode]) %>
+                  <% if @test %>
+                    <%= link_to contest_data[:cname], contest_path(contest_data[:ccode], test: true) %>
+                  <% else %>
+                    <%= link_to contest_data[:cname], contest_path(contest_data[:ccode]) %>
+                  <% end %>
                 </td>
                 <td>
-                  <%= link_to contest_data[:ccode], contest_path(contest_data[:ccode]) %>
+                  <% if @test %>
+                    <%= link_to contest_data[:ccode], contest_path(contest_data[:ccode], test: true) %>
+                  <% else %>
+                    <%= link_to contest_data[:ccode], contest_path(contest_data[:ccode]) %>
+                  <% end %>
                 </td>
                 <td>
                   <time class ="timeago" datetime="<%= contest_data[:start_time].localtime.to_datetime%>">

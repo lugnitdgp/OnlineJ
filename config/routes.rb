@@ -44,4 +44,6 @@ Rails.application.routes.draw do
   post '/users/checkuser' => 'user#checkuser', as: ''
   post 'users/set_lang/:default_language' => 'user#setLang', as: 'setLang'
   get '/scoreboard/:ccode' => 'scoreboard#index', as: 'scoreboard'
+
+  get '/test' => 'home#test', as: 'test'
 end
