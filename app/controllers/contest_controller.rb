@@ -21,7 +21,7 @@ class ContestController < ApplicationController
     @announcements = (contest.announcements if contest.announcements.count > 0)
     success_sub = []
     unless problems.nil?
-      problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC').distinct(:user).count }
+      problems.each { |problem| success_sub << problem.submissions.where(status_code: 'AC', test: false).distinct(:user).count }
       @problem_hash = { problems: problems, success_sub: success_sub }
     end
   end
@@ -52,7 +52,6 @@ class ContestController < ApplicationController
       authorize! :read, problem
     end
     submission = problem.submissions.by_id(@submission_id).first
-    puts @submission_id.nil?
     if submission.nil? && !@submission_id.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     elsif !submission.nil?
@@ -68,8 +67,10 @@ class ContestController < ApplicationController
     @setter_name = problem.setter.user[:name]
     @setter_username = problem.setter.user[:username]
     @language_hash = get_language_data(problem, name: 'name', lang: 'lang_code')
-    unless current_user[:default_language].blank?
-      @language_hash.rotate!(@language_hash.index{ |language| language[:code] == current_user[:default_language]})
+    if user_signed_in?
+      unless current_user[:default_language].blank?
+        @language_hash.rotate!(@language_hash.index { |language| language[:code] == current_user[:default_language] })
+      end
     end
     @score = problem[:max_score]
     @time_limit = problem[:time_limit]
