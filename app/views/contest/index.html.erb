@@ -1,6 +1,9 @@
 <div class="container">
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
+    <% if @test %>
+      <li><a href="/test">Test</a></li>
+    <% end %>
     <li class="active"><%= @title %></li>
   </ol>
   <div class="row">
@@ -25,10 +28,18 @@
                 <% @problem_hash[:problems].each_with_index do | problem, index |%>
                 <tr>
                   <td>
-                    <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
+                    <% if @test %>
+                      <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode], test: true) %>
+                    <% else %>
+                      <%=  link_to problem[:pname], problem_path(@ccode,problem[:pcode]) %>
+                    <% end %>
                   </td>
                   <td>
-                    <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode]) %>
+                    <% if true %>
+                      <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode], test: true) %>
+                    <% else %>
+                      <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode]) %>
+                    <% end %>
                   </td>
                   <td>
                     <%= @problem_hash[:success_sub][index] %>

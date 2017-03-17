@@ -104,11 +104,15 @@ $("#default-lang").click(function(event) {
     var pcode = document.createElement('input');
     pcode.name = 'pcode';
     pcode.value = gon.problem;
+    var test = document.createElement('input');
+    test.name = 'test';
+    test.value = gon.test;
     form.appendChild(authenticity_token);
     form.appendChild(user_source_code);
     form.appendChild(lang_name);
     form.appendChild(ccode);
     form.appendChild(pcode);
+    form.appendChild(test);
     document.body.appendChild(form);
     form.style.visibility = 'hidden';
     form.submit();

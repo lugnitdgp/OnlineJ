@@ -1,11 +1,9 @@
-<script charset="utf-8">
-  window._contest = "<%=@ccode %>"
-  window._problem = "<%=@pcode %>"
-</script>
-
 <div class="container">
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
+    <% if @test %>
+      <li><a href="/test">Test</a></li>
+    <% end %>
     <li class="active"> <a href=<%="/contest/#{@ccode}/"%>><%= @cname %></a> </li>
     <li class="active"><%= @title %></li>
   </ol>
