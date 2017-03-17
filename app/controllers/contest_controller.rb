@@ -1,14 +1,20 @@
 class ContestController < ApplicationController
   before_action :check
   def index
+    @test = params['test'] || false
     @contest_page = true
     @ccode = params[:ccode]
     contest = Contest.by_code(@ccode).cache.first
+    authorize! :read, contest if @test
     if contest.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
     @title = contest[:cname]
-    problems = contest.all_problems if contest[:start_time] <= DateTime.now
+    problems = if @test
+                 contest.all_problems_test
+               else
+                 contest.all_problems if contest[:start_time] <= DateTime.now
+               end
     @Details = contest[:details]
     @start_time = contest[:start_time]
     @end_time = contest[:end_time]
@@ -24,13 +30,26 @@ class ContestController < ApplicationController
     @problem_page = true
     @ccode = params[:ccode]
     @pcode = params[:pcode]
+    @test = params['test'] || false
     gon.contest = @ccode
     gon.problem = @pcode
+    gon.test = @test
     @submission_id = params[:submission_id]
     contest = Contest.by_code(@ccode).first
-    problem = contest.problems.by_code(@pcode).first
-    if problem.nil? || problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
+    problem = if @test
+                contest.problems.by_code_all(@pcode).first
+              else
+                contest.problems.by_code(@pcode).first
+              end
+    if problem.nil?
       render(file: 'public/404.html', status: :not_found, layout: false) && return
+    end
+    if !@test
+      if problem.contest[:start_time] > DateTime.now || !problem.contest[:state]
+        render(file: 'public/404.html', status: :not_found, layout: false) && return
+      end
+    else
+      authorize! :read, problem
     end
     submission = problem.submissions.by_id(@submission_id).first
     puts @submission_id.nil?
