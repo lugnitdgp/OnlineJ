@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |_exception|
     respond_to do |format|
-      format.json { render nothing: true, :status => :forbidden }
-      format.xml { render xml: "...", :status => :forbidden }
-      format.html { redirect_to main_app.root_url, :flash[:warning] => exception.message }
+      format.json { render nothing: true, status: :forbidden }
+      format.xml { render xml: '...', status: :forbidden }
+      format.html { render file: 'public/500.html', status: :not_found, layout: false }
     end
   end
 end
