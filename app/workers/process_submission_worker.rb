@@ -95,7 +95,6 @@ class ProcessSubmissionWorker
           execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec /usr/bin/#{lang_code} #{submission_path}user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
         end
       end
-      puts execution
       pid = Process.spawn(execution)
       _,status = Process.wait2(pid)
       judge_usage = File.read(submission_path+'usage_log')
