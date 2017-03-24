@@ -11,20 +11,19 @@ RailsAdmin.config do |config|
   ## == Cancan ==
   config.authorize_with :cancan
 
-
-  config.excluded_models = ["Ckeditor::Asset", "Ckeditor::Picture","Ckeditor::AttachmentFile","Identity"]
+  config.excluded_models = ['Ckeditor::Asset', 'Ckeditor::Picture', 'Ckeditor::AttachmentFile', 'Identity']
 
   config.model Contest do
     list do
       exclude_fields :c_at, :_id
     end
     edit do
-      field :cname, :string
       field :ccode, :string do
         visible do
           bindings[:view]._current_user.has_role? :admin
         end
       end
+      field :cname, :string
       field :problems
       field :details, :ck_editor
       field :announcements
@@ -40,40 +39,54 @@ RailsAdmin.config do |config|
       end
       field :state
       field :setter
+      field :tester
       field :users
       field :details, :ck_editor
     end
   end
-    config.model Problem do
-      list do
-        exclude_fields :c_at, :_id
+  config.model Problem do
+    list do
+      exclude_fields :c_at, :_id
+    end
+    edit do
+      field :pcode, :string do
+        read_only do
+          bindings[:object].pcode.present? && !bindings[:view]._current_user.has_role?(:admin)
+        end
       end
-      edit do
-        field :pcode, :string
-        field :pname, :string
-        field :statement, :ck_editor
-        field :state
-        field :time_limit
-        field :memory_limit
-        field :source_limit
-        field :difficulty, :string
-        field :submissions_count do
-          visible do
-            bindings[:view]._current_user.has_role? :admin
-          end
+      field :pname, :string
+      field :statement, :ck_editor
+      field :state
+      field :time_limit
+      field :memory_limit
+      field :source_limit
+      field :difficulty, :string
+      field :submissions_count do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
         end
-        field :max_score
-        field :contest
-        field :submissions do
-          visible do
-            bindings[:view]._current_user.has_role? :admin
-          end
+      end
+      field :max_score
+      field :contest
+      field :submissions do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
         end
-        field :test_cases
-        field :languages
-        field :setter
+      end
+      field :test_cases
+      field :languages
+      field :setter do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
+      end
+      field :tester do
+        visible do
+          bindings[:view]._current_user.has_role? :admin
+        end
       end
     end
+  end
 
   config.model 'Ranklist' do
     list do
@@ -86,7 +99,7 @@ RailsAdmin.config do |config|
 
   config.model 'Setter' do
     list do
-      exclude_fields :c_at, :_id
+      exclude_fields :c_at
       field :problems do
         visible do
           bindings[:view]._current_user.has_role? :admin
@@ -103,7 +116,7 @@ RailsAdmin.config do |config|
   config.model 'Submission' do
     list do
       exclude_fields :_id, :job_id, :c_at
-      end
+    end
     edit do
       field :status_code, :string
       field :user_source_code, :code_mirror
@@ -165,6 +178,11 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'User' do
+    object_label_method do
+      :username
+    end
+  end
 
   ## == Pundit ==
   # config.authorize_with :pundit
