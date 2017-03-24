@@ -27,8 +27,10 @@ class Contest
   scope :by_code_test, ->(ccode) { where(ccode: ccode) }
   scope :myContests, ->(current_user) { any_of({ setter: current_user.setter }, { :tester_id.in => current_user.tester_ids }) }
 
+  before_save :strip_ccode
   after_create :create_ranklist, :create_contest_data
   after_destroy :delete_contest_data
+  after_save :set_setter_tester
 
   def to_s
     ccode
@@ -42,8 +44,18 @@ class Contest
     problems.where(state: true).order_by(submissions_count: -1)
   end
 
+  def set_setter_tester
+    problems.each do |problem|
+      problem.save!
+    end
+  end
+
   def all_problems_test
     problems.all.order_by(submissions_count: -1)
+  end
+
+  def strip_ccode
+    self[:ccode] = self[:ccode].strip
   end
 
   def create_contest_data

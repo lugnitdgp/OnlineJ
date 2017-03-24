@@ -29,6 +29,7 @@ class Problem
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
   scope :by_code_all, ->(pcode) { where(pcode: pcode) }
   after_create :create_problem_data
+  before_save :strip_pcode_and_tester
   after_destroy :delete_problem_data
 
   def to_s
@@ -37,6 +38,12 @@ class Problem
 
   def title
     to_s
+  end
+
+  def strip_pcode_and_tester
+    self[:pcode] = self[:pcode].strip
+    self.tester = contest.tester
+    self.setter = contest.setter
   end
 
   def create_problem_data

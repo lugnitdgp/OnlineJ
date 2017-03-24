@@ -51,14 +51,14 @@ class User
   has_many :identities
   has_and_belongs_to_many :contests
   belongs_to :setter, optional: true
+  has_and_belongs_to_many :testers
   has_many :submissions
-
-  index({ username: 1 }, unique: false)
 
   scope :by_id, ->(id) { where(_id: id) }
   scope :by_username, ->(username) { where(username: username) }
 
-  before_save :create_user_data
+  after_create :create_user_data
+  before_save :set_role
   after_destroy :delete_user_data
   before_create :first_user_admin
 
@@ -85,6 +85,18 @@ class User
 
   def has_role?(role)
     roles.include?(role)
+  end
+
+  def set_role
+    unless has_role? :admin
+      self.roles_mask = 0
+      unless tester_ids.empty?
+        self.roles = 'tester'
+      end
+      unless setter_id.nil?
+        self.roles = 'setter'
+      end
+    end
   end
 
   def self.find_for_oauth(auth, signed_user = nil)
