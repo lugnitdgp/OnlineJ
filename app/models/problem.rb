@@ -14,8 +14,6 @@ class Problem
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
-  index({ pcode: 1 }, unique: true)
-
   belongs_to :contest, counter_cache: true
   belongs_to :setter, counter_cache: true
   belongs_to :tester, optional: true
@@ -25,6 +23,7 @@ class Problem
   has_and_belongs_to_many :languages
 
   accepts_nested_attributes_for :test_cases, allow_destroy: true
+  validates :pcode, uniqueness: { scope: :contest }, presence: true
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
   scope :by_code_all, ->(pcode) { where(pcode: pcode) }

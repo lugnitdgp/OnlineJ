@@ -9,7 +9,7 @@ class Contest
   field :end_time,               type: DateTime, default: DateTime.now + 3.hours
   field :details,                type: String, default: ''
 
-  index({ ccode: 1 }, unique: true)
+  validates :ccode, uniqueness: true, presence: true
 
   has_many :problems, dependent: :destroy
   has_one :ranklist, dependent: :destroy
