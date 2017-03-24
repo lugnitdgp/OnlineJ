@@ -5,6 +5,8 @@ class TestCase
   field :name, type: String, default: ''
   field :rejudge_submissions, type: Boolean, default: false
 
+  validates :name, uniqueness: { scope: :problem }, presence: true
+
   has_mongoid_attached_file :testcase
   has_mongoid_attached_file :testcase_output
   do_not_validate_attachment_file_type :testcase

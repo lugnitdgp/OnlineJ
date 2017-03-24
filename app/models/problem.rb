@@ -14,20 +14,21 @@ class Problem
   field :submissions_count, type: Integer, default: 0
   field :max_score,         type: Integer, default: 20
 
-  index({ pcode: 1 }, unique: true)
-
   belongs_to :contest, counter_cache: true
   belongs_to :setter, counter_cache: true
+  belongs_to :tester, optional: true
   has_many :submissions, dependent: :destroy
   has_many :test_cases, dependent: :destroy, inverse_of: :problem
   has_many :comment, dependent: :destroy
   has_and_belongs_to_many :languages
 
   accepts_nested_attributes_for :test_cases, allow_destroy: true
+  validates :pcode, uniqueness: { scope: :contest }, presence: true
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
   scope :by_code_all, ->(pcode) { where(pcode: pcode) }
-  before_create :create_problem_data
+  after_create :create_problem_data
+  before_save :strip_pcode_and_tester
   after_destroy :delete_problem_data
 
   def to_s
@@ -36,6 +37,12 @@ class Problem
 
   def title
     to_s
+  end
+
+  def strip_pcode_and_tester
+    self[:pcode] = self[:pcode].strip
+    self.tester = contest.tester
+    self.setter = contest.setter
   end
 
   def create_problem_data

@@ -33,6 +33,10 @@
               <li>
                   <a href="/admin/contest"><i class="material-icons">https</i>Admin </a>
               </li>
+          <% elsif can? :read, Contest%>
+            <li>
+              <a href="/test"><i class="material-icons">format_size</i> Test</a>
+            </li>
           <% end %>
           <% if !current_user[:username].blank?  %>
             <!-- true -->

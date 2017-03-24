@@ -3,3 +3,4 @@
 
 base_path: "/home/neetesh/judge_data"
 penalty: 20
+judge_docker: false

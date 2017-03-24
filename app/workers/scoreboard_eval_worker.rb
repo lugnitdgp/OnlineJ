@@ -20,7 +20,7 @@ class ScoreboardEvalWorker
 
       total_submissions_count_ac = 0
       contest_problems.each do |problem|
-        total_submissions_count_ac += problem.submissions.where(status_code: 'AC').order_by(submission_time: 1).count
+        total_submissions_count_ac += problem.submissions.where(status_code: 'AC', test: false).order_by(submission_time: 1).count
       end
 
       next if total_submissions_count_ac == ranklist.submissions_count
@@ -34,13 +34,13 @@ class ScoreboardEvalWorker
         total_penlty = 0
         contest_problems.each do |problem|
           problem_hash = { pcode: problem[:pcode], name: problem[:name], max_score: problem[:max_score] }
-          problem_submissions = Submission.where(user_id: user[:_id], problem_id: problem[:_id])
-          problem_submissions_ac = problem_submissions.where(status_code: 'AC').order_by(submission_time: 1)
+          problem_submissions = Submission.where(user_id: user[:_id], problem_id: problem[:_id], test: false)
+          problem_submissions_ac = problem_submissions.where(status_code: 'AC', test: false).order_by(submission_time: 1)
 
           if problem_submissions_ac.count > 0
             user_ac_earliest_time = problem_submissions_ac.first[:submission_time]
             problem_hash.merge! ({ success_time: user_ac_earliest_time, success: true })
-            user_not_ac_count = problem_submissions.where(:status_code.nin => %w(AC PE CE), :submission_time.lte => user_ac_earliest_time).count
+            user_not_ac_count = problem_submissions.where(:status_code.nin => %w(AC PE CE), :submission_time.lte => user_ac_earliest_time, test: false).count
             problem_hash.merge! ({ penalty_count: user_not_ac_count })
             total_penlty += user_not_ac_count
             total_time += user_ac_earliest_time - contest_start_time + user_not_ac_count * CONFIG[:penalty].minutes

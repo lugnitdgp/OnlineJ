@@ -68,7 +68,11 @@
                   </time>
                 </td>
                 <td class = "problem">
+                  <% if @test %>
+                  <%=  link_to @Problems[index][:code], problem_path(@Contests[index],@Problems[index][:code],test: true ) %>
+                  <% else %>
                   <%=  link_to @Problems[index][:code], problem_path(@Contests[index],@Problems[index][:code]) %>
+                  <% end %>
                 </td>
                 <td class="submission_status" data-id ="<%= submission[:_id]%>" data-status="<%= submission[:status_code] %>">
                   <% ext = '.png' %>
@@ -103,8 +107,14 @@
                   </button>
                   <% if can? :read, submission %>
                       <button type="button" class=" rejudge-btn sm-btn btn btn-inverse btn-sm btn-info" style="border-radius:3px;"><i class="material-icons">rotate_right</i></button>
-                     <%= link_to edit_submission_path(@Contests[index],@Problems[index][:code],submission[:_id]) , class: "sm-btn btn btn-inverse btn-sm btn-info", style: "border-radius:3px;", 'data-turbolinks': "false" do %>
-                        <i class="material-icons">mode_edit</i>
+                    <% if @test %>
+                      <%= link_to edit_submission_path(@Contests[index],@Problems[index][:code],submission[:_id], test: true) , class: "sm-btn btn btn-inverse btn-sm btn-info", style: "border-radius:3px;", 'data-turbolinks': "false" do %>
+                      <i class="material-icons">mode_edit</i>
+                      <% end %>
+                    <% else %>
+                      <%= link_to edit_submission_path(@Contests[index],@Problems[index][:code],submission[:_id]) , class: "sm-btn btn btn-inverse btn-sm btn-info", style: "border-radius:3px;", 'data-turbolinks': "false" do %>
+                      <i class="material-icons">mode_edit</i>
+                      <% end %>
                     <% end %>
                   <% end %>
                 </td>
