@@ -19,6 +19,7 @@ class ProcessSubmissionWorker
     submission_path = "#{CONFIG[:base_path]}/#{user_email}/#{contest[:ccode]}/#{problem[:pcode]}/#{submission_id}/"
     judge_path = "#{CONFIG[:base_path]}/judge_exec/judge_exec"
     problem_path = "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{problem[:pcode]}/"
+    judge_docker = CONFIG[:judge_docker]
 
     if !File.exist?(submission_path + "user_source_code#{ext_hash[lang_code]}") && !File.exist?(submission_path + "Main#{ext_hash[lang_code]}")
       submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
@@ -67,6 +68,8 @@ class ProcessSubmissionWorker
     end
     percentage = (100/count).to_i
     testcase_count = 0
+    container_path = File.join(Rails.root, "tmp", "container")
+    container_id = File.read(container_path).strip
     testcases.each_with_index do |testcase, index|
       testcase_count += percentage
       at testcase_count, "judging (#{index+1})"
@@ -75,15 +78,25 @@ class ProcessSubmissionWorker
         return
       end
       execution = nil
-      if lang_code == 'c' ||  lang_code == 'c++'
-        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{testcase[:name]}/testcase_output"
-      elsif lang_code == 'java'
-        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage usage_log --exec /usr/bin/java Main < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
+      if judge_docker
+        if lang_code == 'c' ||  lang_code == 'c++'
+          execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec #{submission_path}compiled_code < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
+        elsif lang_code == 'java'
+          execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage #{submission_path}usage_log --exec /usr/bin/java -cp #{submission_path} Main < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
+        else
+          execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec /usr/bin/#{lang_code} #{submission_path}user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
+        end
       else
-        execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage usage_log --exec /usr/bin/#{lang_code} user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase' >#{testcase[:name]}/testcase_output"
+        if lang_code == 'c' ||  lang_code == 'c++'
+          execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec #{submission_path}compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
+        elsif lang_code == 'java'
+          execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage #{submission_path}usage_log --exec /usr/bin/java -cp #{submission_path} Main < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
+        else
+          execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec /usr/bin/#{lang_code} #{submission_path}user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
+        end
       end
-
-      pid = Process.spawn(execution, chdir: submission_path)
+      puts execution
+      pid = Process.spawn(execution)
       _,status = Process.wait2(pid)
       judge_usage = File.read(submission_path+'usage_log')
       @judge_data = judge_usage.split("\n")
