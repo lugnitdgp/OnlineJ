@@ -18,6 +18,7 @@ class Problem
 
   belongs_to :contest, counter_cache: true
   belongs_to :setter, counter_cache: true
+  belongs_to :tester, optional: true
   has_many :submissions, dependent: :destroy
   has_many :comment, dependent: :destroy
   has_many :test_cases, dependent: :destroy, inverse_of: :problem
@@ -27,7 +28,7 @@ class Problem
 
   scope :by_code, ->(pcode) { where(pcode: pcode, state: true) }
   scope :by_code_all, ->(pcode) { where(pcode: pcode) }
-  before_create :create_problem_data
+  after_create :create_problem_data
   after_destroy :delete_problem_data
 
   def to_s

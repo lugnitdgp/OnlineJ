@@ -7,6 +7,7 @@ class SubmissionController < ApplicationController
     @submission_page = true
     query = get_query_from_params(params)
     @Submissions = Submission.by_query(query).order_by(created_at: -1).page(params[:page]).per(25)
+    @test = params['test'] || false
     @Users = []
     @Contests = []
     @Problems = []
@@ -56,7 +57,11 @@ class SubmissionController < ApplicationController
     source_limit = problem[:source_limit]
     if user_source_code.length > source_limit
       flash[:error] = 'source limit exceeded'
-      redirect_to(problem_path(ccode, pcode)) && return
+      if test == 'true'
+        redirect_to(problem_path(ccode, pcode, test: true)) && return
+      else
+        redirect_to(problem_path(ccode, pcode)) && return
+      end
     end
     unless user_signed_in?
       flash[:alert] = 'Please sign in  Or sign up first'
@@ -66,7 +71,11 @@ class SubmissionController < ApplicationController
     unless latest_submission.nil?
       if DateTime.now.to_time - latest_submission.to_time < 30
         flash[:alert] = 'wait for 30s after the last submission'
-        redirect_to(problem_path(ccode, pcode)) && return
+        if test == 'true'
+          redirect_to(problem_path(ccode, pcode, test: true)) && return
+        else
+          redirect_to(problem_path(ccode, pcode)) && return
+        end
       end
     end
     submission = Submission.new(submission_time: DateTime.now, user_source_code: user_source_code, test: test)

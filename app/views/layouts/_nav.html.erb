@@ -18,7 +18,7 @@
         <% if user_signed_in? %>
           <% if can? :manage, :all %>
             <li class="<%= " active" if @test %>">
-              <a href="/test"><i class="material-icons">extension</i> Test</a>
+              <a href="/test"><i class="material-icons">format_size</i> Test</a>
             </li>
               <li>
                   <a href="/sidekiq"><i class="material-icons">extension</i> Judge Status</a>
@@ -33,6 +33,10 @@
               <li>
                   <a href="/admin/contest"><i class="material-icons">https</i>Admin </a>
               </li>
+          <% elsif can? :read, Contest%>
+            <li>
+              <a href="/test"><i class="material-icons">format_size</i> Test</a>
+            </li>
           <% end %>
           <% if !current_user[:username].blank?  %>
             <!-- true -->
