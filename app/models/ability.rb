@@ -35,6 +35,14 @@ class Ability
       can [:update, :destroy], Submission, Submission.all do |submission|
         submission.problem.setter.try(:user) == user
       end
+    elsif user.has_role? :tester
+      can [:read], Contest, Contest.all do |contest|
+        user.testers.include? contest.tester
+      end
+      can [:read], Problem, Problem.all do |problem|
+        user.testers.include? problem.tester
+      end
+      can :read, Submission, user_id: user.id
     else
       can :read, Submission, user_id: user.id
     end

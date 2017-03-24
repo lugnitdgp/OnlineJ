@@ -70,7 +70,7 @@ class User
     to_s
   end
 
-  ROLES = %i(admin setter).freeze
+  ROLES = %i(admin setter tester).freeze
 
   def roles=(roles)
     roles = [*roles].map(&:to_sym)

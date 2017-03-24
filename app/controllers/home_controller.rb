@@ -17,10 +17,10 @@ class HomeController < ApplicationController
     end
     @test = true
     myContests = nil
-    if current_user.has_role? :setter
-      myContests = Contest.myContests(current_user)
-    elsif current_user.has_role? :admin
+    if current_user.has_role? :admin
       myContests = Contest.all
+    elsif current_user.roles_mask?
+      myContests = Contest.myContests(current_user)
     else
       render(file: 'public/404.html', status: :not_found, layout: false) && return
     end
