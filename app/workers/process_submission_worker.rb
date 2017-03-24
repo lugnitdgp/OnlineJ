@@ -20,7 +20,7 @@ class ProcessSubmissionWorker
     judge_path = "#{CONFIG[:base_path]}/judge_exec/judge_exec"
     problem_path = "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{problem[:pcode]}/"
 
-    if !File.exist?(submission_path + "/user_source_code#{ext_hash[lang_code]}")
+    if !File.exist?(submission_path + "user_source_code#{ext_hash[lang_code]}") && !File.exist?(submission_path + "Main#{ext_hash[lang_code]}")
       submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
       system 'rm', '-rf', submission_path
       return
