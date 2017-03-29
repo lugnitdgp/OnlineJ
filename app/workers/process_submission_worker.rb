@@ -13,7 +13,7 @@ class ProcessSubmissionWorker
     testcases = problem.test_cases
     user_email = submission.user[:email]
     lang_code = submission.language[:lang_code]
-    tlim = problem[:time_limit]*submission.language[:time_multiplier]
+    tlim = problem[:time_limit] * submission.language[:time_multiplier]
     mlim = problem[:memory_limit]
     diff_opt = problem[:diff]
     submission_path = "#{CONFIG[:base_path]}/#{user_email}/#{contest[:ccode]}/#{problem[:pcode]}/#{submission_id}/"
@@ -22,7 +22,7 @@ class ProcessSubmissionWorker
     judge_docker = CONFIG[:judge_docker]
 
     if !File.exist?(submission_path + "user_source_code#{ext_hash[lang_code]}") && !File.exist?(submission_path + "Main#{ext_hash[lang_code]}")
-      submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
+      submission.update!(status_code: 'CE', error_desc: 'CANNOT COMPILE CONTACT ADMIN')
       system 'rm', '-rf', submission_path
       return
     end
@@ -40,11 +40,11 @@ class ProcessSubmissionWorker
     end
 
     if compilation.nil?
-      submission.update!(status_code: 'CE', error_desc: "CANNOT COMPILE CONTACT ADMIN")
+      submission.update!(status_code: 'CE', error_desc: 'CANNOT COMPILE CONTACT ADMIN')
       return
     end
 
-    at 0, "Compiling"
+    at 0, 'Compiling'
 
     pid = Process.spawn(compilation, chdir: submission_path)
     _, status = Process.wait2(pid)
@@ -55,7 +55,7 @@ class ProcessSubmissionWorker
         compile_log = 'compilation Error'
       end
       submission.update!(status_code: 'CE', error_desc: compile_log)
-      at 100 , "done"
+      at 100, 'done'
       return
     end
 
@@ -63,23 +63,25 @@ class ProcessSubmissionWorker
     memory_taken = 0
     count = testcases.count
     if testcases.count == 0
-      submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+      submission.update!(status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken)
       return
     end
-    percentage = (100/count).to_i
+    percentage = (100 / count).to_i
     testcase_count = 0
-    container_path = File.join(Rails.root, "tmp", "container")
-    container_id = File.read(container_path).strip
+    if judge_docker
+      container_path = File.join(Rails.root, 'tmp', 'container')
+      container_id = File.read(container_path).strip
+    end
     testcases.each_with_index do |testcase, index|
       testcase_count += percentage
-      at testcase_count, "judging (#{index+1})"
-      if !File.exist?("#{problem_path}#{testcase[:name]}/testcase")
-        submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+      at testcase_count, "judging (#{index + 1})"
+      unless File.exist?("#{problem_path}#{testcase[:name]}/testcase")
+        submission.update!(status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken)
         return
       end
       execution = nil
       if judge_docker
-        if lang_code == 'c' ||  lang_code == 'c++'
+        if lang_code == 'c' || lang_code == 'c++'
           execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec #{submission_path}compiled_code < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
         elsif lang_code == 'java'
           execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage #{submission_path}usage_log --exec /usr/bin/java -cp #{submission_path} Main < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
@@ -87,7 +89,7 @@ class ProcessSubmissionWorker
           execution = "bash -c \"docker exec #{container_id} bash -c '#{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec /usr/bin/#{lang_code} #{submission_path}user_source_code#{ext_hash[lang_code]} < #{problem_path}#{testcase[:name]}/testcase > #{submission_path}#{testcase[:name]}/testcase_output'\""
         end
       else
-        if lang_code == 'c' ||  lang_code == 'c++'
+        if lang_code == 'c' || lang_code == 'c++'
           execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --usage #{submission_path}usage_log --exec #{submission_path}compiled_code < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
         elsif lang_code == 'java'
           execution = "bash -c 'sudo #{judge_path} --cpu #{tlim} --mem #{mlim} --nproc 15  --usage #{submission_path}usage_log --exec /usr/bin/java -cp #{submission_path} Main < #{problem_path}#{testcase[:name]}/testcase' > #{submission_path}#{testcase[:name]}/testcase_output"
@@ -96,34 +98,34 @@ class ProcessSubmissionWorker
         end
       end
       pid = Process.spawn(execution)
-      _,status = Process.wait2(pid)
-      judge_usage = File.read(submission_path+'usage_log')
+      _, status = Process.wait2(pid)
+      judge_usage = File.read(submission_path + 'usage_log')
       @judge_data = judge_usage.split("\n")
-      time_taken += @judge_data[@judge_data.size-1].to_f
-      memory_taken += @judge_data[@judge_data.size-2].to_i
+      time_taken += @judge_data[@judge_data.size - 1].to_f
+      memory_taken += @judge_data[@judge_data.size - 2].to_i
 
       if @judge_data[0] == 'AC'
         user_output = submission_path + "#{testcase[:name]}/testcase_output"
         code_output = problem_path + "#{testcase[:name]}/testcase_output"
         if !File.exist?(user_output) || !File.exist?(code_output)
-          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+          submission.update!(status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken)
           return
         end
-        diff = %x(diff #{diff_opt} #{user_output} #{code_output})
-        if diff.length > 0
+        diff = `diff #{diff_opt} #{user_output} #{code_output}`
+        unless diff.empty?
           @judge_data[0] = 'WA'
-          submission.update!( status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken )
+          submission.update!(status_code: 'WA', error_desc: 'WA', time_taken: time_taken, memory_taken: memory_taken)
           return
         end
       elsif @judge_data[0] == 'RTE'
-        submission.update!( status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken, memory_taken: memory_taken )
+        submission.update!(status_code: @judge_data[0], error_desc: @judge_data[1], time_taken: time_taken, memory_taken: memory_taken)
         return
       else
-        submission.update!( status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken )
+        submission.update!(status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken)
         return
       end
     end
-    submission.update!( status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken )
-    return
+    submission.update!(status_code: @judge_data[0], time_taken: time_taken, memory_taken: memory_taken)
+    nil
   end
 end
