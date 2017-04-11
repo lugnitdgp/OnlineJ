@@ -46,7 +46,7 @@
             <ul class="dropdown-menu">
               <li class="<%= "active" if @profile_page%>"><a href=<%= "/users/profile/#{current_user[:username]}"%>><i class="material-icons">code</i>Profile</a></li>
               <li><a href=<%="/users/edit/"%>><i class="material-icons">border_color</i>Edit Profile</a></li>
-              <li class="<%="active" if @submission_page%>"><a href=<%= "/submission/user/#{current_user[:username]}"%>><i class="material-icons">dashboard</i>Submission History </a></li>
+              <li class="<%="active" if @user_submission_page%>"><a href=<%= "/submission/user/#{current_user[:username]}"%>><i class="material-icons">dashboard</i>Submission History </a></li>
               <li><%= link_to('<i class="material-icons">exit_to_app</i> Logout'.html_safe, destroy_user_session_path, :method => :delete) %></li>
             </ul>
           </li>
