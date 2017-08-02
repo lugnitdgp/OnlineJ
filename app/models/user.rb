@@ -138,12 +138,12 @@ class User
   end
 
   def create_user_data
-    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:email]}"
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/users/#{self[:email]}"
     true
   end
 
   def delete_user_data
-    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self[:email]}"
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/users/#{self[:email]}"
     true
   end
 end

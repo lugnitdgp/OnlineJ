@@ -16,9 +16,9 @@ class ProcessSubmissionWorker
     tlim = problem[:time_limit] * submission.language[:time_multiplier]
     mlim = problem[:memory_limit]
     diff_opt = problem[:diff]
-    submission_path = "#{CONFIG[:base_path]}/#{user_email}/#{contest[:ccode]}/#{problem[:pcode]}/#{submission_id}/"
+    submission_path = "#{CONFIG[:base_path]}/users/#{user_email}/#{contest[:ccode]}/#{problem[:pcode]}/#{submission_id}/"
     judge_path = "#{CONFIG[:base_path]}/judge_exec/judge_exec"
-    problem_path = "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{problem[:pcode]}/"
+    problem_path = "#{CONFIG[:base_path]}/contests/#{contest[:ccode]}/#{problem[:pcode]}/"
     judge_docker = CONFIG[:judge_docker]
 
     if !File.exist?(submission_path + "user_source_code#{ext_hash[lang_code]}") && !File.exist?(submission_path + "Main#{ext_hash[lang_code]}")
