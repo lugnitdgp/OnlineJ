@@ -46,16 +46,16 @@ class Problem
   end
 
   def create_problem_data
-    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{self[:pcode]}"
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/contests/#{contest[:ccode]}/#{self[:pcode]}"
     true
   end
 
   def delete_problem_data
     contest = self.contest
     users = contest.users
-    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{contest[:ccode]}/#{self[:pcode]}"
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/contest/#{contest[:ccode]}/#{self[:pcode]}"
     users.each do |user|
-      system 'rm', '-rf', "#{CONFIG[:base_path]}/#{user[:email]}/#{contest[:ccode]}/#{self[:pcode]}"
+      system 'rm', '-rf', "#{CONFIG[:base_path]}/users/#{user[:email]}/#{contest[:ccode]}/#{self[:pcode]}"
     end
     true
   end

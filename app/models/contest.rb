@@ -59,7 +59,7 @@ class Contest
   end
 
   def create_contest_data
-    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{self[:ccode]}"
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/contests/#{self[:ccode]}"
     true
   end
 
@@ -72,9 +72,9 @@ class Contest
 
   def delete_contest_data
     users = self.users
-    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{self[:ccode]}"
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/contests/#{self[:ccode]}"
     users.each do |user|
-      system 'rm', '-rf', "#{CONFIG[:base_path]}/#{user[:email]}/#{ccode}"
+      system 'rm', '-rf', "#{CONFIG[:base_path]}/users/#{user[:email]}/#{ccode}"
     end
     true
   end

@@ -28,11 +28,11 @@ class TestCase
   def create_test_data
     problem = self.problem
     ccode = problem.contest[:ccode]
-    system 'mkdir', '-p', "#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}"
-    testcase = File.open("#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase", 'w')
+    system 'mkdir', '-p', "#{CONFIG[:base_path]}/contests/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}"
+    testcase = File.open("#{CONFIG[:base_path]}/contests/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase", 'w')
     testcase.write(Paperclip.io_adapters.for(self.testcase).read)
     testcase.close
-    testcase_output = File.open("#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase_output", 'w')
+    testcase_output = File.open("#{CONFIG[:base_path]}/contests/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}/testcase_output", 'w')
     testcase_output.write(Paperclip.io_adapters.for(self.testcase_output).read)
     testcase_output.close
     if self.rejudge_submissions?
@@ -48,7 +48,7 @@ class TestCase
   def delete_test_data
     problem = self.problem
     ccode = problem.contest[:ccode]
-    system 'rm', '-rf', "#{CONFIG[:base_path]}/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}"
+    system 'rm', '-rf', "#{CONFIG[:base_path]}/contests/#{ccode}/#{self.problem[:pcode]}/#{self[:name]}"
     if self.rejudge_submissions?
       if problem.submissions?
         submissions = problem.submissions
