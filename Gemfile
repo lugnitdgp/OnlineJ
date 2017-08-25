@@ -30,7 +30,7 @@ gem 'bootstrap-kaminari-views'
 # for table
 gem 'jquery-datatables-rails'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.8'
 # gem 'snappconfig' for global config
 gem 'snappconfig'
 # To use controller variables as javascript variables
