@@ -28,9 +28,9 @@ class ProcessSubmissionWorker
     end
     compilation = nil
     if lang_code == 'c'
-      compilation = " bash -c 'gcc -std=c++0x -w -O2 -fomit-frame-pointer -lm -o compiled_code user_source_code#{ext_hash[lang_code]} >& compile_log'"
+      compilation = " bash -c 'gcc -std=c++0x -lm -o compiled_code user_source_code#{ext_hash[lang_code]} >& compile_log'"
     elsif lang_code == 'c++'
-      compilation = "bash -c 'g++ -std=c++0x -w -O2 -fomit-frame-pointer -lm -o compiled_code user_source_code#{ext_hash[lang_code]} &> compile_log'"
+      compilation = "bash -c 'g++ -std=c++0x -lm -o compiled_code user_source_code#{ext_hash[lang_code]} &> compile_log'"
     elsif lang_code == 'java'
       compilation = "bash -c 'javac Main#{ext_hash[lang_code]} &> compile_log'"
     elsif lang_code == 'python'
