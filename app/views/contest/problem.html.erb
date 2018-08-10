@@ -120,7 +120,27 @@
                 </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <button class="btn btn-embossed btn-success" style="margin-top:10%" id="submit_code" >Submit</button>
+                <button type="button" data-toggle="modal" data-target="#historyModal" class="btn btn-embossed btn-primary" id="code_history" >Code History</button>
+                <!-- Modal -->
+                <div id="historyModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Code History</h3>
+                      </div>
+                      <div class="modal-body" id="historyBody">
+                        <h6>List of revisions</h6>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <button class="btn btn-embossed btn-success" id="submit_code" >Submit</button>
               </ul>
   					</div>
   				</div>

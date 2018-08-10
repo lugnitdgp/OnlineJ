@@ -160,7 +160,7 @@ class ContestController < ApplicationController
     pcode = params[:pcode]
     redis = Redis.new
     key = user.email + "-" + pcode + "-" + lang
-    history = redis.lindex key, 0, -1
+    history = redis.lrange key, 0, -1
     redis.del(key)
     final_history = []
     history.each do |hash|

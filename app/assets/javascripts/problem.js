@@ -123,19 +123,45 @@ $("#default-lang").click(function(event) {
     fetch_comments();
   });
 
-   function fetch_snippets(lang_code) {
-     $.ajax({
-       url: "/get_snippet/"+lang_code,
-       success: function(data){
-         cEditor.setValue(data['snippet']);
-       },
-       error: function(data) {
-         cEditor.setValue("")
-       },
-       type: 'GET'
-     });
-   }
+  function fetch_snippets(lang_code) {
+    $.ajax({
+      url: "/get_snippet/"+lang_code,
+      success: function(data){
+        cEditor.setValue(data['snippet']);
+      },
+      error: function(data) {
+        cEditor.setValue("")
+      },
+      type: 'GET'
+    });
+  }
+
+  $('#code_history').click(function(event) {
+    var lang_code = $('#mode option:selected').text();
+    var pcode = gon.problem;
+    $.ajax({
+      url: '/code_history/'+pcode+'/'+lang_code,
+      success: function(data) {
+        console.log(data);
+        $('#historyBody').html("");
+        if(data.history.length == 0) {
+          $('#historyBody').append('<h6>No Saved Codes</h6>');
+        }
+        else {
+          var htmlStr = "<table class='table-striped' style='box-shadow: 0 0 0 0!important;'>"
+          $.each(data.history, function(index, hash) {
+            htmlStr += '<tr><td><h6>'+hash+"</h6></td><td onclick=\"change_code('"+hash+"')\"><h6>Restore</h6></td></tr>";
+          });
+          $('#historyBody').append(htmlStr);
+      }
+      }
+    });
+  });
 });
+
+function change_code(hash) {
+  console.log(hash);
+}
 
 function fetch_comments() {
   ccode = gon.contest;
