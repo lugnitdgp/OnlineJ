@@ -109,6 +109,72 @@ class ContestController < ApplicationController
     end
   end
 
+  # Saves the buffer code and updates user history
+  def save_buffer_data
+    user = current_user
+    code = params[:code]
+    pcode = params[:pcode]
+    lang = params[:lang]
+    messsage = user + pcode + lang + code
+    md5 = Digest::MD5.new
+    md5.update 'messsage'
+    userkey = user.email + "-" + pcode + "-" + lang
+    redis = Redis.new
+    unless redis.exists(md5)
+      # Insert key and update user history
+      redis.set md5, code
+      redis.expire md5, 60*60*5
+      redis.rpush userkey, md5
+      msg = { status: 'OK' }
+    else 
+      msg = { status: 'ERROR' }
+    end
+    respond_to do |format|
+      format.json {render json: msg}
+    end    
+  end
+
+  # Returns the buffer code for a given md5 hash key
+  def get_buffer_data
+    key = params[:key]
+    redis = Redis.new
+    if redis.exists(key)
+      code = redis.get(key)
+      msg = {
+            status: 'OK',
+            md5: key,
+            code: code
+      }
+    else
+      msg = { status: 'ERROR' }
+    end
+    respond_to do |format|
+      format.json   {render json: msg}
+    end
+  end
+
+  # Returns full history of a users code in a particular language
+  def get_buffer_history
+    user = current_user
+    lang = params[:lang]
+    pcode = params[:pcode]
+    redis = Redis.new
+    key = user.email + "-" + pcode + "-" + lang
+    history = redis.lindex key, 0, -1
+    redis.del(key)
+    final_history = []
+    history.each do |hash|
+      if redis.exists(hash)
+        final_history << hash
+        redis.rpush key,hash
+      end
+    end
+    msg = {history: final_history}
+    respond_to do |format|
+      format.json   {render json: msg}
+    end
+  end  
+
   def get_snippet
     language = Language.where(lang_code: params['lang_code']).first
     msg = if language.nil? || !user_signed_in?
@@ -122,7 +188,7 @@ class ContestController < ApplicationController
   end
 
   private
-
+  
   def get_language_data(model, params = {})
     languages = []
     model.languages.map do |language|
