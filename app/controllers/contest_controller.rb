@@ -115,19 +115,21 @@ class ContestController < ApplicationController
     code = params[:code]
     pcode = params[:pcode]
     lang = params[:lang]
-    messsage = user + pcode + lang + code
-    md5 = Digest::MD5.new
-    md5.update 'messsage'
+    messsage = user.email + pcode + lang + code
+    digest = Digest::MD5.new
+    digest.update messsage
+    md5 = digest.hexdigest
     userkey = user.email + "-" + pcode + "-" + lang
     redis = Redis.new
+    msg = { status: 'ERROR' }
     unless redis.exists(md5)
       # Insert key and update user history
       redis.set md5, code
       redis.expire md5, 60*60*5
       redis.rpush userkey, md5
       msg = { status: 'OK' }
-    else 
-      msg = { status: 'ERROR' }
+    else
+      msg = {status: 'DUPLICATE'}
     end
     respond_to do |format|
       format.json {render json: msg}
