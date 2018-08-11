@@ -45,5 +45,7 @@ Rails.application.routes.draw do
   post 'users/set_lang/:default_language' => 'user#setLang', as: 'setLang'
   get '/scoreboard/:ccode' => 'scoreboard#index', as: 'scoreboard'
   get '/code_history/:pcode/:lang' => 'contest#get_buffer_history', as: 'code_history'
+  get '/get_buffer_data/:key' => 'contest#get_buffer_data', as: 'get_buffer_data'
+  post '/save_buffer_data' => 'contest#save_buffer_data', as: 'save_buffer_data'
   get '/test' => 'home#test', as: 'test'
 end

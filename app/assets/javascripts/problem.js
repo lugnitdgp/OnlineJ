@@ -61,23 +61,24 @@ $(document).on('turbolinks:load', function() {
       }
   });
 
-$("#default-lang").click(function(event) {
-  /* Act on the event */
-    event.stopPropagation();
-    var lang_code = $('#mode option:selected').text();
-    $.ajax({
-      url: "/users/set_lang/"+lang_code,
-      success: function(data){
-        if( data['status'] == 'OK') toastr['success'](lang_code+" is set as your default language");
-        else if( data['status'] == 'SET') toastr['warning'](lang_code+" is already your default language");
-        else toastr['error']('try again');
-      },
-      error: function(data) {
-        toastr['error']('Cannot set please try again');
-      },
-      type: 'POST'
-    });
-});
+  $("#default-lang").click(function(event) {
+    /* Act on the event */
+      event.stopPropagation();
+      var lang_code = $('#mode option:selected').text();
+      $.ajax({
+        url: "/users/set_lang/"+lang_code,
+        success: function(data){
+          if( data['status'] == 'OK') toastr['success'](lang_code+" is set as your default language");
+          else if( data['status'] == 'SET') toastr['warning'](lang_code+" is already your default language");
+          else toastr['error']('try again');
+        },
+        error: function(data) {
+          toastr['error']('Cannot set please try again');
+        },
+        type: 'POST'
+      });
+  });
+
   $('#submit_code').click(function(event) {
     var form = document.createElement('form');
     form.action = '/submit/'+gon.problem;
@@ -136,13 +137,41 @@ $("#default-lang").click(function(event) {
     });
   }
 
+  $('#save_code').click(function(event){
+    var lang = $('#mode option:selected').text();
+    var code = cEditor.getValue();
+    var pcode = gon.problem;
+    if (!code){
+      console.log(code);
+      toastr['warning']("Code editor is empty");
+      return;
+    }
+    $.ajax({
+      url:"/save_buffer_data",
+      type: "post",
+      data: {"lang": lang, "code": code, "pcode": pcode},
+      success: function(data) {
+        if(data.status == "OK") {
+          toastr['success']("code saved");
+          return;
+        }
+        else if(data.status = "DUPLICATE"){
+          toastr['warning']("This code is already saved");
+          return;
+        }else{
+          toastr['warning']("Save Error..plz try again or contact support");
+          return;
+        }
+      }
+    });
+  });
+
   $('#code_history').click(function(event) {
     var lang_code = $('#mode option:selected').text();
     var pcode = gon.problem;
     $.ajax({
       url: '/code_history/'+pcode+'/'+lang_code,
       success: function(data) {
-        console.log(data);
         $('#historyBody').html("");
         if(data.history.length == 0) {
           $('#historyBody').append('<h6>No Saved Codes</h6>');
@@ -161,6 +190,14 @@ $("#default-lang").click(function(event) {
 
 function change_code(hash) {
   console.log(hash);
+  $.ajax({
+    url: '/get_buffer_data/' + hash,
+    success: function(data) {
+      if (data.status == "OK") {
+        // make code as data.code
+      }
+    }
+  });
 }
 
 function fetch_comments() {
