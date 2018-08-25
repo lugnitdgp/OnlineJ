@@ -20,7 +20,7 @@ Get Redis install and running on your machine follow the [guide](https://www.dig
 1. Run `git clone `
 2. Inside the clone directory run `bundle install` to install all the gems.
 3. Run `bundle exec rake judge:init` to build  the code judge.
-4. Start the server with `rails s`.
+4. Start the server with `rails s` or 'rails s -b 0.0.0.0' for MacOS.
 5. In a new terminal tab run `bundle exec sidekiq`.
 5. The first registered user will be given admin rights by default.
 
