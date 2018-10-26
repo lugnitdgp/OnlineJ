@@ -35,7 +35,7 @@
                     <% end %>
                   </td>
                   <td>
-                    <% if true %>
+                    <% if @test %>
                       <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode], test: true) %>
                     <% else %>
                       <%=  link_to problem[:pcode] , problem_path(@ccode,problem[:pcode]) %>
